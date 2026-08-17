@@ -15,3 +15,7 @@ The intended public entry point is the GitHub Pages site for this repository:
 `https://rutaabali3.github.io/mega-crud-fest/`
 
 The original project repositories remain the canonical destinations until the collection has been verified and the owner confirms the final deletion step.
+
+## Imported source code
+
+The complete tracked source of every project is now stored under `projects/<project-name>/`. Each folder is an independent project tree with its own package manifest, source files, public assets, and configuration. The folders intentionally do not contain nested `.git` directories, so this repository stays one tidy collection rather than thirty-two repositories hiding inside it.

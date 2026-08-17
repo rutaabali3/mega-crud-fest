@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 30 15% 10%;
+    --card: 30 10% 96%;
+    --card-foreground: 30 15% 10%;
+    --popover: 30 10% 96%;
+    --popover-foreground: 30 15% 10%;
+    --primary: 43 52% 54%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 350 42% 32%;
+    --secondary-foreground: 35 40% 95%;
+    --muted: 30 10% 90%;
+    --muted-foreground: 30 10% 45%;
+    --accent: 350 42% 32%;
+    --accent-foreground: 35 40% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 10% 85%;
+    --input: 30 10% 85%;
+    --ring: 43 52% 54%;
+    --radius: 0.75rem;
+
+    --cellar-charcoal: 0 0% 6%;
+    --cellar-burgundy: 350 42% 32%;
+    --cellar-gold: 43 52% 54%;
+    --cellar-cream: 35 40% 95%;
+    --cellar-glass: 0 0% 100% / 0.05;
+    --cellar-glass-border: 0 0% 100% / 0.1;
+
+    --sidebar-background: 30 10% 96%;
+    --sidebar-foreground: 30 15% 10%;
+    --sidebar-primary: 43 52% 54%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 350 42% 32%;
+    --sidebar-accent-foreground: 35 40% 95%;
+    --sidebar-border: 30 10% 85%;
+    --sidebar-ring: 43 52% 54%;
+  }
+
+  .dark {
+    --background: 0 0% 6%;
+    --foreground: 35 40% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 35 40% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 35 40% 95%;
+    --primary: 43 52% 54%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 350 42% 32%;
+    --secondary-foreground: 35 40% 95%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 30 10% 55%;
+    --accent: 350 42% 32%;
+    --accent-foreground: 35 40% 95%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 43 52% 54%;
+
+    --cellar-charcoal: 0 0% 6%;
+    --cellar-burgundy: 350 42% 32%;
+    --cellar-gold: 43 52% 54%;
+    --cellar-cream: 35 40% 95%;
+    --cellar-glass: 0 0% 100% / 0.05;
+    --cellar-glass-border: 0 0% 100% / 0.1;
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 35 40% 95%;
+    --sidebar-primary: 43 52% 54%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 350 42% 32%;
+    --sidebar-accent-foreground: 35 40% 95%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 43 52% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 border border-border;
+  }
+}

@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 33 79% 96%;
+    --foreground: 0 0% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 17%;
+    --primary: 20 49% 55%;
+    --primary-foreground: 33 79% 96%;
+    --secondary: 128 15% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 30% 92%;
+    --muted-foreground: 20 10% 45%;
+    --accent: 30 40% 90%;
+    --accent-foreground: 20 49% 40%;
+    --destructive: 2 64% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 20 49% 55%;
+    --radius: 1rem;
+
+    --sidebar-background: 30 30% 95%;
+    --sidebar-foreground: 0 0% 17%;
+    --sidebar-primary: 20 49% 55%;
+    --sidebar-primary-foreground: 33 79% 96%;
+    --sidebar-accent: 30 40% 90%;
+    --sidebar-accent-foreground: 20 49% 40%;
+    --sidebar-border: 30 20% 88%;
+    --sidebar-ring: 20 49% 55%;
+
+    --craft-terracotta: 20 49% 55%;
+    --craft-sage: 128 15% 55%;
+    --craft-walnut: 20 30% 28%;
+    --craft-rose: 350 30% 70%;
+    --craft-cream: 33 79% 96%;
+  }
+
+  .dark {
+    --background: 20 27% 9%;
+    --foreground: 30 20% 90%;
+    --card: 16 20% 15%;
+    --card-foreground: 30 20% 90%;
+    --popover: 16 20% 15%;
+    --popover-foreground: 30 20% 90%;
+    --primary: 20 49% 55%;
+    --primary-foreground: 33 79% 96%;
+    --secondary: 128 15% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 16 15% 20%;
+    --muted-foreground: 30 15% 60%;
+    --accent: 20 20% 20%;
+    --accent-foreground: 20 49% 65%;
+    --destructive: 2 64% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 16 15% 22%;
+    --input: 16 15% 22%;
+    --ring: 20 49% 55%;
+
+    --sidebar-background: 20 20% 11%;
+    --sidebar-foreground: 30 20% 90%;
+    --sidebar-primary: 20 49% 55%;
+    --sidebar-primary-foreground: 33 79% 96%;
+    --sidebar-accent: 20 20% 16%;
+    --sidebar-accent-foreground: 20 49% 65%;
+    --sidebar-border: 16 15% 22%;
+    --sidebar-ring: 20 49% 55%;
+
+    --craft-terracotta: 20 49% 55%;
+    --craft-sage: 128 15% 40%;
+    --craft-walnut: 20 30% 60%;
+    --craft-rose: 350 30% 60%;
+    --craft-cream: 20 27% 9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .card-hover {
+    @apply transition-all duration-200 ease-out;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px hsl(var(--craft-walnut) / 0.15);
+  }
+  .page-enter {
+    animation: pageIn 0.3s ease-out;
+  }
+  @keyframes pageIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

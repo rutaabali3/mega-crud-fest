@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 160 10% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 160 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 10% 15%;
+
+    --primary: 150 45% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 50% 95%;
+    --secondary-foreground: 160 10% 20%;
+
+    --muted: 40 20% 94%;
+    --muted-foreground: 160 5% 45%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 15% 89%;
+    --input: 40 15% 89%;
+    --ring: 150 45% 48%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 40 25% 97%;
+    --sidebar-foreground: 160 10% 25%;
+    --sidebar-primary: 150 45% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 30% 93%;
+    --sidebar-accent-foreground: 160 10% 15%;
+    --sidebar-border: 40 15% 89%;
+    --sidebar-ring: 150 45% 48%;
+  }
+
+  .dark {
+    --background: 160 15% 8%;
+    --foreground: 40 20% 92%;
+
+    --card: 160 12% 12%;
+    --card-foreground: 40 20% 92%;
+
+    --popover: 160 12% 12%;
+    --popover-foreground: 40 20% 92%;
+
+    --primary: 150 45% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 10% 18%;
+    --secondary-foreground: 40 20% 90%;
+
+    --muted: 160 10% 18%;
+    --muted-foreground: 40 10% 55%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 40 20% 92%;
+
+    --border: 160 10% 20%;
+    --input: 160 10% 20%;
+    --ring: 150 45% 48%;
+
+    --sidebar-background: 160 12% 10%;
+    --sidebar-foreground: 40 20% 85%;
+    --sidebar-primary: 150 45% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 10% 16%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 160 10% 18%;
+    --sidebar-ring: 150 45% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', sans-serif;
+  }
+}

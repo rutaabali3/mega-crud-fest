@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 98%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    --primary: 142 52% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 94%;
+    --secondary-foreground: 220 20% 10%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 142 52% 94%;
+    --accent-foreground: 142 52% 20%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 142 52% 36%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 40 15% 96%;
+    --sidebar-foreground: 220 15% 20%;
+    --sidebar-primary: 142 52% 36%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 142 40% 93%;
+    --sidebar-accent-foreground: 142 52% 20%;
+    --sidebar-border: 220 13% 90%;
+    --sidebar-ring: 142 52% 36%;
+  }
+
+  .dark {
+    --background: 220 20% 7%;
+    --foreground: 40 15% 92%;
+
+    --card: 220 20% 10%;
+    --card-foreground: 40 15% 92%;
+
+    --popover: 220 20% 10%;
+    --popover-foreground: 40 15% 92%;
+
+    --primary: 142 52% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 16%;
+    --secondary-foreground: 40 15% 92%;
+
+    --muted: 220 15% 16%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 142 40% 15%;
+    --accent-foreground: 142 52% 70%;
+
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 142 52% 45%;
+
+    --sidebar-background: 220 20% 9%;
+    --sidebar-foreground: 40 15% 85%;
+    --sidebar-primary: 142 52% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 142 40% 12%;
+    --sidebar-accent-foreground: 142 52% 70%;
+    --sidebar-border: 220 15% 16%;
+    --sidebar-ring: 142 52% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Quill editor theme overrides */
+.ql-toolbar.ql-snow {
+  @apply border-border rounded-t-md bg-muted/50;
+}
+.ql-container.ql-snow {
+  @apply border-border rounded-b-md bg-transparent;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.ql-editor {
+  min-height: 300px;
+  @apply text-foreground;
+}
+.ql-editor.ql-blank::before {
+  @apply text-muted-foreground;
+  font-style: normal;
+}
+.ql-snow .ql-stroke {
+  stroke: hsl(var(--foreground));
+}
+.ql-snow .ql-fill {
+  fill: hsl(var(--foreground));
+}
+.ql-snow .ql-picker-label {
+  @apply text-foreground;
+}
+.ql-snow .ql-picker-options {
+  @apply bg-popover border-border text-foreground;
+}
+
+/* Markdown preview prose */
+.markdown-preview h1 { @apply text-2xl font-bold mb-3; }
+.markdown-preview h2 { @apply text-xl font-semibold mb-2; }
+.markdown-preview h3 { @apply text-lg font-medium mb-2; }
+.markdown-preview p { @apply mb-2; }
+.markdown-preview ul { @apply list-disc pl-6 mb-2; }
+.markdown-preview ol { @apply list-decimal pl-6 mb-2; }
+.markdown-preview blockquote { @apply border-l-4 border-primary/30 pl-4 italic text-muted-foreground mb-2; }
+.markdown-preview code { @apply bg-muted px-1.5 py-0.5 rounded text-sm; }
+.markdown-preview pre { @apply bg-muted p-3 rounded-md mb-2 overflow-x-auto; }
+.markdown-preview a { @apply text-primary underline; }
+
+/* Scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/40;
+}

@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 98%;
+    --foreground: 20 20% 12%;
+
+    --card: 30 25% 97%;
+    --card-foreground: 20 20% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 20% 12%;
+
+    --primary: 24 80% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 35 60% 92%;
+    --secondary-foreground: 20 20% 12%;
+
+    --muted: 30 20% 94%;
+    --muted-foreground: 20 10% 46%;
+
+    --accent: 142 50% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 24 80% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 30 30% 96%;
+    --sidebar-foreground: 20 15% 25%;
+    --sidebar-primary: 24 80% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 30% 91%;
+    --sidebar-accent-foreground: 20 15% 20%;
+    --sidebar-border: 30 15% 88%;
+    --sidebar-ring: 24 80% 50%;
+  }
+
+  .dark {
+    --background: 20 15% 8%;
+    --foreground: 30 20% 92%;
+
+    --card: 20 15% 11%;
+    --card-foreground: 30 20% 92%;
+
+    --popover: 20 15% 11%;
+    --popover-foreground: 30 20% 92%;
+
+    --primary: 24 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 20 15% 16%;
+    --secondary-foreground: 30 20% 92%;
+
+    --muted: 20 12% 16%;
+    --muted-foreground: 30 10% 55%;
+
+    --accent: 142 50% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 35%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 12% 18%;
+    --input: 20 12% 18%;
+    --ring: 24 80% 55%;
+
+    --sidebar-background: 20 15% 6%;
+    --sidebar-foreground: 30 15% 80%;
+    --sidebar-primary: 24 80% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 20 12% 14%;
+    --sidebar-accent-foreground: 30 15% 85%;
+    --sidebar-border: 20 12% 16%;
+    --sidebar-ring: 24 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}

@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 6% 7%;
+    --foreground: 60 10% 92%;
+
+    --card: 240 6% 10%;
+    --card-foreground: 60 10% 92%;
+
+    --popover: 240 6% 12%;
+    --popover-foreground: 60 10% 92%;
+
+    --primary: 270 80% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 38 90% 55%;
+    --secondary-foreground: 240 6% 7%;
+
+    --muted: 240 5% 16%;
+    --muted-foreground: 240 5% 55%;
+
+    --accent: 270 50% 25%;
+    --accent-foreground: 270 80% 85%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 5% 18%;
+    --input: 240 5% 18%;
+    --ring: 270 80% 65%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 240 6% 9%;
+    --sidebar-foreground: 60 10% 85%;
+    --sidebar-primary: 270 80% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 50% 20%;
+    --sidebar-accent-foreground: 270 80% 85%;
+    --sidebar-border: 240 5% 15%;
+    --sidebar-ring: 270 80% 65%;
+
+    --neon-purple: 270 80% 65%;
+    --neon-amber: 38 90% 55%;
+    --neon-purple-glow: 270 80% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glow-purple {
+    box-shadow: 0 0 20px hsl(270 80% 65% / 0.3), 0 0 60px hsl(270 80% 65% / 0.1);
+  }
+  .glow-amber {
+    box-shadow: 0 0 20px hsl(38 90% 55% / 0.3), 0 0 60px hsl(38 90% 55% / 0.1);
+  }
+  .text-glow-purple {
+    text-shadow: 0 0 20px hsl(270 80% 65% / 0.5);
+  }
+  .cinema-gradient {
+    background: linear-gradient(135deg, hsl(240 6% 7%) 0%, hsl(270 20% 12%) 50%, hsl(240 6% 7%) 100%);
+  }
+  .poster-shimmer {
+    background: linear-gradient(110deg, hsl(240 5% 16%) 8%, hsl(240 5% 22%) 18%, hsl(240 5% 16%) 33%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(240 6% 7%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(240 5% 25%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(270 80% 65%);
+}

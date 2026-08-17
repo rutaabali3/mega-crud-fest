@@ -1,0 +1,45 @@
+import {
+  UtensilsCrossed,
+  Car,
+  Home,
+  Briefcase,
+  Laptop,
+  Film,
+  Zap,
+  ShoppingBag,
+  Heart,
+  GraduationCap,
+  Plane,
+  MoreHorizontal,
+  type LucideIcon,
+} from "lucide-react";
+
+export const categoryIconMap: Record<string, LucideIcon> = {
+  Food: UtensilsCrossed,
+  Transport: Car,
+  Rent: Home,
+  Salary: Briefcase,
+  Freelance: Laptop,
+  Entertainment: Film,
+  Utilities: Zap,
+  Shopping: ShoppingBag,
+  Healthcare: Heart,
+  Education: GraduationCap,
+  Travel: Plane,
+  Other: MoreHorizontal,
+};
+
+export const chartColors = [
+  "hsl(243, 75%, 59%)",
+  "hsl(280, 65%, 60%)",
+  "hsl(200, 70%, 50%)",
+  "hsl(160, 60%, 45%)",
+  "hsl(30, 80%, 55%)",
+  "hsl(350, 65%, 55%)",
+  "hsl(50, 75%, 50%)",
+  "hsl(180, 60%, 45%)",
+  "hsl(310, 60%, 55%)",
+  "hsl(120, 50%, 45%)",
+  "hsl(15, 70%, 55%)",
+  "hsl(220, 60%, 55%)",
+];

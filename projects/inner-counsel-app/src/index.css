@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 97%;
+    --foreground: 220 25% 14%;
+
+    --card: 40 15% 95%;
+    --card-foreground: 220 25% 14%;
+
+    --popover: 40 15% 95%;
+    --popover-foreground: 220 25% 14%;
+
+    --primary: 38 65% 50%;
+    --primary-foreground: 40 20% 97%;
+
+    --secondary: 220 15% 90%;
+    --secondary-foreground: 220 25% 14%;
+
+    --muted: 220 15% 92%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 38 45% 88%;
+    --accent-foreground: 220 25% 14%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 87%;
+    --input: 220 13% 87%;
+    --ring: 38 65% 50%;
+
+    --radius: 0.625rem;
+
+    --sidebar-background: 40 15% 94%;
+    --sidebar-foreground: 220 15% 30%;
+    --sidebar-primary: 38 65% 50%;
+    --sidebar-primary-foreground: 40 20% 97%;
+    --sidebar-accent: 38 30% 90%;
+    --sidebar-accent-foreground: 220 25% 14%;
+    --sidebar-border: 220 13% 87%;
+    --sidebar-ring: 38 65% 50%;
+
+    --gold: 38 65% 50%;
+    --gold-light: 38 50% 75%;
+    --gold-dark: 38 70% 35%;
+    --navy: 220 40% 13%;
+    --navy-light: 220 30% 25%;
+    --charcoal: 220 15% 20%;
+    --parchment: 40 25% 94%;
+  }
+
+  .dark {
+    --background: 220 40% 7%;
+    --foreground: 40 15% 90%;
+
+    --card: 220 35% 10%;
+    --card-foreground: 40 15% 90%;
+
+    --popover: 220 35% 10%;
+    --popover-foreground: 40 15% 90%;
+
+    --primary: 38 65% 50%;
+    --primary-foreground: 220 40% 7%;
+
+    --secondary: 220 25% 16%;
+    --secondary-foreground: 40 15% 90%;
+
+    --muted: 220 25% 14%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 220 25% 16%;
+    --accent-foreground: 40 15% 90%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 25% 16%;
+    --input: 220 25% 16%;
+    --ring: 38 65% 50%;
+
+    --sidebar-background: 220 38% 9%;
+    --sidebar-foreground: 40 10% 75%;
+    --sidebar-primary: 38 65% 50%;
+    --sidebar-primary-foreground: 220 40% 7%;
+    --sidebar-accent: 220 30% 14%;
+    --sidebar-accent-foreground: 40 15% 90%;
+    --sidebar-border: 220 25% 14%;
+    --sidebar-ring: 38 65% 50%;
+
+    --gold: 38 65% 50%;
+    --gold-light: 38 50% 65%;
+    --gold-dark: 38 70% 35%;
+    --navy: 220 40% 13%;
+    --navy-light: 220 30% 25%;
+    --charcoal: 220 15% 20%;
+    --parchment: 40 15% 16%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+  }
+}

@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 228 20% 7%;
+    --foreground: 230 50% 94%;
+
+    --card: 230 20% 12%;
+    --card-foreground: 230 50% 94%;
+
+    --popover: 230 20% 12%;
+    --popover-foreground: 230 50% 94%;
+
+    --primary: 244 95% 69%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 230 20% 16%;
+    --secondary-foreground: 230 50% 94%;
+
+    --muted: 230 15% 18%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 230 20% 16%;
+    --accent-foreground: 230 50% 94%;
+
+    --destructive: 348 100% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 163 72% 48%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 232 25% 24%;
+    --input: 232 25% 24%;
+    --ring: 244 95% 69%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 228 20% 7%;
+    --sidebar-foreground: 230 50% 94%;
+    --sidebar-primary: 244 95% 69%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 230 20% 16%;
+    --sidebar-accent-foreground: 230 50% 94%;
+    --sidebar-border: 232 25% 24%;
+    --sidebar-ring: 244 95% 69%;
+
+    --surface: 230 18% 14%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .card-glow {
+    box-shadow: 0 0 0 1px hsla(244, 95%, 69%, 0.15);
+  }
+  .card-glow-hover:hover {
+    box-shadow: 0 0 0 1px hsla(244, 95%, 69%, 0.35), 0 4px 20px hsla(244, 95%, 69%, 0.1);
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out forwards;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  .animate-shake {
+    animation: shake 0.3s ease-in-out;
+  }
+}
