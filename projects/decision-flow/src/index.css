@@ -4,44 +4,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 230 25% 15%;
+    --background: 40 40% 93%;
+    --foreground: 220 42% 16%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 230 25% 15%;
+    --card: 40 100% 99%;
+    --card-foreground: 220 42% 16%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 230 25% 15%;
+    --popover: 40 100% 99%;
+    --popover-foreground: 220 42% 16%;
 
-    --primary: 239 84% 67%;
+    --primary: 220 42% 16%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 230 15% 93%;
-    --secondary-foreground: 230 25% 15%;
+    --secondary: 35 45% 87%;
+    --secondary-foreground: 220 42% 16%;
 
-    --muted: 230 15% 95%;
-    --muted-foreground: 230 10% 45%;
+    --muted: 220 15% 88%;
+    --muted-foreground: 220 15% 47%;
 
-    --accent: 263 70% 58%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 340 78% 78%;
+    --accent-foreground: 220 42% 16%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 230 15% 88%;
-    --input: 230 15% 88%;
-    --ring: 239 84% 67%;
+    --border: 35 40% 87%;
+    --input: 35 40% 87%;
+    --ring: 220 42% 16%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 230 15% 97%;
-    --sidebar-foreground: 230 10% 30%;
-    --sidebar-primary: 239 84% 67%;
+    --sidebar-background: 40 100% 99%;
+    --sidebar-foreground: 220 42% 16%;
+    --sidebar-primary: 220 42% 16%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 230 15% 93%;
-    --sidebar-accent-foreground: 230 25% 15%;
-    --sidebar-border: 230 15% 90%;
-    --sidebar-ring: 239 84% 67%;
+    --sidebar-accent: 35 45% 87%;
+    --sidebar-accent-foreground: 220 42% 16%;
+    --sidebar-border: 35 40% 87%;
+    --sidebar-ring: 220 42% 16%;
 
     --glass-bg: 0 0% 100% / 0.7;
     --glass-border: 230 15% 88% / 0.5;
@@ -54,42 +54,42 @@
   }
 
   .dark {
-    --background: 230 35% 7%;
-    --foreground: 210 20% 92%;
+    --background: 220 42% 12%;
+    --foreground: 40 40% 95%;
 
-    --card: 230 30% 10%;
-    --card-foreground: 210 20% 92%;
+    --card: 220 38% 16%;
+    --card-foreground: 40 40% 95%;
 
-    --popover: 230 30% 10%;
-    --popover-foreground: 210 20% 92%;
+    --popover: 220 38% 16%;
+    --popover-foreground: 40 40% 95%;
 
-    --primary: 239 84% 67%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 40 40% 95%;
+    --primary-foreground: 220 42% 12%;
 
-    --secondary: 230 20% 16%;
-    --secondary-foreground: 210 20% 92%;
+    --secondary: 220 30% 22%;
+    --secondary-foreground: 40 40% 95%;
 
-    --muted: 230 20% 16%;
-    --muted-foreground: 230 10% 55%;
+    --muted: 220 30% 22%;
+    --muted-foreground: 220 15% 65%;
 
-    --accent: 263 70% 58%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 340 78% 78%;
+    --accent-foreground: 220 42% 12%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 210 20% 92%;
 
-    --border: 230 20% 18%;
-    --input: 230 20% 18%;
-    --ring: 239 84% 67%;
+    --border: 220 30% 25%;
+    --input: 220 30% 25%;
+    --ring: 40 40% 95%;
 
-    --sidebar-background: 230 30% 9%;
-    --sidebar-foreground: 210 15% 75%;
-    --sidebar-primary: 239 84% 67%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 230 20% 14%;
-    --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 230 20% 15%;
-    --sidebar-ring: 239 84% 67%;
+    --sidebar-background: 220 38% 14%;
+    --sidebar-foreground: 40 40% 95%;
+    --sidebar-primary: 40 40% 95%;
+    --sidebar-primary-foreground: 220 42% 12%;
+    --sidebar-accent: 220 30% 22%;
+    --sidebar-accent-foreground: 40 40% 95%;
+    --sidebar-border: 220 30% 25%;
+    --sidebar-ring: 40 40% 95%;
 
     --glass-bg: 230 30% 10% / 0.6;
     --glass-border: 230 20% 20% / 0.5;
@@ -107,6 +107,8 @@
     @apply border-border;
   }
   body {
+  background: radial-gradient(circle at 10% 10%, #fff0f4 0 16%, transparent 35%), radial-gradient(circle at 88% 12%, #e9f3ff 0 14%, transparent 35%), #f7f1e7;
+
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   }
