@@ -8,89 +8,89 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 40 40% 93%;
-    --foreground: 220 42% 16%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --card: 40 100% 99%;
-    --card-foreground: 220 42% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --popover: 40 100% 99%;
-    --popover-foreground: 220 42% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 220 42% 16%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 35 45% 87%;
-    --secondary-foreground: 220 42% 16%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 220 15% 88%;
-    --muted-foreground: 220 15% 47%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 16%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 35 40% 87%;
-    --input: 35 40% 87%;
-    --ring: 220 42% 16%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 40 100% 99%;
+    --sidebar-background: 0 0% 98%;
 
-    --sidebar-foreground: 220 42% 16%;
+    --sidebar-foreground: 240 5.3% 26.1%;
 
-    --sidebar-primary: 220 42% 16%;
+    --sidebar-primary: 240 5.9% 10%;
 
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 98%;
 
-    --sidebar-accent: 35 45% 87%;
+    --sidebar-accent: 240 4.8% 95.9%;
 
-    --sidebar-accent-foreground: 220 42% 16%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
 
-    --sidebar-border: 35 40% 87%;
+    --sidebar-border: 220 13% 91%;
 
-    --sidebar-ring: 220 42% 16%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 220 42% 12%;
-    --foreground: 40 40% 95%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --card: 220 38% 16%;
-    --card-foreground: 40 40% 95%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 38% 16%;
-    --popover-foreground: 40 40% 95%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 40 40% 95%;
-    --primary-foreground: 220 42% 12%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 220 30% 22%;
-    --secondary-foreground: 40 40% 95%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 30% 22%;
-    --muted-foreground: 220 15% 65%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 12%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 30% 25%;
-    --input: 220 30% 25%;
-    --ring: 40 40% 95%;
-    --sidebar-background: 220 38% 14%;
-    --sidebar-foreground: 40 40% 95%;
-    --sidebar-primary: 40 40% 95%;
-    --sidebar-primary-foreground: 220 42% 12%;
-    --sidebar-accent: 220 30% 22%;
-    --sidebar-accent-foreground: 40 40% 95%;
-    --sidebar-border: 220 30% 25%;
-    --sidebar-ring: 40 40% 95%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -100,8 +100,6 @@ All colors MUST be HSL.
   }
 
   body {
-  background: radial-gradient(circle at 10% 10%, #fff0f4 0 16%, transparent 35%), radial-gradient(circle at 88% 12%, #e9f3ff 0 14%, transparent 35%), #f7f1e7;
-
     @apply bg-background text-foreground;
   }
 }

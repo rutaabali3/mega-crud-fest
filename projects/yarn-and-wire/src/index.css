@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 40 40% 93%;
-    --foreground: 220 42% 16%;
-    --card: 40 100% 99%;
-    --card-foreground: 220 42% 16%;
-    --popover: 40 100% 99%;
-    --popover-foreground: 220 42% 16%;
-    --primary: 220 42% 16%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 35 45% 87%;
-    --secondary-foreground: 220 42% 16%;
-    --muted: 220 15% 88%;
-    --muted-foreground: 220 15% 47%;
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 16%;
+    --background: 33 79% 96%;
+    --foreground: 0 0% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 17%;
+    --primary: 20 49% 55%;
+    --primary-foreground: 33 79% 96%;
+    --secondary: 128 15% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 30% 92%;
+    --muted-foreground: 20 10% 45%;
+    --accent: 30 40% 90%;
+    --accent-foreground: 20 49% 40%;
     --destructive: 2 64% 58%;
     --destructive-foreground: 0 0% 100%;
-    --border: 35 40% 87%;
-    --input: 35 40% 87%;
-    --ring: 220 42% 16%;
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 20 49% 55%;
     --radius: 1rem;
 
-    --sidebar-background: 40 100% 99%;
-    --sidebar-foreground: 220 42% 16%;
-    --sidebar-primary: 220 42% 16%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 35 45% 87%;
-    --sidebar-accent-foreground: 220 42% 16%;
-    --sidebar-border: 35 40% 87%;
-    --sidebar-ring: 220 42% 16%;
+    --sidebar-background: 30 30% 95%;
+    --sidebar-foreground: 0 0% 17%;
+    --sidebar-primary: 20 49% 55%;
+    --sidebar-primary-foreground: 33 79% 96%;
+    --sidebar-accent: 30 40% 90%;
+    --sidebar-accent-foreground: 20 49% 40%;
+    --sidebar-border: 30 20% 88%;
+    --sidebar-ring: 20 49% 55%;
 
     --craft-terracotta: 20 49% 55%;
     --craft-sage: 128 15% 55%;
@@ -42,34 +42,34 @@
   }
 
   .dark {
-    --background: 220 42% 12%;
-    --foreground: 40 40% 95%;
-    --card: 220 38% 16%;
-    --card-foreground: 40 40% 95%;
-    --popover: 220 38% 16%;
-    --popover-foreground: 40 40% 95%;
-    --primary: 40 40% 95%;
-    --primary-foreground: 220 42% 12%;
-    --secondary: 220 30% 22%;
-    --secondary-foreground: 40 40% 95%;
-    --muted: 220 30% 22%;
-    --muted-foreground: 220 15% 65%;
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 12%;
+    --background: 20 27% 9%;
+    --foreground: 30 20% 90%;
+    --card: 16 20% 15%;
+    --card-foreground: 30 20% 90%;
+    --popover: 16 20% 15%;
+    --popover-foreground: 30 20% 90%;
+    --primary: 20 49% 55%;
+    --primary-foreground: 33 79% 96%;
+    --secondary: 128 15% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 16 15% 20%;
+    --muted-foreground: 30 15% 60%;
+    --accent: 20 20% 20%;
+    --accent-foreground: 20 49% 65%;
     --destructive: 2 64% 45%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 30% 25%;
-    --input: 220 30% 25%;
-    --ring: 40 40% 95%;
+    --border: 16 15% 22%;
+    --input: 16 15% 22%;
+    --ring: 20 49% 55%;
 
-    --sidebar-background: 220 38% 14%;
-    --sidebar-foreground: 40 40% 95%;
-    --sidebar-primary: 40 40% 95%;
-    --sidebar-primary-foreground: 220 42% 12%;
-    --sidebar-accent: 220 30% 22%;
-    --sidebar-accent-foreground: 40 40% 95%;
-    --sidebar-border: 220 30% 25%;
-    --sidebar-ring: 40 40% 95%;
+    --sidebar-background: 20 20% 11%;
+    --sidebar-foreground: 30 20% 90%;
+    --sidebar-primary: 20 49% 55%;
+    --sidebar-primary-foreground: 33 79% 96%;
+    --sidebar-accent: 20 20% 16%;
+    --sidebar-accent-foreground: 20 49% 65%;
+    --sidebar-border: 16 15% 22%;
+    --sidebar-ring: 20 49% 55%;
 
     --craft-terracotta: 20 49% 55%;
     --craft-sage: 128 15% 40%;
@@ -84,8 +84,6 @@
     @apply border-border;
   }
   body {
-  background: radial-gradient(circle at 10% 10%, #fff0f4 0 16%, transparent 35%), radial-gradient(circle at 88% 12%, #e9f3ff 0 14%, transparent 35%), #f7f1e7;
-
     @apply bg-background text-foreground font-sans;
   }
   h1, h2, h3, h4, h5, h6 {

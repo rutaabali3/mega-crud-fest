@@ -9,44 +9,44 @@
 
 @layer base {
   :root {
-    --background: 40 40% 93%;
-    --foreground: 220 42% 16%;
+    --background: 209 40% 96%;
+    --foreground: 222 47% 11%;
 
-    --card: 40 100% 99%;
-    --card-foreground: 220 42% 16%;
+    --card: 210 40% 98%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 40 100% 99%;
-    --popover-foreground: 220 42% 16%;
+    --popover: 214 31% 91%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 220 42% 16%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 200 98% 39%;
+    --primary-foreground: 204 100% 97%;
 
-    --secondary: 35 45% 87%;
-    --secondary-foreground: 220 42% 16%;
+    --secondary: 215 24% 26%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 15% 88%;
-    --muted-foreground: 220 15% 47%;
+    --muted: 215 20% 65%;
+    --muted-foreground: 222 47% 11%;
 
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 16%;
+    --accent: 210 40% 98%;
+    --accent-foreground: 215 19% 34%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 85% 97%;
 
-    --border: 35 40% 87%;
-    --input: 35 40% 87%;
-    --ring: 220 42% 16%;
+    --border: 212 26% 83%;
+    --input: 212 26% 83%;
+    --ring: 200 98% 39%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 40 100% 99%;
-    --sidebar-foreground: 220 42% 16%;
-    --sidebar-primary: 220 42% 16%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 35 45% 87%;
-    --sidebar-accent-foreground: 220 42% 16%;
-    --sidebar-border: 35 40% 87%;
-    --sidebar-ring: 220 42% 16%;
+    --sidebar-background: 80 15% 94%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 200 98% 39%;
+    --sidebar-primary-foreground: 204 100% 97%;
+    --sidebar-accent: 215 24% 26%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 212 26% 83%;
+    --sidebar-ring: 200 98% 39%;
     --chart-1: 198 93% 59%;
     --chart-2: 213 93% 67%;
     --chart-3: 215 20% 65%;
@@ -69,42 +69,42 @@
   }
 
   .dark {
-    --background: 220 42% 12%;
-    --foreground: 40 40% 95%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 220 38% 16%;
-    --card-foreground: 40 40% 95%;
+    --card: 217 32% 17%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 38% 16%;
-    --popover-foreground: 40 40% 95%;
+    --popover: 215 24% 26%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 40 40% 95%;
-    --primary-foreground: 220 42% 12%;
+    --primary: 198 93% 59%;
+    --primary-foreground: 204 80% 15%;
 
-    --secondary: 220 30% 22%;
-    --secondary-foreground: 40 40% 95%;
+    --secondary: 212 26% 83%;
+    --secondary-foreground: 228 84% 4%;
 
-    --muted: 220 30% 22%;
-    --muted-foreground: 220 15% 65%;
+    --muted: 215 16% 46%;
+    --muted-foreground: 210 40% 98%;
 
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 12%;
+    --accent: 228 84% 4%;
+    --accent-foreground: 215 20% 65%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 85% 97%;
 
-    --border: 220 30% 25%;
-    --input: 220 30% 25%;
-    --ring: 40 40% 95%;
+    --border: 215 19% 34%;
+    --input: 215 19% 34%;
+    --ring: 198 93% 59%;
 
-    --sidebar-background: 220 38% 14%;
-    --sidebar-foreground: 40 40% 95%;
-    --sidebar-primary: 40 40% 95%;
-    --sidebar-primary-foreground: 220 42% 12%;
-    --sidebar-accent: 220 30% 22%;
-    --sidebar-accent-foreground: 40 40% 95%;
-    --sidebar-border: 220 30% 25%;
-    --sidebar-ring: 40 40% 95%;
+    --sidebar-background: 150 10% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 198 93% 59%;
+    --sidebar-primary-foreground: 204 80% 15%;
+    --sidebar-accent: 215 20% 65%;
+    --sidebar-accent-foreground: 228 84% 4%;
+    --sidebar-border: 215 19% 34%;
+    --sidebar-ring: 198 93% 59%;
     --chart-1: 199 95% 73%;
     --chart-2: 211 96% 78%;
     --chart-3: 215 20% 65%;
@@ -128,8 +128,6 @@
     @apply border-border;
   }
   body {
-  background: radial-gradient(circle at 10% 10%, #fff0f4 0 16%, transparent 35%), radial-gradient(circle at 88% 12%, #e9f3ff 0 14%, transparent 35%), #f7f1e7;
-
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
   }

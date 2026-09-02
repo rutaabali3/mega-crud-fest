@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 40 40% 93%;
-    --foreground: 220 42% 16%;
+    --background: 230 25% 3%;
+    --foreground: 45 20% 90%;
 
-    --card: 40 100% 99%;
-    --card-foreground: 220 42% 16%;
+    --card: 230 20% 6%;
+    --card-foreground: 45 20% 90%;
 
-    --popover: 40 100% 99%;
-    --popover-foreground: 220 42% 16%;
+    --popover: 230 25% 5%;
+    --popover-foreground: 45 20% 90%;
 
-    --primary: 220 42% 16%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 43 80% 65%;
+    --primary-foreground: 230 25% 3%;
 
-    --secondary: 35 45% 87%;
-    --secondary-foreground: 220 42% 16%;
+    --secondary: 220 40% 12%;
+    --secondary-foreground: 45 20% 90%;
 
-    --muted: 220 15% 88%;
-    --muted-foreground: 220 15% 47%;
+    --muted: 225 20% 10%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 16%;
+    --accent: 215 70% 55%;
+    --accent-foreground: 45 20% 95%;
 
     --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 35 40% 87%;
-    --input: 35 40% 87%;
-    --ring: 220 42% 16%;
+    --border: 225 15% 15%;
+    --input: 225 15% 15%;
+    --ring: 43 80% 65%;
 
     --radius: 0.75rem;
 
@@ -42,14 +42,14 @@
     --cosmic-nebula: 270 40% 20%;
     --cosmic-glow: 43 90% 75%;
 
-    --sidebar-background: 40 100% 99%;
-    --sidebar-foreground: 220 42% 16%;
-    --sidebar-primary: 220 42% 16%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 35 45% 87%;
-    --sidebar-accent-foreground: 220 42% 16%;
-    --sidebar-border: 35 40% 87%;
-    --sidebar-ring: 220 42% 16%;
+    --sidebar-background: 230 20% 5%;
+    --sidebar-foreground: 45 20% 90%;
+    --sidebar-primary: 43 80% 65%;
+    --sidebar-primary-foreground: 230 25% 3%;
+    --sidebar-accent: 220 40% 12%;
+    --sidebar-accent-foreground: 45 20% 90%;
+    --sidebar-border: 225 15% 15%;
+    --sidebar-ring: 43 80% 65%;
   }
 }
 
@@ -59,8 +59,6 @@
   }
 
   body {
-  background: radial-gradient(circle at 10% 10%, #fff0f4 0 16%, transparent 35%), radial-gradient(circle at 88% 12%, #e9f3ff 0 14%, transparent 35%), #f7f1e7;
-
     @apply bg-background text-foreground;
     font-family: 'Space Grotesk', sans-serif;
     overflow: hidden;

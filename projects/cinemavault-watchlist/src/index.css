@@ -6,44 +6,44 @@
 
 @layer base {
   :root {
-    --background: 40 40% 93%;
-    --foreground: 220 42% 16%;
+    --background: 240 6% 7%;
+    --foreground: 60 10% 92%;
 
-    --card: 40 100% 99%;
-    --card-foreground: 220 42% 16%;
+    --card: 240 6% 10%;
+    --card-foreground: 60 10% 92%;
 
-    --popover: 40 100% 99%;
-    --popover-foreground: 220 42% 16%;
+    --popover: 240 6% 12%;
+    --popover-foreground: 60 10% 92%;
 
-    --primary: 220 42% 16%;
+    --primary: 270 80% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 35 45% 87%;
-    --secondary-foreground: 220 42% 16%;
+    --secondary: 38 90% 55%;
+    --secondary-foreground: 240 6% 7%;
 
-    --muted: 220 15% 88%;
-    --muted-foreground: 220 15% 47%;
+    --muted: 240 5% 16%;
+    --muted-foreground: 240 5% 55%;
 
-    --accent: 340 78% 78%;
-    --accent-foreground: 220 42% 16%;
+    --accent: 270 50% 25%;
+    --accent-foreground: 270 80% 85%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 35 40% 87%;
-    --input: 35 40% 87%;
-    --ring: 220 42% 16%;
+    --border: 240 5% 18%;
+    --input: 240 5% 18%;
+    --ring: 270 80% 65%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 40 100% 99%;
-    --sidebar-foreground: 220 42% 16%;
-    --sidebar-primary: 220 42% 16%;
+    --sidebar-background: 240 6% 9%;
+    --sidebar-foreground: 60 10% 85%;
+    --sidebar-primary: 270 80% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 35 45% 87%;
-    --sidebar-accent-foreground: 220 42% 16%;
-    --sidebar-border: 35 40% 87%;
-    --sidebar-ring: 220 42% 16%;
+    --sidebar-accent: 270 50% 20%;
+    --sidebar-accent-foreground: 270 80% 85%;
+    --sidebar-border: 240 5% 15%;
+    --sidebar-ring: 270 80% 65%;
 
     --neon-purple: 270 80% 65%;
     --neon-amber: 38 90% 55%;
@@ -56,8 +56,6 @@
     @apply border-border;
   }
   body {
-  background: radial-gradient(circle at 10% 10%, #fff0f4 0 16%, transparent 35%), radial-gradient(circle at 88% 12%, #e9f3ff 0 14%, transparent 35%), #f7f1e7;
-
     @apply bg-background text-foreground;
     font-family: 'Space Grotesk', sans-serif;
   }
