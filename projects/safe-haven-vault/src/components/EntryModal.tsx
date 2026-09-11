@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useVault, EntryFormData } from "@/contexts/VaultContext";
-import { VaultEntry, CATEGORIES, Category, EncryptedField } from "@/lib/types";
+import { VaultEntry, CATEGORIES, Category } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
