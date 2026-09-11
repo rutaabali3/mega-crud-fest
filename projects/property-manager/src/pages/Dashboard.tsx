@@ -35,6 +35,8 @@ export default function Dashboard() {
 
   // Alerts
   const alerts = useMemo(() => {
+    const tenantMap = new Map(tenants.map(t => [t.id, t]));
+    const propertyMap = new Map(properties.map(p => [p.id, p]));
     const a: { type: string; message: string }[] = [];
     activeTenants.forEach(t => {
       const daysLeft = Math.ceil((new Date(t.leaseEnd).getTime() - now.getTime()) / 86400000);
@@ -42,12 +44,12 @@ export default function Dashboard() {
       else if (daysLeft > 30 && daysLeft <= 60) a.push({ type: 'warning', message: `${t.name}'s lease expires in ${daysLeft} days` });
     });
     overduePayments.forEach(p => {
-      const tenant = tenants.find(t => t.id === p.tenantId);
-      const prop = properties.find(pr => pr.id === p.propertyId);
+      const tenant = tenantMap.get(p.tenantId);
+      const prop = propertyMap.get(p.propertyId);
       a.push({ type: 'error', message: `${formatCurrency(p.amount)} rent overdue — ${tenant?.name} at ${prop?.address}` });
     });
     maintenance.filter(m => m.priority === 'emergency' && m.status !== 'resolved').forEach(m => {
-      const prop = properties.find(p => p.id === m.propertyId);
+      const prop = propertyMap.get(m.propertyId);
       a.push({ type: 'error', message: `Emergency: ${m.title} at ${prop?.address}` });
     });
     properties.filter(p => p.status === 'vacant').forEach(p => {
