@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit2, Trash2, Search } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,6 +26,7 @@ const emptyVaccine = { petId: '', vaccineName: '', dateGiven: '', batchNumber: '
 
 export default function HealthPage() {
   const { pets, vetVisits, setVetVisits, vaccinations, setVaccinations, searchQuery } = usePetCare();
+  const petMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
   const activePets = pets.filter(p => !p.archived);
   const [tab, setTab] = useState('visits');
   const [showVisitForm, setShowVisitForm] = useState(false);
@@ -116,7 +117,7 @@ export default function HealthPage() {
             <h3 className="font-semibold text-sm mb-2">📅 Upcoming Appointments</h3>
             <div className="space-y-2">
               {upcomingAppts.map(a => {
-                const pet = pets.find(p => p.id === a.petId);
+                const pet = petMap.get(a.petId);
                 return (
                   <div key={a.id} className="flex items-center gap-2 text-sm">
                     <span>{pet ? SPECIES_EMOJIS[pet.species] : '🐾'}</span>
@@ -159,7 +160,7 @@ export default function HealthPage() {
             <div className="space-y-3">
               <AnimatePresence>
                 {filteredVisits.map(v => {
-                  const pet = pets.find(p => p.id === v.petId);
+                  const pet = petMap.get(v.petId);
                   return (
                     <motion.div key={v.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       <Card className="rounded-2xl">
@@ -197,7 +198,7 @@ export default function HealthPage() {
                 </TableHeader>
                 <TableBody>
                   {filteredVaccines.map(v => {
-                    const pet = pets.find(p => p.id === v.petId);
+                    const pet = petMap.get(v.petId);
                     const status = getVaccineStatus(v.nextDueDate);
                     return (
                       <TableRow key={v.id}>
