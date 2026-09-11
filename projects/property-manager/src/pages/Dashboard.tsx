@@ -58,6 +58,8 @@ export default function Dashboard() {
 
   // Mini calendar
   const calendarDays = useMemo(() => {
+    const tenantMap = new Map(tenants.map(t => [t.id, t.name]));
+    const propertyMap = new Map(properties.map(p => [p.id, p.address]));
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     const days: { day: number; dots: { color: string; payment: typeof payments[0]; tenant: string; property: string }[] }[] = [];
@@ -70,8 +72,8 @@ export default function Dashboard() {
       const dots = dayPayments.map(p => ({
         color: p.status === 'paid' ? 'bg-success' : p.status === 'overdue' ? 'bg-destructive' : 'bg-warning',
         payment: p,
-        tenant: tenants.find(t => t.id === p.tenantId)?.name || '—',
-        property: properties.find(pr => pr.id === p.propertyId)?.address || '—',
+        tenant: tenantMap.get(p.tenantId) || '—',
+        property: propertyMap.get(p.propertyId) || '—',
       }));
       days.push({ day: d, dots });
     }
