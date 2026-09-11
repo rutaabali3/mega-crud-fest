@@ -5,6 +5,7 @@ import { usePetCare } from '@/contexts/PetCareContext';
 import { getUpcomingAppointments, getMedsDueToday, formatDate } from '@/lib/pet-utils';
 import { SPECIES_EMOJIS } from '@/lib/types';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,6 +15,7 @@ const MotionCard = motion(Card);
 export default function Dashboard() {
   const { pets, vetVisits, feedingSchedules, feedingLogs, weights, medications } = usePetCare();
   const activePets = pets.filter(p => !p.archived);
+  const petMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
   const upcomingAppts = getUpcomingAppointments(vetVisits);
   const medsDue = getMedsDueToday(medications);
   const todayStr = format(new Date(), 'yyyy-MM-dd');
@@ -49,7 +51,7 @@ export default function Dashboard() {
               <Pill className="h-5 w-5 text-accent" />
               <span className="font-medium text-sm">
                 💊 {medsDue.length} medication{medsDue.length > 1 ? 's' : ''} due today
-                {activePets.length > 0 && ` for ${[...new Set(medsDue.map(m => pets.find(p => p.id === m.petId)?.name))].filter(Boolean).join(' & ')}`}
+                {activePets.length > 0 && ` for ${[...new Set(medsDue.map(m => petMap.get(m.petId)?.name))].filter(Boolean).join(' & ')}`}
               </span>
             </div>
             <Button variant="ghost" size="sm" onClick={() => setDismissed(todayStr)}>Dismiss</Button>
@@ -127,7 +129,7 @@ export default function Dashboard() {
             {upcomingAppts.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">No upcoming appointments 🎉</p>
             ) : upcomingAppts.slice(0, 4).map(appt => {
-              const pet = pets.find(p => p.id === appt.petId);
+              const pet = petMap.get(appt.petId);
               return (
                 <div key={appt.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted/50 transition-colors">
                   <span className="text-xl">{pet ? SPECIES_EMOJIS[pet.species] : '🐾'}</span>
@@ -153,7 +155,7 @@ export default function Dashboard() {
             {recentWeights.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">No weight entries yet 📊</p>
             ) : recentWeights.map(w => {
-              const pet = pets.find(p => p.id === w.petId);
+              const pet = petMap.get(w.petId);
               return (
                 <div key={w.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-muted/50 transition-colors">
                   <span className="text-xl">{pet ? SPECIES_EMOJIS[pet.species] : '🐾'}</span>
