@@ -13,6 +13,7 @@ const FREQ_LABELS: Record<string, string> = {
 };
 
 export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms: SymptomEntry[]) {
+  const medicationMap = new Map<string, Medication>(medications.map((m) => [m.id, m]));
   const doc = new jsPDF();
   const now = new Date();
   const cutoff = subDays(now, 30);
@@ -95,7 +96,7 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
     startY: 26,
     head: [["Date", "Medication", "Scheduled Time", "Status", "Notes"]],
     body: sortedLogs.map((l) => {
-      const med = medications.find((m) => m.id === l.medicationId);
+      const med = medicationMap.get(l.medicationId);
       return [
         format(parseISO(l.scheduledTime), "MMM d"),
         med?.name || "Unknown",
@@ -127,7 +128,7 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
       format(parseISO(s.date), "MMM d"),
       s.symptom,
       `${s.severity}/5 (${SEVERITY_LABELS[s.severity]})`,
-      s.linkedMedicationIds.map((id) => medications.find((m) => m.id === id)?.name || "").filter(Boolean).join(", "),
+      s.linkedMedicationIds.map((id) => medicationMap.get(id)?.name || "").filter(Boolean).join(", "),
       s.notes || "",
     ]),
     styles: { fontSize: 7 },
