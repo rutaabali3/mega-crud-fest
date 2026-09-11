@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 import type { Pet, VetVisit, Vaccination, FeedingSchedule, FeedingLog, WeightEntry, Medication } from '@/lib/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
