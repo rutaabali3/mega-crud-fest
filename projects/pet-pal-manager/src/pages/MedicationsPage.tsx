@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Plus, Edit2, Trash2, Check, ChevronDown } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Plus, Edit2, Trash2, Check, ChevronDown, CalendarIcon } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
@@ -14,7 +14,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { format, parseISO, differenceInDays } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePetCare } from '@/contexts/PetCareContext';
 import { SPECIES_EMOJIS, MED_COLORS, type Medication, type MedFrequency } from '@/lib/types';
