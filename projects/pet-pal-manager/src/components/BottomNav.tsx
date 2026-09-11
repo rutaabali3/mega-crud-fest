@@ -1,4 +1,4 @@
-import { Home, PawPrint, Heart, Utensils, Scale, Pill } from 'lucide-react';
+import { Home, PawPrint, Heart, Utensils, Scale } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 
 const navItems = [

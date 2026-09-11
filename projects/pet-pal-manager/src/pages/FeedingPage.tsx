@@ -12,7 +12,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { Switch } from '@/components/ui/switch';
 import { usePetCare } from '@/contexts/PetCareContext';
-import { SPECIES_EMOJIS, type FeedingSchedule, type FeedingLog } from '@/lib/types';
+import { SPECIES_EMOJIS } from '@/lib/types';
+import type { FeedingSchedule, FeedingLog } from '@/lib/types';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 
