@@ -69,9 +69,9 @@ export function SubscriptionTable({ subscriptions, onEdit, onToggle, onDelete, s
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end gap-1">
-                    <button onClick={() => onEdit(s)} className="p-1.5 rounded-lg hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"><Pencil className="w-4 h-4" /></button>
-                    <button onClick={() => onToggle(s.id)} className="p-1.5 rounded-lg hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors">{isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}</button>
-                    <button onClick={() => onDelete(s)} className="p-1.5 rounded-lg hover:bg-destructive/10 text-destructive transition-colors"><Trash2 className="w-4 h-4" /></button>
+                    <button onClick={() => onEdit(s)} aria-label={`Edit ${s.name}`} className="p-1.5 rounded-lg hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"><Pencil className="w-4 h-4" /></button>
+                    <button onClick={() => onToggle(s.id)} aria-label={`${isPaused ? 'Resume' : 'Pause'} ${s.name}`} className="p-1.5 rounded-lg hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors">{isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}</button>
+                    <button onClick={() => onDelete(s)} aria-label={`Delete ${s.name}`} className="p-1.5 rounded-lg hover:bg-destructive/10 text-destructive transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </TableCell>
               </TableRow>
