@@ -47,7 +47,7 @@ const KEYS = {
   settings: 'mpl_settings',
 } as const;
 
-function getJSON<T>(key: string, fallback: T): T {
+export function getJSON<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : fallback;
