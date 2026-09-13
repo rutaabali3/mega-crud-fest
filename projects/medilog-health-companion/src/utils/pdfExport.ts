@@ -18,6 +18,8 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
   const cutoff = subDays(now, 30);
   const pageWidth = doc.internal.pageSize.getWidth();
 
+  const medMap = new Map<string, Medication>(medications.map((m) => [m.id, m]));
+
   // Header
   doc.setFontSize(20);
   doc.setFont("helvetica", "bold");
@@ -95,7 +97,7 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
     startY: 26,
     head: [["Date", "Medication", "Scheduled Time", "Status", "Notes"]],
     body: sortedLogs.map((l) => {
-      const med = medications.find((m) => m.id === l.medicationId);
+      const med = medMap.get(l.medicationId);
       return [
         format(parseISO(l.scheduledTime), "MMM d"),
         med?.name || "Unknown",
@@ -127,7 +129,7 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
       format(parseISO(s.date), "MMM d"),
       s.symptom,
       `${s.severity}/5 (${SEVERITY_LABELS[s.severity]})`,
-      s.linkedMedicationIds.map((id) => medications.find((m) => m.id === id)?.name || "").filter(Boolean).join(", "),
+      s.linkedMedicationIds.map((id) => medMap.get(id)?.name || "").filter(Boolean).join(", "),
       s.notes || "",
     ]),
     styles: { fontSize: 7 },
