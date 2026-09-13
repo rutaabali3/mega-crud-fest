@@ -287,11 +287,11 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
   const loadSeedData = useCallback(async () => {
     if (!keyRef.current) return;
     const seeds: EntryFormData[] = [
-      { siteName: "Twitter", siteUrl: "https://twitter.com", username: "john_doe", password: "Tw!tter2024#Secure", notes: "Personal account", category: "Social", favorite: true },
-      { siteName: "Chase Bank", siteUrl: "https://chase.com", username: "johndoe@email.com", password: "Ch@se$ecure99!", notes: "Main checking account", category: "Finance", favorite: false },
-      { siteName: "Slack", siteUrl: "https://slack.com", username: "john@company.com", password: "Sl@ckW0rk!2024", notes: "Work workspace", category: "Work", favorite: true },
-      { siteName: "Amazon", siteUrl: "https://amazon.com", username: "johndoe@gmail.com", password: "Am@z0nPrime#Shop", notes: "", category: "Shopping", favorite: false },
-      { siteName: "Gmail", siteUrl: "https://gmail.com", username: "johndoe@gmail.com", password: "Gm@il$ecure!Pass", notes: "Primary email", category: "Email", favorite: true },
+      { siteName: "Twitter", siteUrl: "https://twitter.com", username: "john_doe", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Personal account", category: "Social", favorite: true },
+      { siteName: "Chase Bank", siteUrl: "https://chase.com", username: "johndoe@email.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Main checking account", category: "Finance", favorite: false },
+      { siteName: "Slack", siteUrl: "https://slack.com", username: "john@company.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Work workspace", category: "Work", favorite: true },
+      { siteName: "Amazon", siteUrl: "https://amazon.com", username: "johndoe@gmail.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "", category: "Shopping", favorite: false },
+      { siteName: "Gmail", siteUrl: "https://gmail.com", username: "johndoe@gmail.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Primary email", category: "Email", favorite: true },
     ];
     for (const s of seeds) {
       await addEntry(s);
