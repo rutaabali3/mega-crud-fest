@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, X } from "lucide-react";
+import DOMPurify from "dompurify";
 
 interface AssetModalProps {
   open: boolean;
@@ -244,7 +245,7 @@ export function AssetModal({ open, onClose, onSave, onUpdate, editingAsset, exis
               <Label>SVG Code</Label>
               <Textarea value={iconSvg} onChange={e => setIconSvg(e.target.value)} placeholder="<svg>...</svg>" rows={5} className="font-mono text-xs" />
               {iconSvg && (
-                <div className="p-4 rounded-lg bg-muted flex items-center justify-center [&_svg]:w-16 [&_svg]:h-16" dangerouslySetInnerHTML={{ __html: iconSvg }} />
+                <div className="p-4 rounded-lg bg-muted flex items-center justify-center [&_svg]:w-16 [&_svg]:h-16" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(iconSvg) }} />
               )}
               {errors.iconSvg && <p className="text-xs text-destructive mt-1">{errors.iconSvg}</p>}
             </div>
