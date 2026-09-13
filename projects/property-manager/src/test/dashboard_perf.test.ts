@@ -1,110 +1,137 @@
-import { describe, it, expect } from 'vitest';
+import { describe, test, expect } from 'vitest';
+import { Property, Tenant, Payment, MaintenanceRequest } from '../context/AppContext';
 
-// Function representing original logic in Dashboard.tsx calendarDays calculation
-function computeCalendarDaysOriginal(
-  currentYear: number,
-  currentMonth: number,
-  payments: any[],
-  tenants: any[],
-  properties: any[]
-) {
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-  const days: { day: number; dots: { color: string; payment: any; tenant: string; property: string }[] }[] = [];
+// Generate dummy test data
+function generateData(count: number) {
+  const properties: Property[] = [];
+  const tenants: Tenant[] = [];
+  const payments: Payment[] = [];
+  const maintenance: MaintenanceRequest[] = [];
 
-  for (let i = 0; i < firstDay; i++) days.push({ day: 0, dots: [] });
+  for (let i = 0; i < count; i++) {
+    const propId = `prop-${i}`;
+    const tenantId = `tenant-${i}`;
+    properties.push({
+      id: propId,
+      address: `${i} Main St`,
+      unit: '1A',
+      type: 'Apartment',
+      bedrooms: 2,
+      bathrooms: 1,
+      sqft: 800,
+      purchasePrice: 200000,
+      monthlyMortgage: 1000,
+      photoUrl: '',
+      status: i % 10 === 0 ? 'vacant' : 'occupied',
+      createdAt: '2023-01-01',
+    });
 
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-    const dayPayments = payments.filter(p => p.dueDate === dateStr && p.type === 'rent');
-    const dots = dayPayments.map(p => ({
-      color: p.status === 'paid' ? 'bg-success' : p.status === 'overdue' ? 'bg-destructive' : 'bg-warning',
-      payment: p,
-      tenant: tenants.find(t => t.id === p.tenantId)?.name || '—',
-      property: properties.find(pr => pr.id === p.propertyId)?.address || '—',
-    }));
-    days.push({ day: d, dots });
-  }
-  return days;
-}
-
-// Function representing optimized logic using Map lookups
-export function computeCalendarDaysOptimized(
-  currentYear: number,
-  currentMonth: number,
-  payments: any[],
-  tenants: any[],
-  properties: any[]
-) {
-  const tenantMap = new Map<string, string>(tenants.map(t => [t.id, t.name]));
-  const propertyMap = new Map<string, string>(properties.map(p => [p.id, p.address]));
-
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-  const days: { day: number; dots: { color: string; payment: any; tenant: string; property: string }[] }[] = [];
-
-  for (let i = 0; i < firstDay; i++) days.push({ day: 0, dots: [] });
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-    const dayPayments = payments.filter(p => p.dueDate === dateStr && p.type === 'rent');
-    const dots = dayPayments.map(p => ({
-      color: p.status === 'paid' ? 'bg-success' : p.status === 'overdue' ? 'bg-destructive' : 'bg-warning',
-      payment: p,
-      tenant: tenantMap.get(p.tenantId) || '—',
-      property: propertyMap.get(p.propertyId) || '—',
-    }));
-    days.push({ day: d, dots });
-  }
-  return days;
-}
-
-describe('Dashboard Calendar Performance Benchmark', () => {
-  it('benchmarks original vs optimized logic', () => {
-    const numTenants = 1000;
-    const numProperties = 1000;
-    const numPayments = 3000;
-    const currentYear = 2025;
-    const currentMonth = 2; // March
-
-    const tenants = Array.from({ length: numTenants }, (_, i) => ({
-      id: `t_${i}`,
+    tenants.push({
+      id: tenantId,
+      propertyId: propId,
       name: `Tenant ${i}`,
-    }));
+      email: `tenant${i}@example.com`,
+      phone: '555-0000',
+      leaseStart: '2023-01-01',
+      leaseEnd: '2025-12-31',
+      monthlyRent: 1500,
+      depositHeld: 1500,
+      depositReturned: false,
+      notes: '',
+      status: 'active',
+    });
 
-    const properties = Array.from({ length: numProperties }, (_, i) => ({
-      id: `p_${i}`,
-      address: `Address ${i}`,
-    }));
-
-    const payments = Array.from({ length: numPayments }, (_, i) => ({
-      id: `pay_${i}`,
-      tenantId: `t_${i % numTenants}`,
-      propertyId: `p_${i % numProperties}`,
+    payments.push({
+      id: `pay-${i}`,
+      propertyId: propId,
+      tenantId: tenantId,
+      amount: 1500,
       type: 'rent',
-      status: i % 3 === 0 ? 'paid' : i % 3 === 1 ? 'overdue' : 'pending',
-      dueDate: `2025-03-${String((i % 31) + 1).padStart(2, '0')}`,
-      amount: 1000 + i,
-    }));
+      dueDate: '2023-05-01',
+      paidDate: null,
+      status: 'overdue',
+      notes: '',
+    });
 
-    // Warmup
-    computeCalendarDaysOriginal(currentYear, currentMonth, payments, tenants, properties);
-    computeCalendarDaysOptimized(currentYear, currentMonth, payments, tenants, properties);
+    if (i % 5 === 0) {
+      maintenance.push({
+        id: `maint-${i}`,
+        propertyId: propId,
+        title: `Leak ${i}`,
+        description: 'Water leak',
+        category: 'Plumbing',
+        priority: 'emergency',
+        status: 'open',
+        cost: 200,
+        contractorName: 'Bob',
+        contractorPhone: '555-1111',
+        reportedDate: '2023-05-02',
+        resolvedDate: null,
+      });
+    }
+  }
 
-    const startOriginal = performance.now();
-    const originalResult = computeCalendarDaysOriginal(currentYear, currentMonth, payments, tenants, properties);
-    const endOriginal = performance.now();
-    const durationOriginal = endOriginal - startOriginal;
+  return { properties, tenants, payments, maintenance };
+}
 
+describe('Dashboard performance test', () => {
+  test('Alerts computation benchmark', () => {
+    const { properties, tenants, payments, maintenance } = generateData(2000);
+    const now = new Date();
+    const activeTenants = tenants.filter(t => t.status === 'active');
+    const overduePayments = payments.filter(p => p.status === 'overdue');
+
+    // Baseline implementation (unoptimized O(N*M))
+    const startBaseline = performance.now();
+    const baselineAlerts: { type: string; message: string }[] = [];
+    activeTenants.forEach(t => {
+      const daysLeft = Math.ceil((new Date(t.leaseEnd).getTime() - now.getTime()) / 86400000);
+      if (daysLeft > 0 && daysLeft <= 30) baselineAlerts.push({ type: 'error', message: `${t.name}'s lease expires in ${daysLeft} days` });
+      else if (daysLeft > 30 && daysLeft <= 60) baselineAlerts.push({ type: 'warning', message: `${t.name}'s lease expires in ${daysLeft} days` });
+    });
+    overduePayments.forEach(p => {
+      const tenant = tenants.find(t => t.id === p.tenantId);
+      const prop = properties.find(pr => pr.id === p.propertyId);
+      baselineAlerts.push({ type: 'error', message: `$${p.amount} rent overdue — ${tenant?.name} at ${prop?.address}` });
+    });
+    maintenance.filter(m => m.priority === 'emergency' && m.status !== 'resolved').forEach(m => {
+      const prop = properties.find(p => p.id === m.propertyId);
+      baselineAlerts.push({ type: 'error', message: `Emergency: ${m.title} at ${prop?.address}` });
+    });
+    properties.filter(p => p.status === 'vacant').forEach(p => {
+      baselineAlerts.push({ type: 'info', message: `${p.address} is currently vacant` });
+    });
+    const baselineTime = performance.now() - startBaseline;
+
+    // Optimized implementation (O(N) with Map)
     const startOptimized = performance.now();
-    const optimizedResult = computeCalendarDaysOptimized(currentYear, currentMonth, payments, tenants, properties);
-    const endOptimized = performance.now();
-    const durationOptimized = endOptimized - startOptimized;
+    const optimizedAlerts: { type: string; message: string }[] = [];
+    const tenantMap = new Map(tenants.map(t => [t.id, t]));
+    const propertyMap = new Map(properties.map(p => [p.id, p]));
 
-    console.log(`[BENCHMARK RESULT] Original: ${durationOriginal.toFixed(2)}ms`);
-    console.log(`[BENCHMARK RESULT] Optimized: ${durationOptimized.toFixed(2)}ms`);
-    console.log(`[BENCHMARK RESULT] Speedup: ${(durationOriginal / durationOptimized).toFixed(2)}x`);
+    activeTenants.forEach(t => {
+      const daysLeft = Math.ceil((new Date(t.leaseEnd).getTime() - now.getTime()) / 86400000);
+      if (daysLeft > 0 && daysLeft <= 30) optimizedAlerts.push({ type: 'error', message: `${t.name}'s lease expires in ${daysLeft} days` });
+      else if (daysLeft > 30 && daysLeft <= 60) optimizedAlerts.push({ type: 'warning', message: `${t.name}'s lease expires in ${daysLeft} days` });
+    });
+    overduePayments.forEach(p => {
+      const tenant = tenantMap.get(p.tenantId);
+      const prop = propertyMap.get(p.propertyId);
+      optimizedAlerts.push({ type: 'error', message: `$${p.amount} rent overdue — ${tenant?.name} at ${prop?.address}` });
+    });
+    maintenance.filter(m => m.priority === 'emergency' && m.status !== 'resolved').forEach(m => {
+      const prop = propertyMap.get(m.propertyId);
+      optimizedAlerts.push({ type: 'error', message: `Emergency: ${m.title} at ${prop?.address}` });
+    });
+    properties.filter(p => p.status === 'vacant').forEach(p => {
+      optimizedAlerts.push({ type: 'info', message: `${p.address} is currently vacant` });
+    });
+    const optimizedTime = performance.now() - startOptimized;
 
-    expect(originalResult).toEqual(optimizedResult);
+    console.log(`Baseline time: ${baselineTime.toFixed(2)}ms`);
+    console.log(`Optimized time: ${optimizedTime.toFixed(2)}ms`);
+
+    expect(optimizedAlerts).toEqual(baselineAlerts);
+    expect(optimizedTime).toBeLessThan(baselineTime);
   });
 });
