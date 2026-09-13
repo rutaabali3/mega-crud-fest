@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { VaultEntry, CATEGORIES } from "@/lib/types";
 import { useVault } from "@/contexts/VaultContext";
 import { Button } from "@/components/ui/button";
