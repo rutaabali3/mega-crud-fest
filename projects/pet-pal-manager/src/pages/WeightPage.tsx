@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,6 +24,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 export default function WeightPage() {
   const { pets, weights, setWeights } = usePetCare();
   const activePets = pets.filter(p => !p.archived);
+  const petsMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
   const [selectedPet, setSelectedPet] = useState<string>(activePets[0]?.id || 'all');
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<WeightEntry | null>(null);
@@ -98,7 +99,7 @@ export default function WeightPage() {
               </TableHeader>
               <TableBody>
                 {tableData.map((w, i) => {
-                  const pet = pets.find(p => p.id === w.petId);
+                  const pet = petsMap.get(w.petId);
                   const change = getChange(i);
                   return (
                     <TableRow key={w.id}>
