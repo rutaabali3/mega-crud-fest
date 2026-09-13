@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import DOMPurify from "dompurify";
 import { Asset, AssetType } from "@/types/asset";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -245,7 +246,7 @@ export function AssetModal({ open, onClose, onSave, onUpdate, editingAsset, exis
               <Label>SVG Code</Label>
               <Textarea value={iconSvg} onChange={e => setIconSvg(e.target.value)} placeholder="<svg>...</svg>" rows={5} className="font-mono text-xs" />
               {iconSvg && (
-                <div className="p-4 rounded-lg bg-muted flex items-center justify-center [&_svg]:w-16 [&_svg]:h-16" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(iconSvg) }} />
+                <div className="p-4 rounded-lg bg-muted flex items-center justify-center [&_svg]:w-16 [&_svg]:h-16" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(iconSvg, { USE_PROFILES: { html: true, svg: true, svgFilters: true } }) }} />
               )}
               {errors.iconSvg && <p className="text-xs text-destructive mt-1">{errors.iconSvg}</p>}
             </div>
