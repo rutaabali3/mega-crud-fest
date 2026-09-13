@@ -8,8 +8,8 @@ import SettingsPanel from "./SettingsPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Lock, Settings, Search, Menu, X, Trash2, Shield } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Plus, Lock, Settings, Search, Menu, Trash2, Shield } from "lucide-react";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 export default function VaultDashboard() {
   const { entries, lock, deleteEntries } = useVault();
