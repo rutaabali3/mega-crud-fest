@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { generatePassword, type PasswordGenOptions } from "@/lib/crypto";
+import { generatePassword } from "@/lib/crypto";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function PasswordGenerator({ onUse, onClose }: Props) {
-  const [opts, setOpts] = useState<PasswordGenOptions>({
+  const [opts, setOpts] = useState({
     length: 16, uppercase: true, lowercase: true, numbers: true, symbols: true, excludeAmbiguous: false,
   });
   const [preview, setPreview] = useState("");
