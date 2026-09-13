@@ -1,4 +1,4 @@
-import { Search, Moon, Sun, Menu } from 'lucide-react';
+import { Search, Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { usePetCare } from '@/contexts/PetCareContext';
 import { Input } from '@/components/ui/input';

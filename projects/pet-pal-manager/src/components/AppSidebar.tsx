@@ -1,8 +1,6 @@
-import { Home, PawPrint, Heart, Utensils, Scale, Pill, Settings, Search, Moon, Sun } from 'lucide-react';
+import { Home, PawPrint, Heart, Utensils, Scale, Pill, Settings, Moon, Sun } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
-import { useLocation } from 'react-router-dom';
 import { useTheme } from '@/hooks/useTheme';
-import { usePetCare } from '@/contexts/PetCareContext';
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +13,6 @@ import {
   SidebarFooter,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
@@ -31,7 +28,6 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === 'collapsed';
   const { theme, toggle } = useTheme();
-  const { searchQuery, setSearchQuery } = usePetCare();
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">

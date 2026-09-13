@@ -1,4 +1,4 @@
-import { differenceInMonths, differenceInYears, format, parseISO, isWithinInterval, addDays, isBefore, isToday } from 'date-fns';
+import { differenceInMonths, differenceInYears, format, parseISO, isWithinInterval, addDays, isBefore } from 'date-fns';
 import type { Pet, Species, VetVisit, FeedingSchedule, FeedingLog, Medication } from './types';
 
 export function calculateAge(dob: string): string {
