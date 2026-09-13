@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-const API_KEY = "386283928cce3fb4beebf918d57a5206";
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || "";
 const CACHE_KEY = "tripcraft_weather_cache";
 const CACHE_DURATION = 30 * 60 * 1000;
 
