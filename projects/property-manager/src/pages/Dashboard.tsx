@@ -16,6 +16,10 @@ export default function Dashboard() {
   const currentMonth = now.getMonth();
   const currentYear = now.getFullYear();
 
+  // Lookup maps for O(1) property and tenant lookups
+  const tenantMap = useMemo(() => new Map(tenants.map(t => [t.id, t])), [tenants]);
+  const propertyMap = useMemo(() => new Map(properties.map(p => [p.id, p])), [properties]);
+
   // KPI calculations
   const activeProperties = properties.filter(p => p.status !== 'archived');
   const occupiedCount = activeProperties.filter(p => p.status === 'occupied').length;
@@ -42,19 +46,19 @@ export default function Dashboard() {
       else if (daysLeft > 30 && daysLeft <= 60) a.push({ type: 'warning', message: `${t.name}'s lease expires in ${daysLeft} days` });
     });
     overduePayments.forEach(p => {
-      const tenant = tenants.find(t => t.id === p.tenantId);
-      const prop = properties.find(pr => pr.id === p.propertyId);
+      const tenant = tenantMap.get(p.tenantId);
+      const prop = propertyMap.get(p.propertyId);
       a.push({ type: 'error', message: `${formatCurrency(p.amount)} rent overdue — ${tenant?.name} at ${prop?.address}` });
     });
     maintenance.filter(m => m.priority === 'emergency' && m.status !== 'resolved').forEach(m => {
-      const prop = properties.find(p => p.id === m.propertyId);
+      const prop = propertyMap.get(m.propertyId);
       a.push({ type: 'error', message: `Emergency: ${m.title} at ${prop?.address}` });
     });
     properties.filter(p => p.status === 'vacant').forEach(p => {
       a.push({ type: 'info', message: `${p.address} is currently vacant` });
     });
     return a;
-  }, [activeTenants, overduePayments, maintenance, properties, tenants]);
+  }, [activeTenants, overduePayments, maintenance, properties, tenantMap, propertyMap]);
 
   // Mini calendar
   const calendarDays = useMemo(() => {
@@ -72,16 +76,16 @@ export default function Dashboard() {
       const dots = dayPayments.map(p => ({
         color: p.status === 'paid' ? 'bg-success' : p.status === 'overdue' ? 'bg-destructive' : 'bg-warning',
         payment: p,
-        tenant: tenantMap.get(p.tenantId) || '—',
-        property: propertyMap.get(p.propertyId) || '—',
+        tenant: tenantMap.get(p.tenantId)?.name || '—',
+        property: propertyMap.get(p.propertyId)?.address || '—',
       }));
       days.push({ day: d, dots });
     }
     return days;
-  }, [currentYear, currentMonth, payments, tenants, properties]);
+  }, [currentYear, currentMonth, payments, tenantMap, propertyMap]);
 
   const paymentToConfirm = confirmPayment ? payments.find(p => p.id === confirmPayment) : null;
-  const confirmTenantName = paymentToConfirm ? tenants.find(t => t.id === paymentToConfirm.tenantId)?.name : '';
+  const confirmTenantName = paymentToConfirm ? tenantMap.get(paymentToConfirm.tenantId)?.name : '';
 
   const kpiCards = [
     { icon: <Building2 className="h-5 w-5 text-primary" />, label: 'Total Properties', value: activeProperties.length, sub: `${occupiedCount} occupied / ${vacantCount} vacant` },
@@ -131,8 +135,8 @@ export default function Dashboard() {
                   </thead>
                   <tbody>
                     {monthlyRentPayments.map(p => {
-                      const tenant = tenants.find(t => t.id === p.tenantId);
-                      const prop = properties.find(pr => pr.id === p.propertyId);
+                      const tenant = tenantMap.get(p.tenantId);
+                      const prop = propertyMap.get(p.propertyId);
                       return (
                         <tr key={p.id} className="border-b last:border-0">
                           <td className="py-3">{prop?.address}</td>
