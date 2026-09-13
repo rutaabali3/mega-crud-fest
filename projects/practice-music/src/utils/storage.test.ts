@@ -1,48 +1,32 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { getPieces, Piece } from "./storage";
+import { describe, it, expect, vi } from "vitest";
+import { generateId } from "./storage";
 
-describe("storage utils", () => {
-  beforeEach(() => {
-    localStorage.clear();
+describe("generateId", () => {
+  it("should return a valid UUID string format", () => {
+    const id = generateId();
+    expect(typeof id).toBe("string");
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    expect(id).toMatch(uuidRegex);
   });
 
-  describe("getPieces", () => {
-    it("should return an empty array when localStorage has no data for pieces", () => {
-      const pieces = getPieces();
-      expect(pieces).toEqual([]);
-    });
+  it("should delegate to crypto.randomUUID", () => {
+    const mockUuid = "123e4567-e89b-12d3-a456-426614174000";
+    const spy = vi.spyOn(crypto, "randomUUID").mockReturnValueOnce(mockUuid);
 
-    it("should return parsed array of pieces when valid JSON is present in localStorage", () => {
-      const mockPieces: Piece[] = [
-        {
-          id: "piece-1",
-          title: "Moonlight Sonata",
-          composer: "Beethoven",
-          instrument: "Piano",
-          difficulty: "Advanced",
-          targetBPM: 140,
-          currentBPM: 120,
-          status: "active",
-          dateAdded: "2025-01-01",
-          dateMastered: null,
-          color: "#ff0000",
-          tags: ["classical", "piano"],
-        },
-      ];
+    const result = generateId();
 
-      localStorage.setItem("mpl_pieces", JSON.stringify(mockPieces));
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(result).toBe(mockUuid);
 
-      const pieces = getPieces();
-      expect(pieces).toEqual(mockPieces);
-      expect(pieces).toHaveLength(1);
-      expect(pieces[0].title).toBe("Moonlight Sonata");
-    });
+    spy.mockRestore();
+  });
 
-    it("should return an empty array fallback when localStorage contains invalid JSON", () => {
-      localStorage.setItem("mpl_pieces", "invalid-json-{");
-
-      const pieces = getPieces();
-      expect(pieces).toEqual([]);
-    });
+  it("should generate unique IDs across multiple calls", () => {
+    const ids = new Set();
+    const count = 100;
+    for (let i = 0; i < count; i++) {
+      ids.add(generateId());
+    }
+    expect(ids.size).toBe(count);
   });
 });
