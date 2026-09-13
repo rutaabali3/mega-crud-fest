@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import { Asset } from "@/types/asset";
 import { Copy, Edit, Trash2, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
@@ -92,7 +93,7 @@ function IconCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => voi
       </div>
       <div
         className="h-24 flex items-center justify-center text-foreground [&_svg]:w-12 [&_svg]:h-12"
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(asset.iconSvg) }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(asset.iconSvg, { USE_PROFILES: { html: true, svg: true, svgFilters: true } }) }}
       />
       <div className="flex flex-wrap gap-1 mt-2">
         {asset.tags.map(t => (
