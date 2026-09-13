@@ -231,6 +231,30 @@ export function seedData() {
       timesCorrect: 6, timesIncorrect: 1, isMastered: false, source: "NHK News",
       createdAt: daysAgo(20), updatedAt: daysAgo(2),
     },
+    {
+      id: crypto.randomUUID(), word: "Guten Tag", translation: "good day / hello",
+      exampleSentence: "Guten Tag! Wie geht es Ihnen?", targetLanguage: "German",
+      tags: ["greetings", "basics"], difficulty: "beginner", masteryLevel: 3,
+      nextReviewDate: daysFromNow(4), lastReviewedDate: daysAgo(1),
+      timesCorrect: 5, timesIncorrect: 1, isMastered: false, source: "Duolingo",
+      createdAt: daysAgo(15), updatedAt: daysAgo(1),
+    },
+    {
+      id: crypto.randomUUID(), word: "Buch", translation: "book",
+      exampleSentence: "Ich lese ein interessantes Buch.", targetLanguage: "German",
+      tags: ["education", "basics"], difficulty: "beginner", masteryLevel: 2,
+      nextReviewDate: daysFromNow(2), lastReviewedDate: daysAgo(3),
+      timesCorrect: 3, timesIncorrect: 1, isMastered: false, source: "Textbook",
+      createdAt: daysAgo(10), updatedAt: daysAgo(3),
+    },
+    {
+      id: crypto.randomUUID(), word: "ciao", translation: "hi / bye",
+      exampleSentence: "Ciao! Ci vediamo domani.", targetLanguage: "Italian",
+      tags: ["greetings", "basics"], difficulty: "beginner", masteryLevel: 4,
+      nextReviewDate: daysFromNow(10), lastReviewedDate: daysAgo(2),
+      timesCorrect: 7, timesIncorrect: 0, isMastered: false, source: "Duolingo",
+      createdAt: daysAgo(25), updatedAt: daysAgo(2),
+    },
   ];
 
   saveVocab(entries);
