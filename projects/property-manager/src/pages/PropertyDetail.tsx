@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApp, Property } from '@/context/AppContext';
 import { formatCurrency, formatDate } from '@/lib/format';
@@ -40,6 +40,7 @@ export default function PropertyDetail() {
   const propTenants = tenants.filter(t => t.propertyId === id);
   const propPayments = payments.filter(p => p.propertyId === id);
   const propMaintenance = maintenance.filter(m => m.propertyId === id);
+  const tenantMap = useMemo(() => new Map(tenants.map(t => [t.id, t])), [tenants]);
   const propExpenses = expenses.filter(e => e.propertyId === id);
   const activeTenant = propTenants.find(t => t.status === 'active');
 
@@ -134,7 +135,7 @@ export default function PropertyDetail() {
               <tbody>
                 {propPayments.map(p => (
                   <tr key={p.id} className="border-b last:border-0">
-                    <td className="p-3">{tenants.find(t => t.id === p.tenantId)?.name || '—'}</td>
+                    <td className="p-3">{tenantMap.get(p.tenantId)?.name || '—'}</td>
                     <td className="p-3 capitalize">{p.type}</td>
                     <td className="p-3">{formatDate(p.dueDate)}</td>
                     <td className="p-3">{formatCurrency(p.amount)}</td>

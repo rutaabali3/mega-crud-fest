@@ -39,8 +39,6 @@ export default function Dashboard() {
 
   // Alerts
   const alerts = useMemo(() => {
-    const tenantMap = new Map(tenants.map(t => [t.id, t]));
-    const propertyMap = new Map(properties.map(p => [p.id, p]));
     const a: { type: string; message: string }[] = [];
     activeTenants.forEach(t => {
       const daysLeft = Math.ceil((new Date(t.leaseEnd).getTime() - now.getTime()) / 86400000);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp, Tenant } from '@/context/AppContext';
 import { formatCurrency, formatDate } from '@/lib/format';
@@ -27,6 +27,8 @@ export default function Tenants() {
   const [archivingTenant, setArchivingTenant] = useState<Tenant | null>(null);
   const [depositChecked, setDepositChecked] = useState(false);
   const [form, setForm] = useState(emptyForm);
+
+  const propertyMap = useMemo(() => new Map(properties.map(p => [p.id, p])), [properties]);
 
   const displayTenants = tenants
     .filter(t => t.status === activeTab)
@@ -126,7 +128,7 @@ export default function Tenants() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {displayTenants.map(t => {
-            const prop = properties.find(p => p.id === t.propertyId);
+            const prop = propertyMap.get(t.propertyId);
             const totalDays = (new Date(t.leaseEnd).getTime() - new Date(t.leaseStart).getTime()) / 86400000;
             const elapsed = (Date.now() - new Date(t.leaseStart).getTime()) / 86400000;
             const percent = Math.min(100, Math.max(0, Math.round((elapsed / totalDays) * 100)));
@@ -184,7 +186,7 @@ export default function Tenants() {
 
       <ConfirmDialog
         isOpen={!!archivingTenant}
-        message={`This will end the tenancy for ${archivingTenant?.name} at ${properties.find(p => p.id === archivingTenant?.propertyId)?.address}.`}
+        message={`This will end the tenancy for ${archivingTenant?.name} at ${propertyMap.get(archivingTenant?.propertyId)?.address}.`}
         confirmLabel="Archive Tenancy"
         onConfirm={() => { if (archivingTenant) { archiveTenant(archivingTenant.id, depositChecked); setArchivingTenant(null); } }}
         onCancel={() => setArchivingTenant(null)}
