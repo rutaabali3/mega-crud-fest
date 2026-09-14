@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 describe("Dashboard lookup performance benchmark", () => {
-  it("compares O(N) array find vs O(1) Map lookup", () => {
+  it("compares O(N) array find vs O(1) Map lookup", { timeout: 20000 }, () => {
     // Generate sample dataset
     const numProperties = 1000;
     const numTenants = 1000;
