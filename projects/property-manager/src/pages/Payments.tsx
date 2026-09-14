@@ -29,6 +29,9 @@ export default function Payments() {
   const [confirmPaid, setConfirmPaid] = useState<Payment | null>(null);
   const [form, setForm] = useState(emptyForm);
 
+  const tenantMap = useMemo(() => new Map(tenants.map(t => [t.id, t])), [tenants]);
+  const propertyMap = useMemo(() => new Map(properties.map(p => [p.id, p])), [properties]);
+
   // Auto-update overdue
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
@@ -231,8 +234,8 @@ export default function Payments() {
             <tbody>
               {displayPayments.map(p => (
                 <tr key={p.id} className="border-b last:border-0">
-                  <td className="p-3">{properties.find(pr => pr.id === p.propertyId)?.address || '—'}</td>
-                  <td className="p-3">{tenants.find(t => t.id === p.tenantId)?.name || '—'}</td>
+                  <td className="p-3">{propertyMap.get(p.propertyId)?.address || '—'}</td>
+                  <td className="p-3">{tenantMap.get(p.tenantId)?.name || '—'}</td>
                   <td className="p-3 capitalize">{p.type.replace('_', ' ')}</td>
                   <td className="p-3">{formatDate(p.dueDate)}</td>
                   <td className="p-3">{formatCurrency(p.amount)}</td>
@@ -258,7 +261,7 @@ export default function Payments() {
 
       <ConfirmDialog
         isOpen={!!confirmPaid}
-        message={`Confirm payment of ${confirmPaid ? formatCurrency(confirmPaid.amount) : ''} from ${confirmPaid ? tenants.find(t => t.id === confirmPaid.tenantId)?.name : ''}?`}
+        message={`Confirm payment of ${confirmPaid ? formatCurrency(confirmPaid.amount) : ''} from ${confirmPaid ? tenantMap.get(confirmPaid.tenantId)?.name : ''}?`}
         confirmLabel="Mark as Paid"
         confirmVariant="default"
         onConfirm={() => { if (confirmPaid) { markPaid(confirmPaid.id, new Date().toISOString().slice(0, 10), confirmPaid.amount); } setConfirmPaid(null); }}
