@@ -116,6 +116,7 @@ export function Metronome({ settings, onUpdateSettings }: Props) {
     return (
       <button
         onClick={() => setOpen(true)}
+        aria-label="Open metronome"
         className="fixed bottom-20 md:bottom-6 right-4 z-40 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 flex items-center justify-center hover:scale-105 transition-transform"
       >
         <Music2 size={20} />
@@ -129,7 +130,7 @@ export function Metronome({ settings, onUpdateSettings }: Props) {
         {/* Header */}
         <div className="flex items-center justify-between">
           <span className="font-heading font-semibold text-foreground text-sm">Metronome</span>
-          <button onClick={() => { stop(); setOpen(false); }} className="text-muted-foreground hover:text-foreground text-xs">✕</button>
+          <button onClick={() => { stop(); setOpen(false); }} aria-label="Close metronome" className="text-muted-foreground hover:text-foreground text-xs">✕</button>
         </div>
 
         {/* BPM */}
@@ -140,13 +141,13 @@ export function Metronome({ settings, onUpdateSettings }: Props) {
 
         {/* Controls */}
         <div className="flex items-center justify-center gap-3">
-          <button onClick={() => setBpm(b => Math.max(20, b - 1))} className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 transition-colors">
+          <button onClick={() => setBpm(b => Math.max(20, b - 1))} aria-label="Decrease BPM" className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 transition-colors">
             <Minus size={14} />
           </button>
-          <button onClick={playing ? stop : start} className={`w-14 h-14 rounded-full flex items-center justify-center text-primary-foreground shadow-lg transition-all ${playing ? 'bg-destructive hover:bg-destructive/90' : 'bg-primary hover:bg-primary/90'}`}>
+          <button onClick={playing ? stop : start} aria-label={playing ? "Stop metronome" : "Start metronome"} className={`w-14 h-14 rounded-full flex items-center justify-center text-primary-foreground shadow-lg transition-all ${playing ? 'bg-destructive hover:bg-destructive/90' : 'bg-primary hover:bg-primary/90'}`}>
             {playing ? <Square size={20} /> : <Play size={20} className="ml-0.5" />}
           </button>
-          <button onClick={() => setBpm(b => Math.min(300, b + 1))} className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 transition-colors">
+          <button onClick={() => setBpm(b => Math.min(300, b + 1))} aria-label="Increase BPM" className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 transition-colors">
             <Plus size={14} />
           </button>
         </div>
