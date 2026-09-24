@@ -12,7 +12,7 @@ import {
   getNextReviewDate,
   levenshtein,
 } from "../lib/storage";
-import { VocabEntry, AppSettings } from "../lib/types";
+import { VocabEntry, AppSettings, vocabEntriesSchema } from "../lib/types";
 
 if (typeof localStorage === "undefined") {
   const store = new Map<string, string>();
@@ -63,6 +63,74 @@ describe("storage.ts", () => {
     it("handles corrupted JSON gracefully", () => {
       localStorage.setItem("vocab_bank_v1", "{invalid json");
       expect(getVocab()).toEqual([]);
+    });
+
+    it("handles JSON that fails schema validation gracefully", () => {
+      localStorage.setItem(
+        "vocab_bank_v1",
+        JSON.stringify([{ id: "1", word: "test" }])
+      );
+      expect(getVocab()).toEqual([]);
+    });
+  });
+
+  describe("vocabEntriesSchema validation", () => {
+    const validEntry: VocabEntry = {
+      id: "entry-1",
+      word: "hola",
+      translation: "hello",
+      exampleSentence: "Hola mundo",
+      targetLanguage: "Spanish",
+      tags: ["greetings"],
+      difficulty: "beginner",
+      masteryLevel: 2,
+      nextReviewDate: "2025-01-01T00:00:00.000Z",
+      lastReviewedDate: null,
+      timesCorrect: 3,
+      timesIncorrect: 1,
+      isMastered: false,
+      source: "duolingo",
+      createdAt: "2025-01-01T00:00:00.000Z",
+      updatedAt: "2025-01-01T00:00:00.000Z",
+    };
+
+    it("successfully parses valid vocabulary entries", () => {
+      const result = vocabEntriesSchema.safeParse([validEntry]);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).toEqual([validEntry]);
+      }
+    });
+
+    it("rejects non-array payloads", () => {
+      const result = vocabEntriesSchema.safeParse(validEntry);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects entries missing required fields", () => {
+      const invalidEntry = { ...validEntry };
+      // @ts-expect-error testing missing field
+      delete invalidEntry.word;
+      const result = vocabEntriesSchema.safeParse([invalidEntry]);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects entries with invalid enum values for difficulty", () => {
+      const invalidEntry = { ...validEntry, difficulty: "super-hard" };
+      const result = vocabEntriesSchema.safeParse([invalidEntry]);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects entries with invalid masteryLevel range", () => {
+      const invalidEntry = { ...validEntry, masteryLevel: 10 };
+      const result = vocabEntriesSchema.safeParse([invalidEntry]);
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects entries with invalid negative timesCorrect", () => {
+      const invalidEntry = { ...validEntry, timesCorrect: -5 };
+      const result = vocabEntriesSchema.safeParse([invalidEntry]);
+      expect(result.success).toBe(false);
     });
   });
 

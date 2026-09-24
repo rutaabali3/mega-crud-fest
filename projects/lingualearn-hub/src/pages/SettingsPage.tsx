@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useVocabContext } from "@/lib/VocabContext";
 import { getVocab, saveVocab, clearAllData, seedData } from "@/lib/storage";
-import { VocabEntry } from "@/lib/types";
+import { VocabEntry, vocabEntriesSchema } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,8 +31,8 @@ const SettingsPage = () => {
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        const imported: VocabEntry[] = JSON.parse(reader.result as string);
-        if (!Array.isArray(imported)) throw new Error("Invalid format");
+        const parsedJson = JSON.parse(reader.result as string);
+        const imported: VocabEntry[] = vocabEntriesSchema.parse(parsedJson);
 
         const existing = getVocab();
         const existingKeys = new Set(existing.map(e => `${e.word.toLowerCase()}|${e.targetLanguage.toLowerCase()}`));
