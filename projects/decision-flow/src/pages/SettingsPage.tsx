@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
-import { AppSettings } from "@/types/decision";
-import { Decision } from "@/types/decision";
+import { AppSettings, Decision, importDecisionsSchema } from "@/types/decision";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -30,10 +29,14 @@ export default function SettingsPage({ settings, onUpdateSettings, onExport, onI
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target?.result as string);
-        if (!Array.isArray(data)) throw new Error("Invalid format");
-        onImport(data, importMode);
-        toast.success(`Imported ${data.length} decisions (${importMode})`);
+        const parsedJson = JSON.parse(ev.target?.result as string);
+        const result = importDecisionsSchema.safeParse(parsedJson);
+        if (!result.success) {
+          toast.error("Invalid decision data format");
+          return;
+        }
+        onImport(result.data, importMode);
+        toast.success(`Imported ${result.data.length} decisions (${importMode})`);
       } catch {
         toast.error("Invalid JSON file");
       }
