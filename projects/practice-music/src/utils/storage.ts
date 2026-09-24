@@ -97,6 +97,58 @@ export function clearAllData() {
   }
 }
 
+import { z } from 'zod';
+
+export const pieceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  composer: z.string(),
+  instrument: z.string(),
+  difficulty: z.enum(['Beginner', 'Intermediate', 'Advanced', 'Expert']),
+  targetBPM: z.number(),
+  currentBPM: z.number(),
+  status: z.enum(['active', 'mastered', 'abandoned']),
+  dateAdded: z.string(),
+  dateMastered: z.string().nullable(),
+  color: z.string(),
+  tags: z.array(z.string()),
+});
+
+export const sessionSchema = z.object({
+  id: z.string(),
+  pieceId: z.string(),
+  date: z.string(),
+  durationMinutes: z.number(),
+  bpmReached: z.number(),
+  mood: z.enum(['1', '2', '3', '4', '5']),
+  notes: z.string(),
+  instrument: z.string(),
+});
+
+export const goalSchema = z.object({
+  id: z.string(),
+  weekStartDate: z.string(),
+  targetMinutes: z.number(),
+  instrument: z.string(),
+  label: z.string(),
+});
+
+export const settingsSchema = z.object({
+  defaultInstrument: z.string(),
+  metronomeBPM: z.number(),
+  metronomeBeatsPerMeasure: z.number(),
+  weeklyGoalMinutes: z.number(),
+  theme: z.string(),
+});
+
+export const importDataSchema = z.object({
+  pieces: z.array(pieceSchema).optional(),
+  sessions: z.array(sessionSchema).optional(),
+  goals: z.array(goalSchema).optional(),
+  settings: settingsSchema.optional(),
+  exportedAt: z.string().optional(),
+});
+
 export function exportAllData() {
   return {
     pieces: getPieces(),
@@ -107,9 +159,10 @@ export function exportAllData() {
   };
 }
 
-export function importData(data: { pieces?: Piece[]; sessions?: Session[]; goals?: Goal[]; settings?: Settings }) {
-  if (data.pieces) savePieces(data.pieces);
-  if (data.sessions) saveSessions(data.sessions);
-  if (data.goals) saveGoals(data.goals);
-  if (data.settings) saveSettings(data.settings);
+export function importData(data: unknown) {
+  const parsed = importDataSchema.parse(data);
+  if (parsed.pieces) savePieces(parsed.pieces);
+  if (parsed.sessions) saveSessions(parsed.sessions);
+  if (parsed.goals) saveGoals(parsed.goals);
+  if (parsed.settings) saveSettings(parsed.settings);
 }
