@@ -62,6 +62,12 @@ describe("useCinemaVault", () => {
       expect(result.current.items).toEqual([]);
     });
 
+    it("should fallback to empty array when localStorage contains JSON not matching schema", () => {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([{ malformed: true }]));
+      const { result } = renderHook(() => useCinemaVault());
+      expect(result.current.items).toEqual([]);
+    });
+
     it("should persist items to localStorage when state changes", () => {
       const { result } = renderHook(() => useCinemaVault());
 
@@ -297,6 +303,20 @@ describe("useCinemaVault", () => {
       let success: boolean = true;
       act(() => {
         success = result.current.importData(JSON.stringify({ notAnArray: true }));
+      });
+
+      expect(success).toBe(false);
+      expect(result.current.items).toEqual([]);
+    });
+
+    it("should return false if items in array do not match CinemaItem schema", () => {
+      const { result } = renderHook(() => useCinemaVault());
+
+      let success: boolean = true;
+      act(() => {
+        success = result.current.importData(
+          JSON.stringify([{ id: "1", title: "Missing fields" }])
+        );
       });
 
       expect(success).toBe(false);
