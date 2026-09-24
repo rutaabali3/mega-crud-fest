@@ -25,6 +25,14 @@ export function Dashboard({ pieces, sessions, settings, onLogSession, onNavigate
   const activePieces = pieces.filter(p => p.status === 'active');
   const recent = [...sessions].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
 
+  const piecesById = useMemo(() => {
+    const map = new Map<string, Piece>();
+    for (const piece of pieces) {
+      map.set(piece.id, piece);
+    }
+    return map;
+  }, [pieces]);
+
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Stats */}
@@ -49,7 +57,7 @@ export function Dashboard({ pieces, sessions, settings, onLogSession, onNavigate
           ) : (
             <div className="space-y-2">
               {recent.map(s => {
-                const piece = pieces.find(p => p.id === s.pieceId);
+                const piece = piecesById.get(s.pieceId);
                 return (
                   <div key={s.id} className="flex items-center gap-3 bg-card border border-border rounded-xl p-3 hover:border-primary/30 transition-all">
                     <div className="w-1 h-10 rounded-full" style={{ backgroundColor: piece?.color || '#6C63FF' }} />
