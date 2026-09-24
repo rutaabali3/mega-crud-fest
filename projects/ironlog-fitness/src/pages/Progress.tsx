@@ -10,6 +10,7 @@ import { format, parseISO, startOfWeek, subWeeks } from "date-fns";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { SessionDetailModal } from "@/components/SessionDetailModal";
 import { WorkoutSession, PersonalRecord } from "@/types";
+import { ImportPayloadSchema } from "@/schemas/importSchema";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -115,10 +116,13 @@ export default function Progress() {
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target?.result as string);
-        if (data.ironlog_programs) setPrograms(data.ironlog_programs);
-        if (data.ironlog_sessions) setSessions(data.ironlog_sessions);
-        if (data.ironlog_measurements) setMeasurements(data.ironlog_measurements);
+        const rawData = JSON.parse(ev.target?.result as string);
+        const result = ImportPayloadSchema.safeParse(rawData);
+        if (result.success) {
+          if (result.data.ironlog_programs) setPrograms(result.data.ironlog_programs);
+          if (result.data.ironlog_sessions) setSessions(result.data.ironlog_sessions);
+          if (result.data.ironlog_measurements) setMeasurements(result.data.ironlog_measurements);
+        }
       } catch {}
     };
     reader.readAsText(file);
