@@ -3,7 +3,7 @@ import { Download, Upload, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import type { Goal } from "@/types/goal";
+import { goalArraySchema, type Goal } from "@/types/goal";
 import { toast } from "sonner";
 
 interface Props {
@@ -33,10 +33,13 @@ export default function SettingsPage({ onExport, onImport, onClearAll }: Props) 
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target?.result as string);
-        if (!Array.isArray(data)) throw new Error("Invalid format");
-        onImport(data);
-        toast.success(`Imported ${data.length} goals!`);
+        const parsed = JSON.parse(ev.target?.result as string);
+        const result = goalArraySchema.safeParse(parsed);
+        if (!result.success) {
+          throw new Error("Invalid format");
+        }
+        onImport(result.data);
+        toast.success(`Imported ${result.data.length} goals!`);
       } catch {
         toast.error("Invalid JSON file. Please check the format.");
       }

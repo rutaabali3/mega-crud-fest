@@ -1,12 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Goal, ProgressLog } from "@/types/goal";
+import { goalArraySchema, type Goal, type ProgressLog } from "@/types/goal";
 
 const STORAGE_KEY = "goals";
 
 function loadGoals(): Goal[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    const result = goalArraySchema.safeParse(parsed);
+    return result.success ? result.data : [];
   } catch {
     return [];
   }
