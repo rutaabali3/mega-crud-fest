@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { NotesSidebar } from "@/components/NotesSidebar";
 import { NoteEditor } from "@/components/NoteEditor";
 import { EmptyState } from "@/components/EmptyState";
-import { useNotes } from "@/hooks/useNotes";
+import { useNotes, notesArraySchema } from "@/hooks/useNotes";
 
 export default function Index() {
   const {
@@ -72,9 +72,10 @@ export default function Index() {
     reader.onload = (ev) => {
       try {
         const data = JSON.parse(ev.target?.result as string);
-        if (Array.isArray(data)) {
-          importNotes(data);
-          toast.success(`Imported ${data.length} notes`);
+        const parsed = notesArraySchema.safeParse(data);
+        if (parsed.success) {
+          importNotes(parsed.data);
+          toast.success(`Imported ${parsed.data.length} notes`);
         } else {
           toast.error("Invalid file format");
         }
