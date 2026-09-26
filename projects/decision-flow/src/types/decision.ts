@@ -75,3 +75,46 @@ export interface AppSettings {
   showConfidence: boolean;
   showBiasTags: boolean;
 }
+
+import { z } from "zod";
+
+export const decisionOptionSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  pros: z.array(z.string()),
+  cons: z.array(z.string()),
+});
+
+export const decisionCategorySchema = z.enum([
+  "Career", "Finance", "Relationships", "Health",
+  "Education", "Personal Growth", "Business", "Other",
+]);
+
+export const decisionStatusSchema = z.enum(["pending", "decided", "outcome_recorded"]);
+
+export const biasTagSchema = z.enum([
+  "Confirmation Bias", "Sunk Cost", "Overconfidence", "FOMO",
+  "Analysis Paralysis", "Herd Mentality", "Anchoring", "Recency Bias",
+]);
+
+export const decisionSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  category: decisionCategorySchema,
+  dateCreated: z.string(),
+  deadline: z.string().nullable(),
+  status: decisionStatusSchema,
+  options: z.array(decisionOptionSchema),
+  chosenOption: z.string().nullable(),
+  reasoning: z.string(),
+  expectedOutcome: z.string(),
+  confidenceScore: z.number(),
+  actualOutcome: z.string().nullable(),
+  actualOutcomeDate: z.string().nullable(),
+  reflectionNotes: z.string().nullable(),
+  qualityScore: z.number().nullable(),
+  biasTags: z.array(biasTagSchema),
+  isTrashed: z.boolean(),
+});
+
+export const importDecisionsSchema = z.array(decisionSchema);
