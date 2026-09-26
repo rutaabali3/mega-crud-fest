@@ -1,4 +1,4 @@
-import { VocabEntry, AppSettings, ActivityLog } from "./types";
+import { VocabEntry, AppSettings, ActivityLog, vocabEntriesSchema } from "./types";
 
 const VOCAB_KEY = "vocab_bank_v1";
 const SETTINGS_KEY = "vocab_settings_v1";
@@ -7,7 +7,13 @@ const ACTIVITY_KEY = "vocab_activity_v1";
 export function getVocab(): VocabEntry[] {
   const raw = localStorage.getItem(VOCAB_KEY);
   if (!raw) return [];
-  try { return JSON.parse(raw); } catch { return []; }
+  try {
+    const parsed = JSON.parse(raw);
+    const result = vocabEntriesSchema.safeParse(parsed);
+    return result.success ? result.data : [];
+  } catch {
+    return [];
+  }
 }
 
 export function saveVocab(entries: VocabEntry[]) {

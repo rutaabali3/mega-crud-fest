@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Subscription } from '@/types/subscription';
+import { Subscription, subscriptionsSchema } from '@/types/subscription';
 import { CATEGORY_CONFIG } from '@/utils/categoryConfig';
 import { toast } from 'sonner';
 
@@ -17,8 +17,13 @@ const SEED_DATA: Omit<Subscription, 'id' | 'createdAt' | 'lastEditedAt'>[] = [
 function loadFromStorage(): { subscriptions: Subscription[]; isFirstLoad: boolean } {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return { subscriptions: JSON.parse(raw), isFirstLoad: false };
-  } catch {}
+    if (raw) {
+      const parsed = subscriptionsSchema.safeParse(JSON.parse(raw));
+      if (parsed.success) return { subscriptions: parsed.data, isFirstLoad: false };
+    }
+  } catch {
+    // Ignore storage read or JSON parse errors
+  }
   // Seed data
   const now = new Date().toISOString();
   const seeded = SEED_DATA.map(s => ({
@@ -110,8 +115,13 @@ export function useSubscriptions() {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const imported: Subscription[] = JSON.parse(e.target?.result as string);
-        if (!Array.isArray(imported)) throw new Error('Invalid');
+        const json = JSON.parse(e.target?.result as string);
+        const parsed = subscriptionsSchema.safeParse(json);
+        if (!parsed.success) {
+          toast.error('Invalid file format');
+          return;
+        }
+        const imported = parsed.data;
         setData(prev => {
           const existingIds = new Set(prev.subscriptions.map(s => s.id));
           const newSubs = imported.filter(s => !existingIds.has(s.id));

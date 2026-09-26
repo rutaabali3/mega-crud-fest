@@ -1,12 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
-import type { CinemaItem, ItemStatus } from "@/types/cinema";
+import { z } from "zod";
+import { cinemaItemSchema, type CinemaItem, type ItemStatus } from "@/types/cinema";
 
 const STORAGE_KEY = "cinemaVault";
+
+const itemsArraySchema = z.array(cinemaItemSchema);
 
 function loadItems(): CinemaItem[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    const result = itemsArraySchema.safeParse(parsed);
+    return result.success ? result.data : [];
   } catch {
     return [];
   }
@@ -77,8 +83,9 @@ export function useCinemaVault() {
   const importData = useCallback((json: string) => {
     try {
       const parsed = JSON.parse(json);
-      if (Array.isArray(parsed)) {
-        setItems(parsed);
+      const result = itemsArraySchema.safeParse(parsed);
+      if (result.success) {
+        setItems(result.data);
         return true;
       }
       return false;

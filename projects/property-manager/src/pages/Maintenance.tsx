@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useApp, MaintenanceRequest } from '@/context/AppContext';
 import { formatCurrency, formatDate } from '@/lib/format';
 import { StatusBadge } from '@/components/StatusBadge';
@@ -27,6 +27,8 @@ export default function Maintenance() {
   const [confirmDelete, setConfirmDelete] = useState<MaintenanceRequest | null>(null);
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
+
+  const propertyMap = useMemo(() => new Map(properties.map(p => [p.id, p])), [properties]);
 
   const filtered = maintenance
     .filter(m => filterPriority === 'all' || m.priority === filterPriority)
@@ -79,7 +81,7 @@ export default function Maintenance() {
   };
 
   const RequestCard = ({ m }: { m: MaintenanceRequest }) => {
-    const prop = properties.find(p => p.id === m.propertyId);
+    const prop = propertyMap.get(m.propertyId);
     const days = daysOpen(m);
     return (
       <div
@@ -167,7 +169,7 @@ export default function Maintenance() {
               <tbody>
                 {filtered.map(m => (
                   <tr key={m.id} className="border-b last:border-0">
-                    <td className="p-3">{properties.find(p => p.id === m.propertyId)?.address}</td>
+                    <td className="p-3">{propertyMap.get(m.propertyId)?.address}</td>
                     <td className="p-3">{m.title}</td>
                     <td className="p-3 capitalize">{m.category}</td>
                     <td className="p-3"><StatusBadge status={m.priority} /></td>

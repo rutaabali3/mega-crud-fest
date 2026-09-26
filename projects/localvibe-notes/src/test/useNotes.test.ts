@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useNotes, Note } from "../hooks/useNotes";
+import { useNotes, Note, notesArraySchema } from "../hooks/useNotes";
 
 const STORAGE_KEY = "localvibenotes-data";
 
@@ -291,6 +291,47 @@ describe("useNotes hook", () => {
       });
 
       expect(result.current.notes[0].title).toBe("Newer Existing Title");
+    });
+
+    it("should validate notes array schema correctly with Zod", () => {
+      const validData = [
+        {
+          id: "1",
+          title: "Valid Note",
+          content: "Content",
+          tags: ["tag1"],
+          color: "#22c55e",
+          createdAt: "2025-01-01T00:00:00.000Z",
+          updatedAt: "2025-01-01T00:00:00.000Z",
+          deleted: false,
+        },
+      ];
+
+      const invalidDataMissingFields = [
+        {
+          id: "1",
+          title: "Incomplete Note",
+          // missing content, tags, color, etc.
+        },
+      ];
+
+      const invalidDataTypeMismatch = [
+        {
+          id: 123, // number instead of string
+          title: "Invalid ID type",
+          content: "Content",
+          tags: "not-an-array", // string instead of array
+          color: "#22c55e",
+          createdAt: "2025-01-01T00:00:00.000Z",
+          updatedAt: "2025-01-01T00:00:00.000Z",
+          deleted: false,
+        },
+      ];
+
+      expect(notesArraySchema.safeParse(validData).success).toBe(true);
+      expect(notesArraySchema.safeParse(invalidDataMissingFields).success).toBe(false);
+      expect(notesArraySchema.safeParse(invalidDataTypeMismatch).success).toBe(false);
+      expect(notesArraySchema.safeParse({ notAnArray: true }).success).toBe(false);
     });
   });
 

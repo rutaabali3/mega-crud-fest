@@ -1,17 +1,22 @@
 import { useState, useCallback, useEffect } from "react";
+import { z } from "zod";
 
 const STORAGE_KEY = "localvibenotes-data";
 
-export interface Note {
-  id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  color: string;
-  createdAt: string;
-  updatedAt: string;
-  deleted: boolean;
-}
+export const noteSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  content: z.string(),
+  tags: z.array(z.string()),
+  color: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  deleted: z.boolean(),
+});
+
+export const notesArraySchema = z.array(noteSchema);
+
+export type Note = z.infer<typeof noteSchema>;
 
 function loadNotes(): Note[] {
   try {
