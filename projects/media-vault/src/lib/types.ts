@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type MediaType = "book" | "movie" | "game";
 export type MediaStatus = "want" | "in-progress" | "finished";
 
@@ -18,6 +20,26 @@ export interface MediaItem {
   imageUrl: string;
   dateAdded: string;
 }
+
+export const mediaProgressSchema = z.object({
+  current: z.number(),
+  total: z.number(),
+});
+
+export const mediaItemSchema = z.object({
+  id: z.string(),
+  type: z.enum(["book", "movie", "game"]),
+  title: z.string(),
+  creator: z.string(),
+  rating: z.number(),
+  status: z.enum(["want", "in-progress", "finished"]),
+  review: z.string(),
+  progress: mediaProgressSchema,
+  imageUrl: z.string(),
+  dateAdded: z.string(),
+});
+
+export const mediaItemsSchema = z.array(mediaItemSchema);
 
 export const CREATOR_LABELS: Record<MediaType, string> = {
   book: "Author",

@@ -1,11 +1,14 @@
-import { MediaItem } from "./types";
+import { MediaItem, mediaItemsSchema } from "./types";
 
 const KEY = "mediavault";
 
 export function loadItems(): MediaItem[] {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    const result = mediaItemsSchema.safeParse(parsed);
+    return result.success ? result.data : [];
   } catch {
     return [];
   }
@@ -31,9 +34,15 @@ export function importItems(file: File): Promise<MediaItem[]> {
     reader.onload = () => {
       try {
         const data = JSON.parse(reader.result as string);
-        if (Array.isArray(data)) resolve(data);
-        else reject(new Error("Invalid format"));
-      } catch { reject(new Error("Invalid JSON")); }
+        const result = mediaItemsSchema.safeParse(data);
+        if (result.success) {
+          resolve(result.data);
+        } else {
+          reject(new Error("Invalid format"));
+        }
+      } catch {
+        reject(new Error("Invalid JSON"));
+      }
     };
     reader.onerror = () => reject(new Error("Read error"));
     reader.readAsText(file);
