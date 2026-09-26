@@ -1,4 +1,4 @@
-import { Recipe } from "@/lib/types";
+import { Recipe, recipeArraySchema } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -34,10 +34,15 @@ export default function SettingsPage({ dark, onToggleTheme, recipes, onImport }:
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target?.result as string);
-        if (Array.isArray(data)) {
-          onImport(data);
-          toast.success(`${data.length} recipe(s) imported!`);
+        const rawData = JSON.parse(ev.target?.result as string);
+        const result = recipeArraySchema.safeParse(rawData);
+        if (result.success) {
+          if (result.data.length === 0) {
+            toast.error("No recipes found in file");
+          } else {
+            onImport(result.data as Recipe[]);
+            toast.success(`${result.data.length} recipe(s) imported!`);
+          }
         } else {
           toast.error("Invalid file format");
         }
