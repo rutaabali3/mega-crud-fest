@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef } from "react";
 import { format, parseISO } from "date-fns";
 import { Search, Plus, Pencil, Trash2, Download, Upload, AlertTriangle } from "lucide-react";
-import { Transaction, DEFAULT_CATEGORIES } from "@/types/transaction";
+import { Transaction, DEFAULT_CATEGORIES, transactionsImportSchema } from "@/types/transaction";
 import { categoryIconMap } from "@/lib/categoryIcons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -85,12 +85,13 @@ const Transactions = ({
     const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target?.result as string);
-        if (Array.isArray(data)) {
-          importTransactions(data, true);
-          toast.success(`Imported ${data.length} transactions (merged).`);
+        const rawData = JSON.parse(ev.target?.result as string);
+        const result = transactionsImportSchema.safeParse(rawData);
+        if (result.success) {
+          importTransactions(result.data, true);
+          toast.success(`Imported ${result.data.length} transactions (merged).`);
         } else {
-          toast.error("Invalid file format.");
+          toast.error("Invalid file format or transaction schema.");
         }
       } catch {
         toast.error("Failed to parse file.");

@@ -1,11 +1,17 @@
-export interface Transaction {
-  id: string;
-  type: "income" | "expense";
-  amount: number;
-  category: string;
-  date: string; // YYYY-MM-DD
-  note: string;
-}
+import { z } from "zod";
+
+export const transactionSchema = z.object({
+  id: z.string(),
+  type: z.enum(["income", "expense"]),
+  amount: z.number(),
+  category: z.string(),
+  date: z.string(),
+  note: z.string(),
+});
+
+export const transactionsImportSchema = z.array(transactionSchema);
+
+export type Transaction = z.infer<typeof transactionSchema>;
 
 export const DEFAULT_CATEGORIES = [
   "Food",
