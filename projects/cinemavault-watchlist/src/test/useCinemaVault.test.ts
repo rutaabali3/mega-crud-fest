@@ -48,10 +48,10 @@ describe("useCinemaVault - importData", () => {
         id: "item-1",
         title: "Interstellar",
         type: "Movie",
-        genre: "Sci-Fi",
+        posterUrl: "https://example.com/poster.jpg",
         status: "Watched",
         personalRating: 5,
-        notes: "Great movie",
+        review: "Great movie",
         addedDate: "2023-01-01T00:00:00.000Z",
       },
     ];
@@ -63,5 +63,76 @@ describe("useCinemaVault - importData", () => {
 
     expect(success).toBe(true);
     expect(result.current.items).toEqual(mockItems);
+  });
+
+  it("should reject imported objects missing required fields like id, title, type, status, addedDate", () => {
+    const { result } = renderHook(() => useCinemaVault());
+
+    const missingTitle = [
+      {
+        id: "item-1",
+        type: "Movie",
+        status: "Watched",
+        addedDate: "2023-01-01T00:00:00.000Z",
+      },
+    ];
+
+    let success: boolean | undefined;
+    act(() => {
+      success = result.current.importData(JSON.stringify(missingTitle));
+    });
+
+    expect(success).toBe(false);
+    expect(result.current.items).toHaveLength(0);
+  });
+
+  it("should reject imported objects with invalid type or status values", () => {
+    const { result } = renderHook(() => useCinemaVault());
+
+    const invalidEnum = [
+      {
+        id: "item-1",
+        title: "Bad Type",
+        type: "Documentary", // Invalid type
+        posterUrl: "",
+        status: "Watched",
+        personalRating: 5,
+        review: "",
+        addedDate: "2023-01-01T00:00:00.000Z",
+      },
+    ];
+
+    let success: boolean | undefined;
+    act(() => {
+      success = result.current.importData(JSON.stringify(invalidEnum));
+    });
+
+    expect(success).toBe(false);
+    expect(result.current.items).toHaveLength(0);
+  });
+
+  it("should reject imported objects with out of range personalRating", () => {
+    const { result } = renderHook(() => useCinemaVault());
+
+    const invalidRating = [
+      {
+        id: "item-1",
+        title: "Bad Rating",
+        type: "Movie",
+        posterUrl: "",
+        status: "Watched",
+        personalRating: 10, // Max allowed is 5
+        review: "",
+        addedDate: "2023-01-01T00:00:00.000Z",
+      },
+    ];
+
+    let success: boolean | undefined;
+    act(() => {
+      success = result.current.importData(JSON.stringify(invalidRating));
+    });
+
+    expect(success).toBe(false);
+    expect(result.current.items).toHaveLength(0);
   });
 });
