@@ -16,7 +16,11 @@ export function StarRating({ rating, onRate, size = "md", readonly = false }: St
   const iconSize = sizeMap[size];
 
   return (
-    <div className="flex gap-0.5">
+    <div
+      className="flex gap-0.5"
+      role={readonly ? "img" : undefined}
+      aria-label={readonly ? `${rating} of 10 stars` : undefined}
+    >
       {Array.from({ length: 10 }, (_, i) => {
         const value = i + 1;
         const filled = value <= (hover || rating);
@@ -25,8 +29,10 @@ export function StarRating({ rating, onRate, size = "md", readonly = false }: St
             key={i}
             type="button"
             disabled={readonly}
+            aria-label={readonly ? `${value} of 10 stars` : `Rate ${value} out of 10 stars`}
+            aria-pressed={!readonly ? value === rating : undefined}
             className={cn(
-              "transition-all duration-150",
+              "transition-all duration-150 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
               readonly ? "cursor-default" : "cursor-pointer hover:scale-110"
             )}
             onClick={() => onRate?.(value)}
