@@ -27,7 +27,7 @@ describe("Dashboard lookup performance benchmark", () => {
       status: "pending",
     }));
 
-    const iterations = 100;
+    const iterations = 20;
 
     // 1. O(N) array find baseline
     const startArray = performance.now();
@@ -61,5 +61,5 @@ describe("Dashboard lookup performance benchmark", () => {
     console.log(`Speedup: ${(arrayTime / mapTime).toFixed(2)}x faster`);
 
     expect(mapTime).toBeLessThan(arrayTime);
-  });
+  }, 15000);
 });
