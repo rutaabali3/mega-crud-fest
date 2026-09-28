@@ -74,6 +74,10 @@ export default function Properties() {
     setConfirmArchive(null);
   };
 
+  const activeTenantMap = new Map(
+    tenants.filter(t => t.status === 'active').map(t => [t.propertyId, t])
+  );
+
   const filterTabs = ['all', 'occupied', 'vacant', 'archived'];
 
   const PropertyForm = () => (
@@ -153,7 +157,7 @@ export default function Properties() {
       ) : viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {displayProperties.map(p => {
-            const activeTenant = tenants.find(t => t.propertyId === p.id && t.status === 'active');
+            const activeTenant = activeTenantMap.get(p.id);
             return (
               <div key={p.id} className="bg-card rounded-xl shadow-sm border overflow-hidden">
                 <div className="h-36 bg-muted flex items-center justify-center">
@@ -202,7 +206,7 @@ export default function Properties() {
             </thead>
             <tbody>
               {displayProperties.map(p => {
-                const activeTenant = tenants.find(t => t.propertyId === p.id && t.status === 'active');
+                const activeTenant = activeTenantMap.get(p.id);
                 return (
                   <tr key={p.id} className="border-b last:border-0">
                     <td className="p-3">{p.address}{p.unit ? ` ${p.unit}` : ''}</td>
