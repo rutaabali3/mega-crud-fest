@@ -32,6 +32,14 @@ export function CalendarView({ sessions, pieces }: Props) {
     return map;
   }, [sessions]);
 
+  const pieceMap = useMemo(() => {
+    const map: Record<string, Piece> = {};
+    pieces.forEach(p => {
+      map[p.id] = p;
+    });
+    return map;
+  }, [pieces]);
+
   const sessionsByDay = useMemo(() => {
     const map: Record<string, Session[]> = {};
     sessions.forEach(s => {
@@ -127,7 +135,7 @@ export function CalendarView({ sessions, pieces }: Props) {
           ) : (
             <div className="space-y-2">
               {selectedSessions.map(s => {
-                const piece = pieces.find(p => p.id === s.pieceId);
+                const piece = pieceMap[s.pieceId];
                 return (
                   <div key={s.id} className="bg-card border border-border rounded-xl p-3 flex items-center gap-3">
                     <div className="w-1 h-10 rounded-full" style={{ backgroundColor: piece?.color || '#6C63FF' }} />
