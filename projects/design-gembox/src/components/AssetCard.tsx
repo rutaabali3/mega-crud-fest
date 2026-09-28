@@ -2,7 +2,6 @@ import DOMPurify from "dompurify";
 import { Asset } from "@/types/asset";
 import { Copy, Edit, Trash2, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import DOMPurify from "dompurify";
 
 interface AssetCardProps {
   asset: Asset;
@@ -27,6 +26,7 @@ function ColorCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => vo
             style={{ backgroundColor: hex }}
             onClick={() => copyText(hex, hex)}
             title={`Copy ${hex}`}
+            aria-label={`Copy color ${hex}`}
           >
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/swatch:opacity-100 transition-opacity bg-black/20">
               <Copy className="h-4 w-4 text-white drop-shadow" />
@@ -41,8 +41,8 @@ function ColorCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => vo
             <p className="text-xs text-muted-foreground mt-0.5">{asset.project}</p>
           </div>
           <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={onEdit} className="p-1 rounded hover:bg-muted"><Edit className="h-3.5 w-3.5" /></button>
-            <button onClick={onDelete} className="p-1 rounded hover:bg-destructive/20 text-destructive"><Trash2 className="h-3.5 w-3.5" /></button>
+            <button onClick={onEdit} className="p-1 rounded hover:bg-muted" aria-label={`Edit ${asset.name}`}><Edit className="h-3.5 w-3.5" /></button>
+            <button onClick={onDelete} className="p-1 rounded hover:bg-destructive/20 text-destructive" aria-label={`Delete ${asset.name}`}><Trash2 className="h-3.5 w-3.5" /></button>
           </div>
         </div>
         {asset.tags.length > 0 && (
@@ -63,8 +63,8 @@ function FontCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => voi
       <div className="flex items-start justify-between mb-3">
         <h3 className="font-semibold text-sm">{asset.name}</h3>
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={onEdit} className="p-1 rounded hover:bg-muted"><Edit className="h-3.5 w-3.5" /></button>
-          <button onClick={onDelete} className="p-1 rounded hover:bg-destructive/20 text-destructive"><Trash2 className="h-3.5 w-3.5" /></button>
+          <button onClick={onEdit} className="p-1 rounded hover:bg-muted" aria-label={`Edit ${asset.name}`}><Edit className="h-3.5 w-3.5" /></button>
+          <button onClick={onDelete} className="p-1 rounded hover:bg-destructive/20 text-destructive" aria-label={`Delete ${asset.name}`}><Trash2 className="h-3.5 w-3.5" /></button>
         </div>
       </div>
       <p className="text-xl mb-2" style={{ fontFamily: asset.fontFamily }}>
@@ -86,9 +86,9 @@ function IconCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => voi
       <div className="flex items-start justify-between mb-3">
         <h3 className="font-semibold text-sm">{asset.name}</h3>
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={() => copyText(asset.iconSvg, "SVG")} className="p-1 rounded hover:bg-muted"><Copy className="h-3.5 w-3.5" /></button>
-          <button onClick={onEdit} className="p-1 rounded hover:bg-muted"><Edit className="h-3.5 w-3.5" /></button>
-          <button onClick={onDelete} className="p-1 rounded hover:bg-destructive/20 text-destructive"><Trash2 className="h-3.5 w-3.5" /></button>
+          <button onClick={() => copyText(asset.iconSvg, "SVG")} className="p-1 rounded hover:bg-muted" aria-label={`Copy ${asset.name} SVG`}><Copy className="h-3.5 w-3.5" /></button>
+          <button onClick={onEdit} className="p-1 rounded hover:bg-muted" aria-label={`Edit ${asset.name}`}><Edit className="h-3.5 w-3.5" /></button>
+          <button onClick={onDelete} className="p-1 rounded hover:bg-destructive/20 text-destructive" aria-label={`Delete ${asset.name}`}><Trash2 className="h-3.5 w-3.5" /></button>
         </div>
       </div>
       <div
@@ -114,11 +114,11 @@ function ImageCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => vo
         <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity">
           <span className="text-white text-sm font-medium">{asset.name}</span>
           <div className="flex gap-1">
-            <a href={asset.imageUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded bg-white/20 hover:bg-white/30">
+            <a href={asset.imageUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded bg-white/20 hover:bg-white/30" aria-label={`Open ${asset.name} original image`}>
               <ExternalLink className="h-3.5 w-3.5 text-white" />
             </a>
-            <button onClick={onEdit} className="p-1 rounded bg-white/20 hover:bg-white/30"><Edit className="h-3.5 w-3.5 text-white" /></button>
-            <button onClick={onDelete} className="p-1 rounded bg-white/20 hover:bg-white/30"><Trash2 className="h-3.5 w-3.5 text-white" /></button>
+            <button onClick={onEdit} className="p-1 rounded bg-white/20 hover:bg-white/30" aria-label={`Edit ${asset.name}`}><Edit className="h-3.5 w-3.5 text-white" /></button>
+            <button onClick={onDelete} className="p-1 rounded bg-white/20 hover:bg-white/30" aria-label={`Delete ${asset.name}`}><Trash2 className="h-3.5 w-3.5 text-white" /></button>
           </div>
         </div>
       </div>
@@ -152,8 +152,8 @@ function ListRow({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => void
         ))}
       </div>
       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button onClick={onEdit} className="p-1.5 rounded hover:bg-muted"><Edit className="h-4 w-4" /></button>
-        <button onClick={onDelete} className="p-1.5 rounded hover:bg-destructive/20 text-destructive"><Trash2 className="h-4 w-4" /></button>
+        <button onClick={onEdit} className="p-1.5 rounded hover:bg-muted" aria-label={`Edit ${asset.name}`}><Edit className="h-4 w-4" /></button>
+        <button onClick={onDelete} className="p-1.5 rounded hover:bg-destructive/20 text-destructive" aria-label={`Delete ${asset.name}`}><Trash2 className="h-4 w-4" /></button>
       </div>
     </div>
   );
