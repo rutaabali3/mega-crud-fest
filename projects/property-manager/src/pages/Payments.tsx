@@ -17,6 +17,9 @@ const emptyForm = { propertyId: '', tenantId: '', type: 'rent', amount: 0, dueDa
 
 export default function Payments() {
   const { properties, tenants, payments, addPayment, updatePayment, deletePayment, markPaid } = useApp();
+
+  const propertyMap = useMemo(() => new Map(properties.map(p => [p.id, p])), [properties]);
+  const tenantMap = useMemo(() => new Map(tenants.map(t => [t.id, t])), [tenants]);
   const [searchParams] = useSearchParams();
   const now = new Date();
   const [selectedYear, setSelectedYear] = useState(now.getFullYear());
@@ -134,7 +137,7 @@ export default function Payments() {
         <div>
           <label className="text-sm font-medium">Tenant *</label>
           <Select value={form.tenantId} onValueChange={v => {
-            const tenant = tenants.find(t => t.id === v);
+            const tenant = tenantMap.get(v);
             setForm({ ...form, tenantId: v, amount: form.type === 'rent' && tenant ? tenant.monthlyRent : form.amount });
           }}>
             <SelectTrigger><SelectValue placeholder="Select tenant" /></SelectTrigger>
@@ -145,7 +148,7 @@ export default function Payments() {
           <div>
             <label className="text-sm font-medium">Type *</label>
             <Select value={form.type} onValueChange={v => {
-              const tenant = tenants.find(t => t.id === form.tenantId);
+              const tenant = tenantMap.get(form.tenantId);
               setForm({ ...form, type: v, amount: v === 'rent' && tenant ? tenant.monthlyRent : form.amount });
             }}>
               <SelectTrigger><SelectValue /></SelectTrigger>
@@ -231,8 +234,8 @@ export default function Payments() {
             <tbody>
               {displayPayments.map(p => (
                 <tr key={p.id} className="border-b last:border-0">
-                  <td className="p-3">{properties.find(pr => pr.id === p.propertyId)?.address || '—'}</td>
-                  <td className="p-3">{tenants.find(t => t.id === p.tenantId)?.name || '—'}</td>
+                  <td className="p-3">{propertyMap.get(p.propertyId)?.address || '—'}</td>
+                  <td className="p-3">{tenantMap.get(p.tenantId)?.name || '—'}</td>
                   <td className="p-3 capitalize">{p.type.replace('_', ' ')}</td>
                   <td className="p-3">{formatDate(p.dueDate)}</td>
                   <td className="p-3">{formatCurrency(p.amount)}</td>
@@ -258,7 +261,7 @@ export default function Payments() {
 
       <ConfirmDialog
         isOpen={!!confirmPaid}
-        message={`Confirm payment of ${confirmPaid ? formatCurrency(confirmPaid.amount) : ''} from ${confirmPaid ? tenants.find(t => t.id === confirmPaid.tenantId)?.name : ''}?`}
+        message={`Confirm payment of ${confirmPaid ? formatCurrency(confirmPaid.amount) : ''} from ${confirmPaid ? tenantMap.get(confirmPaid.tenantId)?.name : ''}?`}
         confirmLabel="Mark as Paid"
         confirmVariant="default"
         onConfirm={() => { if (confirmPaid) { markPaid(confirmPaid.id, new Date().toISOString().slice(0, 10), confirmPaid.amount); } setConfirmPaid(null); }}
