@@ -14,19 +14,25 @@ const MotionCard = motion(Card);
 
 export default function Dashboard() {
   const { pets, vetVisits, feedingSchedules, feedingLogs, weights, medications } = usePetCare();
-  const activePets = pets.filter(p => !p.archived);
+  const activePets = useMemo(() => pets.filter(p => !p.archived), [pets]);
   const petMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
-  const upcomingAppts = getUpcomingAppointments(vetVisits);
-  const medsDue = getMedsDueToday(medications);
+  const upcomingAppts = useMemo(() => getUpcomingAppointments(vetVisits), [vetVisits]);
+  const medsDue = useMemo(() => getMedsDueToday(medications), [medications]);
   const todayStr = format(new Date(), 'yyyy-MM-dd');
   const [dismissed, setDismissed] = useLocalStorage<string>('petcare_med_dismissed', '');
   const showMedBanner = medsDue.length > 0 && dismissed !== todayStr;
 
-  const recentWeights = [...weights].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+  const recentWeights = useMemo(
+    () => [...weights].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5),
+    [weights]
+  );
 
   // Today's feeding progress
-  const todayLogs = feedingLogs.filter(l => l.dateTime.startsWith(todayStr));
-  const totalMeals = feedingSchedules.filter(s => s.active).reduce((sum, s) => sum + s.timesPerDay, 0);
+  const todayLogs = useMemo(() => feedingLogs.filter(l => l.dateTime.startsWith(todayStr)), [feedingLogs, todayStr]);
+  const totalMeals = useMemo(
+    () => feedingSchedules.filter(s => s.active).reduce((sum, s) => sum + s.timesPerDay, 0),
+    [feedingSchedules]
+  );
   const mealsGiven = todayLogs.length;
 
   const greeting = () => {
