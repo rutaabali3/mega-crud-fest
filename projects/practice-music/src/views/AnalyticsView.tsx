@@ -30,13 +30,33 @@ export function AnalyticsView({ pieces, sessions, settings }: Props) {
   // Per-piece BPM line data
   const bpmData = useMemo(() => {
     const activePieces = pieces.filter(p => p.status !== 'abandoned').slice(0, 6);
-    const allDates = [...new Set(sessions.filter(s => activePieces.some(p => p.id === s.pieceId)).map(s => s.date))].sort();
+    const activePieceIds = new Set(activePieces.map(p => p.id));
+
+    const sessionLookup = new Map<string, number>();
+    const datesSet = new Set<string>();
+
+    for (let i = 0; i < sessions.length; i++) {
+      const s = sessions[i];
+      if (activePieceIds.has(s.pieceId)) {
+        const key = `${s.pieceId}_${s.date}`;
+        if (!sessionLookup.has(key)) {
+          sessionLookup.set(key, s.bpmReached);
+        }
+        datesSet.add(s.date);
+      }
+    }
+
+    const allDates = Array.from(datesSet).sort();
+
     return allDates.map(date => {
       const point: Record<string, any> = { date: format(new Date(date + 'T12:00:00'), 'MMM d') };
-      activePieces.forEach(p => {
-        const s = sessions.find(x => x.pieceId === p.id && x.date === date);
-        if (s) point[p.title] = s.bpmReached;
-      });
+      for (let i = 0; i < activePieces.length; i++) {
+        const p = activePieces[i];
+        const bpm = sessionLookup.get(`${p.id}_${date}`);
+        if (bpm !== undefined) {
+          point[p.title] = bpm;
+        }
+      }
       return point;
     });
   }, [pieces, sessions]);
