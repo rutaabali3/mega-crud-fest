@@ -127,7 +127,7 @@ export default function DecisionDetail({ decisions, onUpdate, onTrash }: Props) 
               {decision.qualityScore && (
                 <div>
                   <p className="text-xs text-muted-foreground">Quality Score</p>
-                  <p className="font-semibold text-success">{"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}</p>
+                  <p className="font-semibold text-success" aria-label={`${decision.qualityScore} out of 5 stars`}>{"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}</p>
                 </div>
               )}
             </div>
@@ -219,7 +219,7 @@ export default function DecisionDetail({ decisions, onUpdate, onTrash }: Props) 
               {decision.qualityScore && (
                 <div className="glass-card p-4">
                   <p className="text-xs text-muted-foreground mb-1">Quality Rating</p>
-                  <p className="text-lg">{"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}</p>
+                  <p className="text-lg" aria-label={`${decision.qualityScore} out of 5 stars`}>{"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}</p>
                 </div>
               )}
             </div>
@@ -249,10 +249,17 @@ export default function DecisionDetail({ decisions, onUpdate, onTrash }: Props) 
                 <Textarea value={reflectionNotes} onChange={e => setReflectionNotes(e.target.value)} placeholder="What did you learn?" rows={3} />
               </div>
               <div>
-                <label className="text-sm font-medium mb-2 block">Quality Score</label>
-                <div className="flex gap-1">
+                <label id="quality-score-label" className="text-sm font-medium mb-2 block">Quality Score</label>
+                <div role="group" aria-labelledby="quality-score-label" className="flex gap-1">
                   {[1, 2, 3, 4, 5].map(n => (
-                    <button key={n} onClick={() => setQualityScore(n)} className="text-2xl transition-transform hover:scale-110">
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => setQualityScore(n)}
+                      aria-label={`Rate ${n} out of 5 stars`}
+                      aria-pressed={n === qualityScore}
+                      className="text-2xl transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm outline-none p-0.5"
+                    >
                       {n <= qualityScore ? "★" : "☆"}
                     </button>
                   ))}
