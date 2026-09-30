@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { getStorage } from "@/utils/storage";
 import { generateSeedMedications, generateSeedLogs, generateSeedSymptoms } from "@/utils/seedData";
 import { setStorage } from "@/utils/storage";
-import { Medication, DoseLog, SymptomEntry } from "@/types";
+import { Medication, DoseLog } from "@/types";
 
 const MEDS_KEY = "medilog_medications";
 const LOGS_KEY = "medilog_logs";
