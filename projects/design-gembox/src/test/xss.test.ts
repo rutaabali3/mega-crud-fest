@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import DOMPurify from "dompurify";
 import { JSDOM } from "jsdom";
+import { isSafeUrl, sanitizeUrl } from "../lib/utils";
 
 const window = new JSDOM("").window;
 const purify = typeof DOMPurify.sanitize === "function" ? DOMPurify : DOMPurify(window as unknown as Window);
@@ -28,5 +29,34 @@ describe("XSS Sanitization for SVG Assets", () => {
     expect(cleanSvg).toContain("viewBox");
     expect(cleanSvg).toContain("path");
     expect(cleanSvg).toContain('fill="red"');
+  });
+});
+
+describe("URL Sanitization for Image Assets", () => {
+  it("should allow safe HTTP and HTTPS URLs", () => {
+    expect(isSafeUrl("https://example.com/image.png")).toBe(true);
+    expect(isSafeUrl("http://example.com/image.png")).toBe(true);
+    expect(sanitizeUrl("https://example.com/image.png")).toBe("https://example.com/image.png");
+  });
+
+  it("should allow safe image Data URIs", () => {
+    expect(isSafeUrl("data:image/png;base64,iVBORw0KGgoAAAANSUEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==")).toBe(true);
+  });
+
+  it("should block javascript: URIs", () => {
+    expect(isSafeUrl("javascript:alert(1)")).toBe(false);
+    expect(isSafeUrl("javascript:alert('XSS')")).toBe(false);
+    expect(isSafeUrl("  javascript:alert(1)  ")).toBe(false);
+    expect(sanitizeUrl("javascript:alert(1)")).toBe("#");
+  });
+
+  it("should block non-image Data URIs like data:text/html", () => {
+    expect(isSafeUrl("data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==")).toBe(false);
+    expect(sanitizeUrl("data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==")).toBe("#");
+  });
+
+  it("should block vbscript: and file: URIs", () => {
+    expect(isSafeUrl("vbscript:msgbox(1)")).toBe(false);
+    expect(isSafeUrl("file:///etc/passwd")).toBe(false);
   });
 });
