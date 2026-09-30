@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Search, Calendar, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export default function WisdomArchive() {
