@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Search, Plus, Music, MoreVertical, Trash2, Edit, Trophy, PlayCircle } from 'lucide-react';
 import type { Piece, Session } from '../utils/storage';
-import { generateId } from '../utils/storage';
 import { formatDate } from '../utils/dateUtils';
 import { EmptyState } from '../components/EmptyState';
 import { AddEditPieceModal } from '../modals/AddEditPieceModal';
