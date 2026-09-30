@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit2, Trash2, Check } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,7 @@ const emptySchedule = { petId: '', foodType: '', amount: 0, unit: 'g' as 'g' | '
 export default function FeedingPage() {
   const { pets, feedingSchedules, setFeedingSchedules, feedingLogs, setFeedingLogs } = usePetCare();
   const activePets = pets.filter(p => !p.archived);
+  const petsMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
   const [tab, setTab] = useState('schedules');
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<FeedingSchedule | null>(null);
@@ -49,14 +50,15 @@ export default function FeedingPage() {
   const deleteSchedule = () => { if (deletingId) { setFeedingSchedules(prev => prev.filter(s => s.id !== deletingId)); setDeletingId(null); } };
 
   const checkMeal = (scheduleId: string, time: string) => {
+    const sched = feedingSchedules.find(s => s.id === scheduleId);
     const log: FeedingLog = {
       id: crypto.randomUUID(),
-      petId: feedingSchedules.find(s => s.id === scheduleId)?.petId || '',
+      petId: sched?.petId || '',
       scheduleId,
       dateTime: `${todayStr}T${time}:00`,
-      foodType: feedingSchedules.find(s => s.id === scheduleId)?.foodType || '',
-      amount: feedingSchedules.find(s => s.id === scheduleId)?.amount || 0,
-      unit: feedingSchedules.find(s => s.id === scheduleId)?.unit || 'g',
+      foodType: sched?.foodType || '',
+      amount: sched?.amount || 0,
+      unit: sched?.unit || 'g',
       notes: '',
       createdAt: new Date().toISOString(),
     };
@@ -154,7 +156,7 @@ export default function FeedingPage() {
           ) : (
             <div className="space-y-2">
               {[...feedingLogs].sort((a, b) => b.dateTime.localeCompare(a.dateTime)).slice(0, 50).map(log => {
-                const pet = pets.find(p => p.id === log.petId);
+                const pet = petsMap.get(log.petId);
                 return (
                   <Card key={log.id} className="rounded-xl">
                     <CardContent className="p-3 flex items-center gap-3">
