@@ -22,6 +22,8 @@ const emptySchedule = { petId: '', foodType: '', amount: 0, unit: 'g' as 'g' | '
 export default function FeedingPage() {
   const { pets, feedingSchedules, setFeedingSchedules, feedingLogs, setFeedingLogs } = usePetCare();
   const activePets = pets.filter(p => !p.archived);
+  const petMap = new Map(pets.map(p => [p.id, p]));
+
   const [tab, setTab] = useState('schedules');
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<FeedingSchedule | null>(null);
@@ -32,6 +34,33 @@ export default function FeedingPage() {
 
   const todayStr = format(new Date(), 'yyyy-MM-dd');
   const todayLogs = feedingLogs.filter(l => l.dateTime.startsWith(todayStr));
+
+  const doneMealSet = new Set<string>();
+  for (let i = 0; i < todayLogs.length; i++) {
+    const l = todayLogs[i];
+    if (l.scheduleId) {
+      doneMealSet.add(`${l.scheduleId}|${l.dateTime}`);
+      const timeMatch = l.dateTime.match(/\d{2}:\d{2}/);
+      if (timeMatch) {
+        doneMealSet.add(`${l.scheduleId}|${timeMatch[0]}`);
+      }
+    }
+  }
+
+  const activeSchedulesByPet = new Map<string, FeedingSchedule[]>();
+  let activeSchedulesCount = 0;
+  for (let i = 0; i < feedingSchedules.length; i++) {
+    const s = feedingSchedules[i];
+    if (s.active) {
+      activeSchedulesCount++;
+      let list = activeSchedulesByPet.get(s.petId);
+      if (!list) {
+        list = [];
+        activeSchedulesByPet.set(s.petId, list);
+      }
+      list.push(s);
+    }
+  }
 
   const openAdd = () => { setForm(emptySchedule); setEditing(null); setShowForm(true); };
   const openEdit = (s: FeedingSchedule) => { setForm({ petId: s.petId, foodType: s.foodType, amount: s.amount, unit: s.unit, timesPerDay: s.timesPerDay, specificTimes: s.specificTimes, notes: s.notes, active: s.active }); setEditing(s); setShowForm(true); };
@@ -49,21 +78,24 @@ export default function FeedingPage() {
   const deleteSchedule = () => { if (deletingId) { setFeedingSchedules(prev => prev.filter(s => s.id !== deletingId)); setDeletingId(null); } };
 
   const checkMeal = (scheduleId: string, time: string) => {
+    const sched = feedingSchedules.find(s => s.id === scheduleId);
     const log: FeedingLog = {
       id: crypto.randomUUID(),
-      petId: feedingSchedules.find(s => s.id === scheduleId)?.petId || '',
+      petId: sched?.petId || '',
       scheduleId,
       dateTime: `${todayStr}T${time}:00`,
-      foodType: feedingSchedules.find(s => s.id === scheduleId)?.foodType || '',
-      amount: feedingSchedules.find(s => s.id === scheduleId)?.amount || 0,
-      unit: feedingSchedules.find(s => s.id === scheduleId)?.unit || 'g',
+      foodType: sched?.foodType || '',
+      amount: sched?.amount || 0,
+      unit: sched?.unit || 'g',
       notes: '',
       createdAt: new Date().toISOString(),
     };
     setFeedingLogs(prev => [...prev, log]);
   };
 
-  const isMealDone = (scheduleId: string, time: string) => todayLogs.some(l => l.scheduleId === scheduleId && l.dateTime.includes(time));
+  const isMealDone = (scheduleId: string, time: string) =>
+    doneMealSet.has(`${scheduleId}|${todayStr}T${time}:00`) ||
+    doneMealSet.has(`${scheduleId}|${time}`);
 
   const addManualLog = () => {
     if (!logForm.petId) return;
@@ -94,12 +126,12 @@ export default function FeedingPage() {
         <TabsContent value="schedules" className="space-y-4 mt-4">
           <Button onClick={openAdd} className="rounded-xl gap-2"><Plus className="h-4 w-4" /> Add Schedule</Button>
 
-          {feedingSchedules.filter(s => s.active).length === 0 ? (
+          {activeSchedulesCount === 0 ? (
             <div className="text-center py-12"><p className="text-4xl mb-2">🍽️</p><p className="text-muted-foreground">No feeding schedules set up yet.</p></div>
           ) : (
             <div className="space-y-4">
               {activePets.map(pet => {
-                const petSchedules = feedingSchedules.filter(s => s.petId === pet.id && s.active);
+                const petSchedules = activeSchedulesByPet.get(pet.id) || [];
                 if (!petSchedules.length) return null;
                 const totalMeals = petSchedules.reduce((sum, s) => sum + s.timesPerDay, 0);
                 const doneMeals = petSchedules.reduce((sum, s) => sum + s.specificTimes.filter(t => isMealDone(s.id, t)).length, 0);
@@ -154,7 +186,7 @@ export default function FeedingPage() {
           ) : (
             <div className="space-y-2">
               {[...feedingLogs].sort((a, b) => b.dateTime.localeCompare(a.dateTime)).slice(0, 50).map(log => {
-                const pet = pets.find(p => p.id === log.petId);
+                const pet = petMap.get(log.petId);
                 return (
                   <Card key={log.id} className="rounded-xl">
                     <CardContent className="p-3 flex items-center gap-3">
