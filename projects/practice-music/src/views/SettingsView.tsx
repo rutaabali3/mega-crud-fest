@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Download, Upload, Trash2, Settings as SettingsIcon } from 'lucide-react';
+import { Download, Upload, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Settings } from '../utils/storage';
 import { exportAllData, importData, clearAllData, getStorageSize } from '../utils/storage';
