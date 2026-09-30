@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { v4 as uuid } from "uuid";
 import { format } from "date-fns";
 import { ArrowLeft, CalendarIcon, Plus, Trash2, ExternalLink, Check, Clock } from "lucide-react";
+import { sanitizeUrl } from "@/lib/security";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -111,8 +112,8 @@ export default function ProjectDetail() {
             <Badge variant={project.status === "completed" ? "default" : "secondary"}>
               {project.status.toUpperCase()}
             </Badge>
-            {project.patternURL && (
-              <a href={project.patternURL} target="_blank" rel="noopener noreferrer" className="text-xs text-primary flex items-center gap-1 hover:underline">
+            {sanitizeUrl(project.patternURL) && (
+              <a href={sanitizeUrl(project.patternURL)} target="_blank" rel="noopener noreferrer" className="text-xs text-primary flex items-center gap-1 hover:underline">
                 <ExternalLink className="h-3 w-3" /> Pattern
               </a>
             )}
