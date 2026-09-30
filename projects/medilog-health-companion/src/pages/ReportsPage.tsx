@@ -39,14 +39,30 @@ export default function ReportsPage({ medications, logs, symptoms }: ReportsPage
 
   // Per-medication adherence
   const perMedAdherence = useMemo(() => {
-    return medications
-      .filter((m) => m.isActive)
-      .map((med) => {
-        const medLogs = periodLogs.filter((l) => l.medicationId === med.id);
-        const taken = medLogs.filter((l) => l.status === "taken").length;
-        const rate = medLogs.length > 0 ? Math.round((taken / medLogs.length) * 100) : 0;
-        return { name: med.name, adherence: rate, color: med.color };
-      });
+    const activeMeds = medications.filter((m) => m.isActive);
+    if (activeMeds.length === 0) return [];
+
+    const statsByMed = new Map<string, { total: number; taken: number }>();
+    for (let i = 0; i < periodLogs.length; i++) {
+      const log = periodLogs[i];
+      let stats = statsByMed.get(log.medicationId);
+      if (!stats) {
+        stats = { total: 0, taken: 0 };
+        statsByMed.set(log.medicationId, stats);
+      }
+      stats.total += 1;
+      if (log.status === "taken") {
+        stats.taken += 1;
+      }
+    }
+
+    return activeMeds.map((med) => {
+      const stats = statsByMed.get(med.id);
+      const total = stats ? stats.total : 0;
+      const taken = stats ? stats.taken : 0;
+      const rate = total > 0 ? Math.round((taken / total) * 100) : 0;
+      return { name: med.name, adherence: rate, color: med.color };
+    });
   }, [medications, periodLogs]);
 
   // Status breakdown
