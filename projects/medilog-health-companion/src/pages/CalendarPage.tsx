@@ -33,12 +33,34 @@ export default function CalendarPage({ medications, logs }: CalendarPageProps) {
     return eachDayOfInterval({ start, end });
   }, [year, month]);
 
+  const medMap = useMemo(() => {
+    const map = new Map<string, Medication>();
+    for (const m of medications) {
+      map.set(m.id, m);
+    }
+    return map;
+  }, [medications]);
+
+  const logsByDateMap = useMemo(() => {
+    const map = new Map<string, DoseLog[]>();
+    for (const l of logs) {
+      const dateStr = l.scheduledTime.slice(0, 10);
+      const list = map.get(dateStr);
+      if (list) {
+        list.push(l);
+      } else {
+        map.set(dateStr, [l]);
+      }
+    }
+    return map;
+  }, [logs]);
+
   const getLogsForDay = (day: Date) => {
     const dateStr = format(day, "yyyy-MM-dd");
-    return logs.filter((l) => l.scheduledTime.startsWith(dateStr));
+    return logsByDateMap.get(dateStr) || [];
   };
 
-  const getMed = (id: string) => medications.find((m) => m.id === id);
+  const getMed = (id: string) => medMap.get(id);
 
   const selectedDayLogs = selectedDay ? getLogsForDay(selectedDay) : [];
 
