@@ -19,7 +19,6 @@ import { SymptomEntry, Medication, SYMPTOM_SUGGESTIONS, SEVERITY_LABELS } from "
 import { format, parseISO } from "@/utils/dateHelpers";
 import { Plus, Search, Pencil, Trash2, CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
 
 interface SymptomsPageProps {
   symptoms: SymptomEntry[];
