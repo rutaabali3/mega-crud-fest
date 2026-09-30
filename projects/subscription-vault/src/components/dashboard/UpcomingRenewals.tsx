@@ -1,7 +1,6 @@
 import { Subscription } from '@/types/subscription';
 import { CATEGORY_CONFIG } from '@/utils/categoryConfig';
 import { formatCurrency, getRenewalBadgeColor } from '@/utils/dateUtils';
-import { format } from 'date-fns';
 
 interface UpcomingSub extends Subscription {
   nextRenewal: Date;
