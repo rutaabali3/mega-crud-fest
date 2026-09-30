@@ -2,14 +2,50 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { getWeatherEmoji, getWeatherTip } from "../hooks/useWeather";
 
 describe("useWeather utilities", () => {
-  it("returns correct weather emoji for weather IDs", () => {
-    expect(getWeatherEmoji(205)).toBe("⛈️");
-    expect(getWeatherEmoji(310)).toBe("🌦️");
-    expect(getWeatherEmoji(501)).toBe("🌧️");
-    expect(getWeatherEmoji(600)).toBe("❄️");
-    expect(getWeatherEmoji(711)).toBe("🌫️");
-    expect(getWeatherEmoji(800)).toBe("☀️");
-    expect(getWeatherEmoji(802)).toBe("☁️");
+  describe("getWeatherEmoji", () => {
+    it("returns thunderstorm emoji for weather IDs in 200-299 range (including boundaries)", () => {
+      expect(getWeatherEmoji(200)).toBe("⛈️");
+      expect(getWeatherEmoji(250)).toBe("⛈️");
+      expect(getWeatherEmoji(299)).toBe("⛈️");
+    });
+
+    it("returns drizzle emoji for weather IDs in 300-399 range (including boundaries)", () => {
+      expect(getWeatherEmoji(300)).toBe("🌦️");
+      expect(getWeatherEmoji(350)).toBe("🌦️");
+      expect(getWeatherEmoji(399)).toBe("🌦️");
+    });
+
+    it("returns rain emoji for weather IDs in 500-599 range (including boundaries)", () => {
+      expect(getWeatherEmoji(500)).toBe("🌧️");
+      expect(getWeatherEmoji(550)).toBe("🌧️");
+      expect(getWeatherEmoji(599)).toBe("🌧️");
+    });
+
+    it("returns snow emoji for weather IDs in 600-699 range (including boundaries)", () => {
+      expect(getWeatherEmoji(600)).toBe("❄️");
+      expect(getWeatherEmoji(650)).toBe("❄️");
+      expect(getWeatherEmoji(699)).toBe("❄️");
+    });
+
+    it("returns atmosphere emoji for weather IDs in 700-799 range (including boundaries)", () => {
+      expect(getWeatherEmoji(700)).toBe("🌫️");
+      expect(getWeatherEmoji(750)).toBe("🌫️");
+      expect(getWeatherEmoji(799)).toBe("🌫️");
+    });
+
+    it("returns sun emoji for clear sky (weather ID 800)", () => {
+      expect(getWeatherEmoji(800)).toBe("☀️");
+    });
+
+    it("returns default cloud emoji for unhandled ranges and edge cases", () => {
+      expect(getWeatherEmoji(199)).toBe("☁️");
+      expect(getWeatherEmoji(400)).toBe("☁️");
+      expect(getWeatherEmoji(499)).toBe("☁️");
+      expect(getWeatherEmoji(801)).toBe("☁️");
+      expect(getWeatherEmoji(804)).toBe("☁️");
+      expect(getWeatherEmoji(900)).toBe("☁️");
+      expect(getWeatherEmoji(-1)).toBe("☁️");
+    });
   });
 
   it("returns correct weather tips for weather conditions", () => {
