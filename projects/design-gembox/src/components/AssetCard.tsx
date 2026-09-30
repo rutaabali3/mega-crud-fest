@@ -2,6 +2,7 @@ import DOMPurify from "dompurify";
 import { Asset } from "@/types/asset";
 import { Copy, Edit, Trash2, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { sanitizeUrl } from "@/lib/utils";
 
 interface AssetCardProps {
   asset: Asset;
@@ -106,15 +107,30 @@ function IconCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => voi
 }
 
 function ImageCard({ asset, onEdit, onDelete }: { asset: Asset; onEdit: () => void; onDelete: () => void }) {
+  const safeUrl = sanitizeUrl(asset.imageUrl);
+  const isSafe = safeUrl !== "#";
+
   return (
     <div className="group rounded-xl border bg-card overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02] duration-200">
       <div className="relative h-40">
-        <img src={asset.imageUrl} alt={asset.name} className="w-full h-full object-cover" loading="lazy" />
+        <img src={isSafe ? safeUrl : ""} alt={asset.name} className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity" />
         <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
           <span className="text-white text-sm font-medium">{asset.name}</span>
           <div className="flex gap-1">
-            <a href={asset.imageUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded bg-white/20 hover:bg-white/30" aria-label={`Open full image for ${asset.name}`} title={`Open full image for ${asset.name}`}>
+            <a
+              href={safeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1 rounded bg-white/20 hover:bg-white/30"
+              aria-label={`Open full image for ${asset.name}`}
+              title={`Open full image for ${asset.name}`}
+              onClick={(e) => {
+                if (!isSafe) {
+                  e.preventDefault();
+                }
+              }}
+            >
               <ExternalLink className="h-3.5 w-3.5 text-white" />
             </a>
             <button onClick={onEdit} className="p-1 rounded bg-white/20 hover:bg-white/30" aria-label={`Edit ${asset.name}`} title={`Edit ${asset.name}`}><Edit className="h-3.5 w-3.5 text-white" /></button>

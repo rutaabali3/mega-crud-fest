@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, X } from "lucide-react";
-import DOMPurify from "dompurify";
+import { sanitizeUrl } from "@/lib/utils";
 
 interface AssetModalProps {
   open: boolean;
@@ -272,7 +272,7 @@ export function AssetModal({ open, onClose, onSave, onUpdate, editingAsset, exis
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium cursor-pointer"
               />
               {imageUrl && (
-                <img src={imageUrl} alt="Preview" className="w-full h-40 object-cover rounded-lg" />
+                <img src={sanitizeUrl(imageUrl, "")} alt="Preview" className="w-full h-40 object-cover rounded-lg" />
               )}
               {errors.imageUrl && <p className="text-xs text-destructive mt-1">{errors.imageUrl}</p>}
             </div>
