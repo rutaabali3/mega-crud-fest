@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
-import { deriveKey, isPinSet, verifyPin, storePin, wipeAllData, encrypt, decrypt } from "@/lib/crypto";
+import { deriveKey, isPinSet, verifyPin, storePin, wipeAllData, encrypt, decrypt, generatePassword } from "@/lib/crypto";
 import { VaultEntry, Category, EncryptedField } from "@/lib/types";
 import { loadEntries, saveEntries } from "@/lib/vault-store";
 
@@ -286,12 +286,13 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
 
   const loadSeedData = useCallback(async () => {
     if (!keyRef.current) return;
+    const defaultGenOptions = { length: 16, uppercase: true, lowercase: true, numbers: true, symbols: true, excludeAmbiguous: false };
     const seeds: EntryFormData[] = [
-      { siteName: "Twitter", siteUrl: "https://twitter.com", username: "john_doe", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Personal account", category: "Social", favorite: true },
-      { siteName: "Chase Bank", siteUrl: "https://chase.com", username: "johndoe@email.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Main checking account", category: "Finance", favorite: false },
-      { siteName: "Slack", siteUrl: "https://slack.com", username: "john@company.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Work workspace", category: "Work", favorite: true },
-      { siteName: "Amazon", siteUrl: "https://amazon.com", username: "johndoe@gmail.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "", category: "Shopping", favorite: false },
-      { siteName: "Gmail", siteUrl: "https://gmail.com", username: "johndoe@gmail.com", password: "[DEMO-PASSWORD-PLACEHOLDER]", notes: "Primary email", category: "Email", favorite: true },
+      { siteName: "Twitter", siteUrl: "https://twitter.com", username: "john_doe", password: generatePassword(defaultGenOptions), notes: "Personal account", category: "Social", favorite: true },
+      { siteName: "Chase Bank", siteUrl: "https://chase.com", username: "johndoe@email.com", password: generatePassword(defaultGenOptions), notes: "Main checking account", category: "Finance", favorite: false },
+      { siteName: "Slack", siteUrl: "https://slack.com", username: "john@company.com", password: generatePassword(defaultGenOptions), notes: "Work workspace", category: "Work", favorite: true },
+      { siteName: "Amazon", siteUrl: "https://amazon.com", username: "johndoe@gmail.com", password: generatePassword(defaultGenOptions), notes: "", category: "Shopping", favorite: false },
+      { siteName: "Gmail", siteUrl: "https://gmail.com", username: "johndoe@gmail.com", password: generatePassword(defaultGenOptions), notes: "Primary email", category: "Email", favorite: true },
     ];
     for (const s of seeds) {
       await addEntry(s);
