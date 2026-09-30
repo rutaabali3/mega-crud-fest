@@ -52,8 +52,8 @@ describe('Dashboard medication pet name lookup performance', () => {
     // Optimized implementation using Map (O(N+M))
     const startOptimized = performance.now();
     let optimizedResult = '';
+    const petMap = new Map(pets.map(p => [p.id, p]));
     for (let i = 0; i < 100; i++) {
-      const petMap = new Map(pets.map(p => [p.id, p]));
       optimizedResult = activePets.length > 0
         ? [...new Set(medsDue.map(m => petMap.get(m.petId)?.name))].filter(Boolean).join(' & ')
         : '';
