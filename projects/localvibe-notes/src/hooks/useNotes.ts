@@ -88,15 +88,22 @@ export function useNotes() {
 
   const importNotes = useCallback((incoming: Note[]) => {
     setNotes((prev) => {
-      const existingIds = new Set(prev.map((n) => n.id));
-      const newNotes = incoming.filter((n) => !existingIds.has(n.id));
+      const incomingMap = new Map<string, Note>();
+      for (let i = 0; i < incoming.length; i++) {
+        incomingMap.set(incoming[i].id, incoming[i]);
+      }
+
+      const existingIds = new Set<string>();
       const merged = prev.map((existing) => {
-        const match = incoming.find((n) => n.id === existing.id);
+        existingIds.add(existing.id);
+        const match = incomingMap.get(existing.id);
         if (match && new Date(match.updatedAt) > new Date(existing.updatedAt)) {
           return match;
         }
         return existing;
       });
+
+      const newNotes = incoming.filter((n) => !existingIds.has(n.id));
       return [...merged, ...newNotes];
     });
   }, []);
