@@ -10,8 +10,23 @@ interface Props {
 export default function VaultSidebar({ filter, onFilterChange }: Props) {
   const { entries } = useVault();
 
-  const counts: Record<string, number> = { all: entries.length, favorites: entries.filter((e) => e.favorite).length };
-  CATEGORIES.forEach((c) => { counts[c.value] = entries.filter((e) => e.category === c.value).length; });
+  const counts: Record<string, number> = {
+    all: entries.length,
+    favorites: 0,
+  };
+  CATEGORIES.forEach((c) => {
+    counts[c.value] = 0;
+  });
+
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    if (entry.favorite) {
+      counts.favorites++;
+    }
+    if (entry.category in counts) {
+      counts[entry.category]++;
+    }
+  }
 
   const items: { key: FilterCategory; label: string; emoji: React.ReactNode }[] = [
     { key: "all", label: "All", emoji: <Shield className="w-4 h-4" /> },
