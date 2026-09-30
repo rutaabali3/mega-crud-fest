@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { Target } from 'lucide-react';
 import { format, startOfWeek, subWeeks, addDays } from 'date-fns';
 import type { Goal, Session, Settings } from '../utils/storage';
-import { generateId } from '../utils/storage';
 import { getWeekStart, getWeekEnd } from '../utils/dateUtils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
