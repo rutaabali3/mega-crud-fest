@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit2, Trash2, Check } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ const emptySchedule = { petId: '', foodType: '', amount: 0, unit: 'g' as 'g' | '
 
 export default function FeedingPage() {
   const { pets, feedingSchedules, setFeedingSchedules, feedingLogs, setFeedingLogs } = usePetCare();
+  const petMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
   const activePets = pets.filter(p => !p.archived);
   const [tab, setTab] = useState('schedules');
   const [showForm, setShowForm] = useState(false);
@@ -154,7 +155,7 @@ export default function FeedingPage() {
           ) : (
             <div className="space-y-2">
               {[...feedingLogs].sort((a, b) => b.dateTime.localeCompare(a.dateTime)).slice(0, 50).map(log => {
-                const pet = pets.find(p => p.id === log.petId);
+                const pet = petMap.get(log.petId);
                 return (
                   <Card key={log.id} className="rounded-xl">
                     <CardContent className="p-3 flex items-center gap-3">
