@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { getWeatherEmoji, getWeatherTip } from "../hooks/useWeather";
+import { renderHook, act } from "@testing-library/react";
+import { useWeather, getWeatherEmoji, getWeatherTip } from "../hooks/useWeather";
 
 describe("useWeather utilities", () => {
   it("returns correct weather emoji for weather IDs", () => {
@@ -61,5 +62,124 @@ describe("useWeather environment configuration", () => {
       expect.stringContaining("https://api.openweathermap.org/data/2.5/weather?q=Tokyo&appid=")
     );
     expect(json).toEqual(mockWeatherData);
+  });
+});
+
+describe("useWeather hook", () => {
+  const originalFetch = global.fetch;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+  });
+
+  it("does not trigger fetch, set loading, or set error when city is empty or whitespace", async () => {
+    const mockFetch = vi.fn();
+    global.fetch = mockFetch;
+
+    const { result } = renderHook(() => useWeather());
+
+    await act(async () => {
+      await result.current.fetchWeather("");
+    });
+
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(result.current.loading).toBe(false);
+    expect(result.current.data).toBeNull();
+    expect(result.current.error).toBeNull();
+
+    await act(async () => {
+      await result.current.fetchWeather("   ");
+    });
+
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(result.current.loading).toBe(false);
+    expect(result.current.data).toBeNull();
+    expect(result.current.error).toBeNull();
+  });
+
+  it("fetches weather successfully for a valid city and updates state and cache", async () => {
+    const mockWeatherData = {
+      name: "Paris",
+      sys: { country: "FR" },
+      main: { temp: 18, feels_like: 17, humidity: 70 },
+      wind: { speed: 4 },
+      visibility: 10000,
+      weather: [{ id: 800, main: "Clear", description: "clear sky" }],
+    };
+
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => mockWeatherData,
+    });
+    global.fetch = mockFetch;
+
+    const { result } = renderHook(() => useWeather());
+
+    await act(async () => {
+      await result.current.fetchWeather("Paris");
+    });
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(result.current.data).toEqual(mockWeatherData);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBeNull();
+
+    const cached = JSON.parse(localStorage.getItem("tripcraft_weather_cache") || "[]");
+    expect(cached).toHaveLength(1);
+    expect(cached[0].city).toBe("Paris");
+  });
+
+  it("serves weather data from cache if non-expired cache entry exists", async () => {
+    const cachedData = {
+      name: "Paris",
+      sys: { country: "FR" },
+      main: { temp: 18, feels_like: 17, humidity: 70 },
+      wind: { speed: 4 },
+      visibility: 10000,
+      weather: [{ id: 800, main: "Clear", description: "clear sky" }],
+    };
+
+    localStorage.setItem(
+      "tripcraft_weather_cache",
+      JSON.stringify([{ city: "Paris", data: cachedData, timestamp: Date.now() }])
+    );
+
+    const mockFetch = vi.fn();
+    global.fetch = mockFetch;
+
+    const { result } = renderHook(() => useWeather());
+
+    await act(async () => {
+      await result.current.fetchWeather("Paris");
+    });
+
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(result.current.data).toEqual(cachedData);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBeNull();
+  });
+
+  it("handles fetch errors and updates error state", async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+    });
+    global.fetch = mockFetch;
+
+    const { result } = renderHook(() => useWeather());
+
+    await act(async () => {
+      await result.current.fetchWeather("NonExistentCity");
+    });
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(result.current.data).toBeNull();
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBe("City not found — try a different spelling");
   });
 });
