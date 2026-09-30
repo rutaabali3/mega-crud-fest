@@ -58,6 +58,10 @@ export default function EditAdvisor() {
     }
   };
 
+  const removeTrait = (index: number) => {
+    setTraits((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSave = () => {
     if (!name.trim() || !title.trim()) {
       toast.error("Name and title are required");
@@ -138,10 +142,10 @@ export default function EditAdvisor() {
               <Button variant="secondary" onClick={addTrait} disabled={traits.length >= 6}>Add</Button>
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
-              {traits.map((t) => (
+              {traits.map((t, index) => (
                 <span key={t} className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-secondary text-secondary-foreground">
                   {t}
-                  <button onClick={() => setTraits(traits.filter((x) => x !== t))}><X className="h-3 w-3" /></button>
+                  <button onClick={() => removeTrait(index)}><X className="h-3 w-3" /></button>
                 </span>
               ))}
             </div>
