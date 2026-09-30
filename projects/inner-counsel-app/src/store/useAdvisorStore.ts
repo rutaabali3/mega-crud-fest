@@ -46,7 +46,8 @@ export const useAdvisorStore = create<AdvisorStore>()(
         set((s) => {
           const map = new Map(s.advisors.map((a) => [a.id, a]));
           const reordered = ids.map((id) => map.get(id)!).filter(Boolean);
-          const rest = s.advisors.filter((a) => !ids.includes(a.id));
+          const idSet = new Set(ids);
+          const rest = s.advisors.filter((a) => !idSet.has(a.id));
           return { advisors: [...reordered, ...rest] };
         }),
 
