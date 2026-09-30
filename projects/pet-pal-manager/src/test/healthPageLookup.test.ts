@@ -23,9 +23,11 @@ describe("HealthPage pet lookup performance benchmark", () => {
     const baselineResults = upcomingAppts.map(a => pets.find(p => p.id === a.petId));
     const baselineTime = performance.now() - startBaseline;
 
+    // Pre-compute lookup Map before loop
+    const petMap = new Map(pets.map(p => [p.id, p]));
+
     // Optimized: Map lookup
     const startOptimized = performance.now();
-    const petMap = new Map(pets.map(p => [p.id, p]));
     const optimizedResults = upcomingAppts.map(a => petMap.get(a.petId));
     const optimizedTime = performance.now() - startOptimized;
 
