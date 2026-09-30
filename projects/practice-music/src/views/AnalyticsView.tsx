@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, ReferenceLine, Legend } from 'recharts';
-import { format, startOfWeek, subWeeks, addDays, subDays, differenceInDays } from 'date-fns';
+import { format, startOfWeek, subWeeks, addDays, subDays } from 'date-fns';
 import { BarChart3 } from 'lucide-react';
 import type { Piece, Session, Settings } from '../utils/storage';
 import { EmptyState } from '../components/EmptyState';
