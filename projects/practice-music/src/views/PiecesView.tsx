@@ -33,6 +33,24 @@ export function PiecesView({ pieces, sessions, onUpdatePieces, onUpdateSessions,
 
   const instruments = useMemo(() => [...new Set(pieces.map(p => p.instrument))], [pieces]);
 
+  const sessionStatsByPiece = useMemo(() => {
+    const statsMap = new Map<string, { totalMinutes: number; lastPracticed: string }>();
+    for (let i = 0; i < sessions.length; i++) {
+      const s = sessions[i];
+      const cur = statsMap.get(s.pieceId);
+      const date = s.date || '';
+      if (!cur) {
+        statsMap.set(s.pieceId, { totalMinutes: s.durationMinutes, lastPracticed: date });
+      } else {
+        cur.totalMinutes += s.durationMinutes;
+        if (date > cur.lastPracticed) {
+          cur.lastPracticed = date;
+        }
+      }
+    }
+    return statsMap;
+  }, [sessions]);
+
   const filtered = useMemo(() => {
     let list = pieces;
     if (search) {
@@ -47,15 +65,15 @@ export function PiecesView({ pieces, sessions, onUpdatePieces, onUpdateSessions,
         case 'title': return a.title.localeCompare(b.title);
         case 'difficulty': return DIFF_ORDER[a.difficulty] - DIFF_ORDER[b.difficulty];
         case 'lastPracticed': {
-          const aLast = sessions.filter(s => s.pieceId === a.id).sort((x, y) => y.date.localeCompare(x.date))[0]?.date || '';
-          const bLast = sessions.filter(s => s.pieceId === b.id).sort((x, y) => y.date.localeCompare(x.date))[0]?.date || '';
+          const aLast = sessionStatsByPiece.get(a.id)?.lastPracticed || '';
+          const bLast = sessionStatsByPiece.get(b.id)?.lastPracticed || '';
           return bLast.localeCompare(aLast);
         }
         default: return b.dateAdded.localeCompare(a.dateAdded);
       }
     });
     return list;
-  }, [pieces, sessions, search, statusFilter, instrumentFilter, sortBy]);
+  }, [pieces, search, statusFilter, instrumentFilter, sortBy, sessionStatsByPiece]);
 
   const handleSave = (piece: Piece) => {
     const exists = pieces.find(p => p.id === piece.id);
@@ -118,7 +136,7 @@ export function PiecesView({ pieces, sessions, onUpdatePieces, onUpdateSessions,
         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.map(p => {
             const pct = p.targetBPM > 0 ? Math.min(100, Math.round((p.currentBPM / p.targetBPM) * 100)) : 0;
-            const totalMin = sessions.filter(s => s.pieceId === p.id).reduce((a, s) => a + s.durationMinutes, 0);
+            const totalMin = sessionStatsByPiece.get(p.id)?.totalMinutes ?? 0;
             return (
               <div key={p.id} className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-all relative">
                 <div className="flex">
