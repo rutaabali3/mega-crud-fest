@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { WishItem, ViewMode } from "@/types/wishlist";
 import { CURRENCIES, PRIORITY_CONFIG, OCCASIONS } from "@/types/wishlist";
+import { sanitizeUrl } from "@/lib/utils";
 
 interface ItemCardProps {
   item: WishItem;
@@ -21,9 +22,10 @@ function getPriceBadgeClass(price: number) {
 }
 
 function getFaviconUrl(url?: string) {
-  if (!url) return null;
+  const safeUrl = sanitizeUrl(url);
+  if (!safeUrl) return null;
   try {
-    const domain = new URL(url).hostname;
+    const domain = new URL(safeUrl).hostname;
     return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
   } catch {
     return null;
@@ -42,7 +44,8 @@ export function ItemCard({
   const currency = CURRENCIES.find((c) => c.value === item.currency);
   const priorityConfig = PRIORITY_CONFIG[item.priority];
   const occasion = OCCASIONS.find((o) => o.label === item.occasion);
-  const favicon = item.imageUrl || getFaviconUrl(item.url);
+  const safeItemUrl = sanitizeUrl(item.url);
+  const favicon = item.imageUrl || getFaviconUrl(safeItemUrl);
 
   const isGrid = viewMode === "grid";
 
@@ -91,9 +94,9 @@ export function ItemCard({
         <div className="flex items-start justify-between gap-2">
           <h3 className="font-semibold text-sm leading-tight line-clamp-2">
             {item.name}
-            {item.url && (
+            {safeItemUrl && (
               <a
-                href={item.url}
+                href={safeItemUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block ml-1 text-primary hover:text-primary/80"
