@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Medication, FrequencyType, MEDICATION_COLORS } from "@/types";
+import { Medication, FrequencyType } from "@/types";
 import { format, parseISO } from "@/utils/dateHelpers";
 import { Plus, Pencil, Trash2, Search, Filter } from "lucide-react";
 import { MedicationFormDialog } from "@/components/MedicationFormDialog";
