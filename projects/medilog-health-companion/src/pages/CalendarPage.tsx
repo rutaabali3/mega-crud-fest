@@ -1,13 +1,12 @@
 import { useState, useMemo } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Medication, DoseLog } from "@/types";
 import {
-  format, parseISO, addDays, subDays, startOfWeek, endOfWeek,
-  eachDayOfInterval, isSameDay, addHours,
+  format, parseISO, startOfWeek, endOfWeek,
+  eachDayOfInterval, isSameDay,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
