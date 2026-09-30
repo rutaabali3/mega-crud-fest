@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Medication, DoseLog, SymptomEntry } from "@/types";
 import { SEVERITY_LABELS } from "@/types";
-import { isToday, parseISO, format, isBefore, addDays, subDays } from "@/utils/dateHelpers";
+import { isToday, parseISO, format, isBefore, subDays } from "@/utils/dateHelpers";
 import { formatTime } from "@/utils/dateHelpers";
 import { Check, SkipForward, TrendingUp, TrendingDown, Pill, AlertTriangle, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
