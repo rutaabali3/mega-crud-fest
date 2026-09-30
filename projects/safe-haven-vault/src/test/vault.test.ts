@@ -14,7 +14,8 @@ describe("Vault Seed Data Security", () => {
     expect(content).not.toContain("Am@z0nPrime#Shop");
     expect(content).not.toContain("Gm@il$ecure!Pass");
 
-    // Ensure placeholders are used for seed password fields
-    expect(content).toContain('password: "[DEMO-PASSWORD-PLACEHOLDER]"');
+    // Ensure hardcoded placeholders are removed and dynamic password generation is used
+    expect(content).not.toContain("DEMO-PASSWORD-PLACEHOLDER");
+    expect(content).toContain("generatePassword(");
   });
 });
