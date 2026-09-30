@@ -19,8 +19,6 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
   const cutoff = subDays(now, 30);
   const pageWidth = doc.internal.pageSize.getWidth();
 
-  const medMap = new Map<string, Medication>(medications.map((m) => [m.id, m]));
-
   // Header
   doc.setFontSize(20);
   doc.setFont("helvetica", "bold");
@@ -71,12 +69,28 @@ export function generatePdf(medications: Medication[], logs: DoseLog[], symptoms
   doc.setFont("helvetica", "normal");
   doc.text(`Overall Adherence: ${overall}% (${taken}/${periodLogs.length} doses taken)`, 14, lastY + 22);
 
-  const medAdherence = medications.filter((m) => m.isActive).map((m) => {
-    const mLogs = periodLogs.filter((l) => l.medicationId === m.id);
-    const mTaken = mLogs.filter((l) => l.status === "taken").length;
-    const rate = mLogs.length > 0 ? Math.round((mTaken / mLogs.length) * 100) : 0;
-    return [m.name, `${rate}%`, `${mTaken}/${mLogs.length}`];
-  });
+  const logsByMedication = new Map<string, { total: number; taken: number }>();
+  for (const l of periodLogs) {
+    let stats = logsByMedication.get(l.medicationId);
+    if (!stats) {
+      stats = { total: 0, taken: 0 };
+      logsByMedication.set(l.medicationId, stats);
+    }
+    stats.total++;
+    if (l.status === "taken") {
+      stats.taken++;
+    }
+  }
+
+  const medAdherence = medications
+    .filter((m) => m.isActive)
+    .map((m) => {
+      const stats = logsByMedication.get(m.id);
+      const mTotal = stats?.total ?? 0;
+      const mTaken = stats?.taken ?? 0;
+      const rate = mTotal > 0 ? Math.round((mTaken / mTotal) * 100) : 0;
+      return [m.name, `${rate}%`, `${mTaken}/${mTotal}`];
+    });
 
   autoTable(doc, {
     startY: lastY + 26,
