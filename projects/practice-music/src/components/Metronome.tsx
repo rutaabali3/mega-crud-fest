@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Music2, Minus, Plus, Play, Square } from 'lucide-react';
 import type { Settings } from '../utils/storage';
-import { Button } from '@/components/ui/button';
 
 interface Props {
   settings: Settings;
