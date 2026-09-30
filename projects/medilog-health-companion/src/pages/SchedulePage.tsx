@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Medication, DoseLog } from "@/types";
 import { format, parseISO, addDays, subDays, toISODate } from "@/utils/dateHelpers";
 import { ChevronLeft, ChevronRight, Check, SkipForward } from "lucide-react";
