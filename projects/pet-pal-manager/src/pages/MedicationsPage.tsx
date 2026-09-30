@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, Edit2, Trash2, Check, ChevronDown, CalendarIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,8 @@ export default function MedicationsPage() {
   const [form, setForm] = useState(emptyMed);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
+
+  const petMap = useMemo(() => new Map(pets.map(p => [p.id, p])), [pets]);
 
   const activeMeds = medications.filter(m => isMedActive(m));
   const pastMeds = medications.filter(m => !isMedActive(m));
@@ -93,7 +95,7 @@ export default function MedicationsPage() {
           {/* Active Meds */}
           <div className="space-y-3">
             {activeMeds.map((med, i) => {
-              const pet = pets.find(p => p.id === med.petId);
+              const pet = petMap.get(med.petId);
               const progress = getMedProgress(med);
               const daysLeft = med.endDate ? Math.max(0, differenceInDays(parseISO(med.endDate), new Date())) : null;
               const todayDoses = med.doses.filter(d => d.timestamp.startsWith(format(new Date(), 'yyyy-MM-dd')));
@@ -151,7 +153,7 @@ export default function MedicationsPage() {
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-2 mt-2">
                 {pastMeds.map(med => {
-                  const pet = pets.find(p => p.id === med.petId);
+                  const pet = petMap.get(med.petId);
                   return (
                     <Card key={med.id} className="rounded-xl opacity-60">
                       <CardContent className="p-3 flex items-center gap-3">
