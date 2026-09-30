@@ -28,4 +28,26 @@ describe("ItemCard component security", () => {
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
+
+  it("does not render link for dangerous javascript: URIs", () => {
+    const maliciousItem: WishItem = {
+      ...mockItem,
+      url: "javascript:alert('xss')",
+    };
+    render(<ItemCard item={maliciousItem} viewMode="grid" />);
+
+    const link = screen.queryByRole("link", { name: /open link/i });
+    expect(link).not.toBeInTheDocument();
+  });
+
+  it("does not render link for invalid or dangerous data: URIs", () => {
+    const maliciousItem: WishItem = {
+      ...mockItem,
+      url: "data:text/html,<script>alert(1)</script>",
+    };
+    render(<ItemCard item={maliciousItem} viewMode="grid" />);
+
+    const link = screen.queryByRole("link", { name: /open link/i });
+    expect(link).not.toBeInTheDocument();
+  });
 });
