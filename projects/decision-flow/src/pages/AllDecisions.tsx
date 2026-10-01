@@ -85,7 +85,7 @@ export default function AllDecisions({ decisions, settings }: { decisions: Decis
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search decisions..." className="pl-9" />
         </div>
-        <Button variant="outline" size="icon" onClick={() => setFiltersOpen(!filtersOpen)}>
+        <Button variant="outline" size="icon" onClick={() => setFiltersOpen(!filtersOpen)} aria-label="Filter decisions">
           <Filter className="h-4 w-4" />
         </Button>
       </div>
