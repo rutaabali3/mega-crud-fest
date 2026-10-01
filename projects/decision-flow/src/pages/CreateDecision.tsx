@@ -241,7 +241,7 @@ export default function CreateDecision({ existingDecision, onSave }: Props) {
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground font-medium">#{idx + 1}</span>
                     <Input value={opt.text} onChange={e => updateOption(opt.id, { text: e.target.value })} placeholder="Option name" className="flex-1" />
-                    {options.length > 2 && <Button variant="ghost" size="icon" onClick={() => removeOption(opt.id)}><X className="h-3 w-3" /></Button>}
+                    {options.length > 2 && <Button variant="ghost" size="icon" onClick={() => removeOption(opt.id)} aria-label="Remove option"><X className="h-3 w-3" /></Button>}
                   </div>
                   {/* Balance bar */}
                   {total > 0 && (
