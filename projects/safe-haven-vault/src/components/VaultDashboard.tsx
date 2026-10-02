@@ -72,9 +72,18 @@ export default function VaultDashboard() {
       </Sheet>
 
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Screen reader live status for search/filter results */}
+        <div className="sr-only" role="status" aria-live="polite">
+          {filtered.length} {filtered.length === 1 ? "entry" : "entries"} found
+        </div>
+
         {/* Header */}
         <header className="flex items-center gap-3 p-4 border-b border-border shrink-0">
-          <button className="lg:hidden text-muted-foreground hover:text-foreground" onClick={() => setMobileMenuOpen(true)}>
+          <button
+            aria-label="Open sidebar menu"
+            className="lg:hidden text-muted-foreground hover:text-foreground"
+            onClick={() => setMobileMenuOpen(true)}
+          >
             <Menu className="w-5 h-5" />
           </button>
           <div className="lg:hidden flex items-center gap-2 mr-auto">
@@ -85,6 +94,7 @@ export default function VaultDashboard() {
           <div className="relative flex-1 max-w-md hidden sm:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
+              aria-label="Search entries"
               placeholder="Search entries..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -109,10 +119,10 @@ export default function VaultDashboard() {
           >
             {selectMode ? "Cancel" : "Select"}
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
+          <Button variant="ghost" size="icon" aria-label="Settings" onClick={() => setSettingsOpen(true)}>
             <Settings className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={lock}>
+          <Button variant="ghost" size="icon" aria-label="Lock vault" onClick={lock}>
             <Lock className="w-5 h-5" />
           </Button>
         </header>
@@ -121,7 +131,7 @@ export default function VaultDashboard() {
         <div className="sm:hidden p-4 pb-0">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            <Input aria-label="Search entries" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
           </div>
         </div>
 
@@ -170,6 +180,7 @@ export default function VaultDashboard() {
 
         {/* FAB */}
         <button
+          aria-label="Add entry"
           onClick={handleAdd}
           className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-105 transition-transform z-30"
         >
