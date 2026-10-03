@@ -12,7 +12,7 @@ export function TopBar({ title, onLogSession, onToggleSidebar }: Props) {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-4 md:px-6 border-b border-border bg-background/80 backdrop-blur-sm">
       <div className="flex items-center gap-3">
-        <button onClick={onToggleSidebar} className="hidden md:block text-muted-foreground hover:text-foreground transition-colors">
+        <button onClick={onToggleSidebar} aria-label="Toggle sidebar" className="hidden md:block text-muted-foreground hover:text-foreground transition-colors">
           <Menu size={20} />
         </button>
         <h1 className="text-lg font-heading font-bold text-foreground">{title}</h1>
