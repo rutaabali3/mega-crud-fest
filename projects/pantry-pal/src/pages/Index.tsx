@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ThemeProvider } from "next-themes";
 import { AppLayout, Tab } from "@/components/AppLayout";
 import { DashboardView } from "@/components/DashboardView";
@@ -11,18 +11,26 @@ import { toast } from "@/hooks/use-toast";
 const Index = () => {
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
   const store = usePantryStore();
+  const hasShownToastRef = useRef(false);
+
+  const { expiredItems, expiringSoonItems, lowStockItems } = store;
+  const expiredCount = expiredItems.length;
+  const expiringSoonCount = expiringSoonItems.length;
+  const lowStockCount = lowStockItems.length;
 
   // On-load warnings
   useEffect(() => {
+    if (hasShownToastRef.current) return;
+    hasShownToastRef.current = true;
+
     const warnings: string[] = [];
-    if (store.expiredItems.length > 0) warnings.push(`${store.expiredItems.length} expired`);
-    if (store.expiringSoonItems.length > 0) warnings.push(`${store.expiringSoonItems.length} expiring soon`);
-    if (store.lowStockItems.length > 0) warnings.push(`${store.lowStockItems.length} low stock`);
+    if (expiredCount > 0) warnings.push(`${expiredCount} expired`);
+    if (expiringSoonCount > 0) warnings.push(`${expiringSoonCount} expiring soon`);
+    if (lowStockCount > 0) warnings.push(`${lowStockCount} low stock`);
     if (warnings.length > 0) {
       toast({ title: "Pantry Alert", description: warnings.join(" · ") });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [expiredCount, expiringSoonCount, lowStockCount]);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
