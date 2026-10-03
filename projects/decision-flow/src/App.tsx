@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useDecisions } from "@/hooks/useDecisions";
 import { useSettings } from "@/hooks/useSettings";
+import { Decision } from "@/types/decision";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useMemo } from "react";
 import { differenceInCalendarDays, format } from "date-fns";
@@ -87,9 +88,9 @@ function AppContent() {
   );
 }
 
-function EditDecisionWrapper({ decisions, onSave }: { decisions: any[]; onSave: (d: any) => void }) {
+function EditDecisionWrapper({ decisions, onSave }: { decisions: Decision[]; onSave: (d: Decision) => void }) {
   const id = window.location.pathname.split("/edit/")[1];
-  const decision = decisions.find((d: any) => d.id === id);
+  const decision = decisions.find((d) => d.id === id);
   if (!decision) return <div className="text-center py-16 text-muted-foreground">Decision not found</div>;
   return <CreateDecision existingDecision={decision} onSave={onSave} />;
 }
