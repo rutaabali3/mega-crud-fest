@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, X } from "lucide-react";
-import DOMPurify from "dompurify";
 
 interface AssetModalProps {
   open: boolean;
@@ -42,12 +41,12 @@ export function AssetModal({ open, onClose, onSave, onUpdate, editingAsset, exis
       setName(editingAsset.name);
       setType(editingAsset.type);
       setProject(editingAsset.project);
-      setTags([...editingAsset.tags]);
-      setHexValues(editingAsset.hexValues.length ? [...editingAsset.hexValues] : ["#000000"]);
-      setFontFamily(editingAsset.fontFamily);
-      setFontWeights([...editingAsset.fontWeights]);
-      setIconSvg(editingAsset.iconSvg);
-      setImageUrl(editingAsset.imageUrl);
+      setTags(editingAsset.tags ? [...editingAsset.tags] : []);
+      setHexValues(editingAsset.hexValues?.length ? [...editingAsset.hexValues] : ["#000000"]);
+      setFontFamily(editingAsset.fontFamily || "");
+      setFontWeights(editingAsset.fontWeights ? [...editingAsset.fontWeights] : []);
+      setIconSvg(editingAsset.iconSvg || "");
+      setImageUrl(editingAsset.imageUrl || "");
       setShowNewProject(false);
       setNewProject("");
     } else {
@@ -158,7 +157,15 @@ export function AssetModal({ open, onClose, onSave, onUpdate, editingAsset, exis
               {tags.map(t => (
                 <span key={t} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
                   {t}
-                  <button onClick={() => setTags(tags.filter(x => x !== t))}><X className="h-3 w-3" /></button>
+                  <button
+                    type="button"
+                    onClick={() => setTags(tags.filter(x => x !== t))}
+                    className="rounded p-0.5 hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    aria-label={`Remove tag ${t}`}
+                    title={`Remove tag ${t}`}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
                 </span>
               ))}
             </div>
@@ -190,7 +197,14 @@ export function AssetModal({ open, onClose, onSave, onUpdate, editingAsset, exis
                       className="flex-1 font-mono text-sm"
                     />
                     {hexValues.length > 1 && (
-                      <Button variant="ghost" size="icon" onClick={() => setHexValues(hexValues.filter((_, j) => j !== i))}>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setHexValues(hexValues.filter((_, j) => j !== i))}
+                        aria-label={`Remove color ${hex}`}
+                        title={`Remove color ${hex}`}
+                      >
                         <X className="h-4 w-4" />
                       </Button>
                     )}
