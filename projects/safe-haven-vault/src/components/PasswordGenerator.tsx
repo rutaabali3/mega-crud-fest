@@ -24,7 +24,7 @@ export default function PasswordGenerator({ onUse, onClose }: Props) {
     <div className="rounded-lg border border-border bg-card p-4 space-y-4 animate-fade-in-up">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-foreground">Password Generator</span>
-        <button onClick={onClose} className="text-xs text-muted-foreground hover:text-foreground">✕</button>
+        <button type="button" onClick={onClose} aria-label="Close password generator" className="text-xs text-muted-foreground hover:text-foreground">✕</button>
       </div>
 
       <div className="bg-muted rounded-lg p-3 font-mono text-sm text-foreground break-all select-all min-h-[40px]">

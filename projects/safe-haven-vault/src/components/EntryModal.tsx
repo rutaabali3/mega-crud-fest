@@ -118,12 +118,13 @@ export default function EntryModal({ open, onOpenChange, editEntry }: Props) {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              <Button type="button" variant="outline" size="icon" onClick={() => setShowGenerator(!showGenerator)}>
+              <Button type="button" variant="outline" size="icon" aria-label="Generate password" onClick={() => setShowGenerator(!showGenerator)}>
                 <Wand2 className="w-4 h-4" />
               </Button>
             </div>
