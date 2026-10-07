@@ -116,7 +116,8 @@ export function Metronome({ settings, onUpdateSettings }: Props) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-20 md:bottom-6 right-4 z-40 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 flex items-center justify-center hover:scale-105 transition-transform"
+        aria-label="Open Metronome"
+        className="fixed bottom-20 md:bottom-6 right-4 z-40 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 flex items-center justify-center hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-transform"
       >
         <Music2 size={20} />
       </button>
@@ -124,60 +125,101 @@ export function Metronome({ settings, onUpdateSettings }: Props) {
   }
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-4 z-40 w-72 bg-card border border-border rounded-2xl shadow-2xl shadow-primary/10 animate-fade-in">
+    <div className="fixed bottom-20 md:bottom-6 right-4 z-40 w-72 bg-card border border-border rounded-2xl shadow-2xl shadow-primary/10 animate-fade-in" aria-label="Metronome Widget">
       <div className="p-4 space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
           <span className="font-heading font-semibold text-foreground text-sm">Metronome</span>
-          <button onClick={() => { stop(); setOpen(false); }} className="text-muted-foreground hover:text-foreground text-xs">✕</button>
+          <button
+            onClick={() => { stop(); setOpen(false); }}
+            aria-label="Close Metronome"
+            className="text-muted-foreground hover:text-foreground text-xs focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded p-1"
+          >
+            ✕
+          </button>
         </div>
 
         {/* BPM */}
-        <div className="text-center">
+        <div className="text-center" aria-live="polite" aria-atomic="true">
           <p className="text-5xl font-heading font-bold text-primary">{bpm}</p>
           <p className="text-xs text-muted-foreground">BPM</p>
         </div>
 
         {/* Controls */}
         <div className="flex items-center justify-center gap-3">
-          <button onClick={() => setBpm(b => Math.max(20, b - 1))} className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 transition-colors">
+          <button
+            onClick={() => setBpm(b => Math.max(20, b - 1))}
+            aria-label="Decrease BPM"
+            className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors"
+          >
             <Minus size={14} />
           </button>
-          <button onClick={playing ? stop : start} className={`w-14 h-14 rounded-full flex items-center justify-center text-primary-foreground shadow-lg transition-all ${playing ? 'bg-destructive hover:bg-destructive/90' : 'bg-primary hover:bg-primary/90'}`}>
+          <button
+            onClick={playing ? stop : start}
+            aria-label={playing ? "Stop Metronome" : "Start Metronome"}
+            className={`w-14 h-14 rounded-full flex items-center justify-center text-primary-foreground shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all ${playing ? 'bg-destructive hover:bg-destructive/90' : 'bg-primary hover:bg-primary/90'}`}
+          >
             {playing ? <Square size={20} /> : <Play size={20} className="ml-0.5" />}
           </button>
-          <button onClick={() => setBpm(b => Math.min(300, b + 1))} className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 transition-colors">
+          <button
+            onClick={() => setBpm(b => Math.min(300, b + 1))}
+            aria-label="Increase BPM"
+            className="w-8 h-8 rounded-lg bg-muted text-foreground flex items-center justify-center hover:bg-primary/20 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors"
+          >
             <Plus size={14} />
           </button>
         </div>
 
         {/* Tap Tempo */}
-        <button onClick={handleTap} className="w-full text-xs bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary py-2 rounded-lg transition-colors font-medium">
+        <button
+          onClick={handleTap}
+          aria-label="Tap tempo to set BPM"
+          className="w-full text-xs bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary py-2 rounded-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors font-medium"
+        >
           Tap Tempo
         </button>
 
         {/* Presets */}
-        <div className="flex gap-1 flex-wrap justify-center">
+        <div className="flex gap-1 flex-wrap justify-center" aria-label="BPM Presets">
           {PRESETS.map(p => (
-            <button key={p} onClick={() => setBpm(p)} className={`text-[10px] px-2 py-1 rounded-md transition-colors ${bpm === p ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'}`}>{p}</button>
+            <button
+              key={p}
+              onClick={() => setBpm(p)}
+              aria-label={`Set BPM to ${p}`}
+              aria-pressed={bpm === p}
+              className={`text-[10px] px-2 py-1 rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors ${bpm === p ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'}`}
+            >
+              {p}
+            </button>
           ))}
         </div>
 
         {/* Time signature */}
-        <div className="flex gap-1 justify-center">
+        <div className="flex gap-1 justify-center" aria-label="Time Signatures">
           {TIME_SIGS.map(ts => (
-            <button key={ts.label} onClick={() => setBeats(ts.beats)} className={`text-xs px-2 py-1 rounded-md transition-colors ${beats === ts.beats ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'}`}>{ts.label}</button>
+            <button
+              key={ts.label}
+              onClick={() => setBeats(ts.beats)}
+              aria-label={`Set time signature to ${ts.label}`}
+              aria-pressed={beats === ts.beats}
+              className={`text-xs px-2 py-1 rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-colors ${beats === ts.beats ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'}`}
+            >
+              {ts.label}
+            </button>
           ))}
         </div>
 
         {/* Beat indicator */}
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-2" role="status" aria-label={`Beat indicator: beat ${currentBeat >= 0 ? currentBeat + 1 : 0} of ${beats}`}>
           {Array.from({ length: beats }).map((_, i) => (
-            <div key={i} className={`w-3 h-3 rounded-full transition-all duration-100 ${
-              currentBeat === i
-                ? i === 0 ? 'bg-secondary scale-125' : 'bg-primary scale-125'
-                : 'bg-muted'
-            }`} />
+            <div
+              key={i}
+              className={`w-3 h-3 rounded-full transition-all duration-100 ${
+                currentBeat === i
+                  ? i === 0 ? 'bg-secondary scale-125' : 'bg-primary scale-125'
+                  : 'bg-muted'
+              }`}
+            />
           ))}
         </div>
       </div>
