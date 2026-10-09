@@ -69,11 +69,19 @@ export function CalendarView({ sessions, pieces }: Props) {
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Month nav */}
       <div className="flex items-center justify-between">
-        <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
+        <button
+          onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+          aria-label="Previous month"
+          className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
+        >
           <ChevronLeft size={20} />
         </button>
         <h2 className="font-heading font-bold text-lg text-foreground">{format(currentMonth, 'MMMM yyyy')}</h2>
-        <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
+        <button
+          onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+          aria-label="Next month"
+          className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
+        >
           <ChevronRight size={20} />
         </button>
       </div>
@@ -102,6 +110,7 @@ export function CalendarView({ sessions, pieces }: Props) {
                   today ? 'ring-2 ring-accent' : ''
                 } ${selected ? 'ring-2 ring-primary' : ''} hover:ring-1 hover:ring-primary/50`}
                 title={`${format(d, 'MMM d')}: ${mins} min`}
+                aria-label={`${format(d, 'MMMM d, yyyy')}: ${mins} ${mins === 1 ? 'minute' : 'minutes'} practiced`}
               >
                 <span className={`font-medium ${mins > 0 ? 'text-foreground' : 'text-muted-foreground'}`}>{format(d, 'd')}</span>
                 {mins > 0 && <span className="text-[8px] text-foreground/70">{mins}m</span>}

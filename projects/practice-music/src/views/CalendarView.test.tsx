@@ -23,6 +23,23 @@ describe('CalendarView', () => {
     expect(screen.getByText('Sonata No. 1')).toBeInTheDocument();
   });
 
+  it('provides accessible labels for month navigation and calendar date buttons', () => {
+    const today = new Date();
+    const todayStr = format(today, 'yyyy-MM-dd');
+    const mockPieces: Piece[] = [];
+    const mockSessions: Session[] = [
+      { id: 's1', pieceId: 'p1', date: todayStr, durationMinutes: 15, bpmReached: 100, mood: '4', notes: 'Practice', instrument: 'Piano' }
+    ];
+
+    render(<CalendarView sessions={mockSessions} pieces={mockPieces} />);
+
+    expect(screen.getByRole('button', { name: 'Previous month' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Next month' })).toBeInTheDocument();
+
+    const expectedDateLabel = `${format(today, 'MMMM d, yyyy')}: 15 minutes practiced`;
+    expect(screen.getByRole('button', { name: expectedDateLabel })).toBeInTheDocument();
+  });
+
   it('benchmark piece lookup performance comparing O(N) find vs O(1) Map lookup', () => {
     const pieceCount = 10000;
     const sessionCount = 5000;
