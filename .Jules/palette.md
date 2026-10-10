@@ -11,3 +11,10 @@
 2. Readonly star rating components should wrap buttons in a container with `role="img"` and `aria-label={`${rating} of ${total} stars`}` while disabling child buttons so assistive tools treat the rating block as a single composite visual representation.
 3. Rating buttons must include `focus-visible` ring classes so keyboard users can clearly track focus across star increments.
 **Action:** Whenever building or auditing rating star inputs/displays, apply explicit aria-labels, aria-pressed attributes, composite img role for readonly views, and focus-visible rings.
+
+## 2026-03-31 - Floating Audio & Widget Control ARIA Accessibility
+**Learning:** Floating tool widgets (like metronomes, mini-players, or timers) frequently suffer from accessibility barriers if their control states are unannounced:
+1. Icon-only trigger and close buttons need explicit `aria-label`s (e.g., "Open metronome", "Decrease BPM").
+2. Preset speed or tempo buttons require `aria-pressed={selected}` so screen readers communicate active preset selections.
+3. Rhythmic or visual beat/tick indicators require `role="status"` and `aria-live="polite"` with explicit beat position labels so assistive tech users receive state updates.
+**Action:** When building interactive widgets or tools, always provide explicit ARIA labels on icon buttons, `aria-pressed` attributes on preset/toggle controls, and `aria-live` status regions for dynamic counters.
