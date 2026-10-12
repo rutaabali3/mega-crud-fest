@@ -127,7 +127,9 @@ export default function DecisionDetail({ decisions, onUpdate, onTrash }: Props) 
               {decision.qualityScore && (
                 <div>
                   <p className="text-xs text-muted-foreground">Quality Score</p>
-                  <p className="font-semibold text-success">{"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}</p>
+                  <p className="font-semibold text-success" role="img" aria-label={`Quality score: ${decision.qualityScore} out of 5 stars`}>
+                    {"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}
+                  </p>
                 </div>
               )}
             </div>
@@ -219,7 +221,9 @@ export default function DecisionDetail({ decisions, onUpdate, onTrash }: Props) 
               {decision.qualityScore && (
                 <div className="glass-card p-4">
                   <p className="text-xs text-muted-foreground mb-1">Quality Rating</p>
-                  <p className="text-lg">{"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}</p>
+                  <p className="text-lg" role="img" aria-label={`Quality score: ${decision.qualityScore} out of 5 stars`}>
+                    {"★".repeat(decision.qualityScore)}{"☆".repeat(5 - decision.qualityScore)}
+                  </p>
                 </div>
               )}
             </div>
@@ -252,7 +256,14 @@ export default function DecisionDetail({ decisions, onUpdate, onTrash }: Props) 
                 <label className="text-sm font-medium mb-2 block">Quality Score</label>
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map(n => (
-                    <button key={n} onClick={() => setQualityScore(n)} className="text-2xl transition-transform hover:scale-110">
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => setQualityScore(n)}
+                      aria-label={`Rate quality ${n} out of 5 stars`}
+                      aria-pressed={n === qualityScore}
+                      className="text-2xl transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm p-0.5"
+                    >
                       {n <= qualityScore ? "★" : "☆"}
                     </button>
                   ))}
