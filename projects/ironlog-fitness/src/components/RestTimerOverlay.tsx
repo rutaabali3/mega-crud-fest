@@ -19,7 +19,18 @@ export function RestTimerOverlay() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[60] bg-card border-t border-border px-4 py-3 sm:bottom-0 flex items-center justify-between gap-4">
       <div className="flex items-center gap-4">
-        <svg width="80" height="80" viewBox="0 0 80 80" className="shrink-0">
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 80 80"
+          className="shrink-0"
+          role="progressbar"
+          aria-label="Rest timer progress"
+          aria-valuenow={restTimer.remaining}
+          aria-valuemin={0}
+          aria-valuemax={restTimer.total}
+          aria-valuetext={`${minutes} minutes ${seconds} seconds remaining`}
+        >
           <circle cx="40" cy="40" r="36" fill="none" stroke="hsl(var(--border))" strokeWidth="4" />
           <circle
             cx="40"
@@ -43,7 +54,8 @@ export function RestTimerOverlay() {
             <button
               key={p}
               onClick={() => startRestTimer(p)}
-              className="px-2.5 py-1 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+              aria-label={`Set rest timer to ${p >= 60 ? `${p / 60} minutes` : `${p} seconds`}`}
+              className="px-2.5 py-1 rounded-full text-xs font-semibold bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               {p >= 60 ? `${p / 60}m` : `${p}s`}
             </button>
@@ -52,15 +64,15 @@ export function RestTimerOverlay() {
       </div>
       <div className="flex items-center gap-2">
         {restTimer.paused ? (
-          <Button size="icon" variant="ghost" onClick={resumeRestTimer}>
+          <Button size="icon" variant="ghost" onClick={resumeRestTimer} aria-label="Resume rest timer">
             <Play className="h-5 w-5" />
           </Button>
         ) : (
-          <Button size="icon" variant="ghost" onClick={pauseRestTimer}>
+          <Button size="icon" variant="ghost" onClick={pauseRestTimer} aria-label="Pause rest timer">
             <Pause className="h-5 w-5" />
           </Button>
         )}
-        <Button size="icon" variant="ghost" onClick={skipRestTimer}>
+        <Button size="icon" variant="ghost" onClick={skipRestTimer} aria-label="Skip rest timer">
           <X className="h-5 w-5" />
         </Button>
       </div>
