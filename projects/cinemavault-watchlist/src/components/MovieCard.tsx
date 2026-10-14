@@ -16,14 +16,25 @@ const statusColors: Record<string, string> = {
 };
 
 export function MovieCard({ item, onClick }: MovieCardProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick(item);
+    }
+  };
+
   return (
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${item.title}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="group cursor-pointer rounded-lg bg-card border border-border overflow-hidden hover:glow-purple transition-shadow duration-300"
+      className="group cursor-pointer rounded-lg bg-card border border-border overflow-hidden hover:glow-purple transition-shadow duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       onClick={() => onClick(item)}
+      onKeyDown={handleKeyDown}
     >
       <div className="aspect-[2/3] relative overflow-hidden bg-muted">
         {item.posterUrl ? (
