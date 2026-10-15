@@ -42,10 +42,21 @@ export function ProjectCard({ project, onArchive, onDelete, onLogSession }: Proj
     overdue: "bg-destructive/20 text-destructive",
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      navigate(`/project/${project.id}`);
+    }
+  };
+
   return (
     <div
-      className="bg-card rounded-2xl border shadow-sm card-hover cursor-pointer overflow-hidden"
+      role="button"
+      tabIndex={0}
+      aria-label={`View project details for ${project.title}`}
+      className="bg-card rounded-2xl border shadow-sm card-hover cursor-pointer overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       onClick={() => navigate(`/project/${project.id}`)}
+      onKeyDown={handleKeyDown}
     >
       {/* Photo */}
       <div className="h-32 bg-muted overflow-hidden">
@@ -80,7 +91,11 @@ export function ProjectCard({ project, onArchive, onDelete, onLogSession }: Proj
           )}
         </div>
 
-        <div className="flex items-center gap-1 mt-2" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="flex items-center gap-1 mt-2"
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
           {onLogSession && (
             <Button
               size="sm"
@@ -94,7 +109,12 @@ export function ProjectCard({ project, onArchive, onDelete, onLogSession }: Proj
           <AlertDialog>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7 shrink-0"
+                  aria-label={`Project options for ${project.title}`}
+                >
                   <MoreVertical className="h-3.5 w-3.5" />
                 </Button>
               </DropdownMenuTrigger>
