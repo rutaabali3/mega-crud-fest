@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { Pet, Medication } from '../lib/types';
+import { Pet, Medication, VetVisit } from '../lib/types';
 
 describe('Dashboard medication pet name lookup performance', () => {
   test('benchmark O(N*M) find vs O(N+M) Map lookup', () => {
@@ -65,6 +65,65 @@ describe('Dashboard medication pet name lookup performance', () => {
 
     console.log(`Baseline (Array.find): ${baselineDuration.toFixed(2)} ms`);
     console.log(`Optimized (Map.get):   ${optimizedDuration.toFixed(2)} ms`);
+    console.log(`Speedup: ${(baselineDuration / optimizedDuration).toFixed(2)}x faster`);
+
+    expect(optimizedDuration).toBeLessThan(baselineDuration);
+  });
+
+  test('benchmark O(N*M) find vs Map lookup for upcoming appointments map', () => {
+    const numPets = 500;
+    const numAppts = 1000;
+
+    const pets: Pet[] = Array.from({ length: numPets }, (_, i) => ({
+      id: `pet-${i}`,
+      name: `Pet ${i}`,
+      species: 'Dog',
+      breed: 'Breed',
+      dateOfBirth: '2020-01-01',
+      sex: 'Male',
+      photoUrl: '',
+      emoji: '🐶',
+      notes: '',
+      archived: false,
+      createdAt: '2020-01-01',
+    }));
+
+    const upcomingAppts: VetVisit[] = Array.from({ length: numAppts }, (_, i) => ({
+      id: `visit-${i}`,
+      petId: `pet-${i % numPets}`,
+      date: '2025-01-01',
+      reason: 'Checkup',
+      vetName: 'Dr. Smith',
+      clinicName: 'Vet Clinic',
+      notes: '',
+      cost: 50,
+      nextAppointmentDate: '2025-06-01',
+      createdAt: '2025-01-01',
+    }));
+
+    // Baseline O(N*M)
+    const startBaseline = performance.now();
+    let baselinePets: (Pet | undefined)[] = [];
+    for (let i = 0; i < 100; i++) {
+      baselinePets = upcomingAppts.map(appt => pets.find(p => p.id === appt.petId));
+    }
+    const endBaseline = performance.now();
+    const baselineDuration = endBaseline - startBaseline;
+
+    // Optimized O(1) via Map
+    const startOptimized = performance.now();
+    let optimizedPets: (Pet | undefined)[] = [];
+    for (let i = 0; i < 100; i++) {
+      const petMap = new Map(pets.map(p => [p.id, p]));
+      optimizedPets = upcomingAppts.map(appt => petMap.get(appt.petId));
+    }
+    const endOptimized = performance.now();
+    const optimizedDuration = endOptimized - startOptimized;
+
+    expect(baselinePets).toEqual(optimizedPets);
+
+    console.log(`Upcoming Appts Baseline (Array.find): ${baselineDuration.toFixed(2)} ms`);
+    console.log(`Upcoming Appts Optimized (Map.get):   ${optimizedDuration.toFixed(2)} ms`);
     console.log(`Speedup: ${(baselineDuration / optimizedDuration).toFixed(2)}x faster`);
 
     expect(optimizedDuration).toBeLessThan(baselineDuration);
