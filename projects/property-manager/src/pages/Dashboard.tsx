@@ -39,8 +39,6 @@ export default function Dashboard() {
 
   // Alerts
   const alerts = useMemo(() => {
-    const tenantMap = new Map(tenants.map(t => [t.id, t]));
-    const propertyMap = new Map(properties.map(p => [p.id, p]));
     const a: { type: string; message: string }[] = [];
     activeTenants.forEach(t => {
       const daysLeft = Math.ceil((new Date(t.leaseEnd).getTime() - now.getTime()) / 86400000);
@@ -64,8 +62,6 @@ export default function Dashboard() {
 
   // Mini calendar
   const calendarDays = useMemo(() => {
-    const tenantMap = new Map(tenants.map(t => [t.id, t.name]));
-    const propertyMap = new Map(properties.map(p => [p.id, p.address]));
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     const days: { day: number; dots: { color: string; payment: typeof payments[0]; tenant: string; property: string }[] }[] = [];
