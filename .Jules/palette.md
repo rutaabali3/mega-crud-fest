@@ -11,3 +11,7 @@
 2. Readonly star rating components should wrap buttons in a container with `role="img"` and `aria-label={`${rating} of ${total} stars`}` while disabling child buttons so assistive tools treat the rating block as a single composite visual representation.
 3. Rating buttons must include `focus-visible` ring classes so keyboard users can clearly track focus across star increments.
 **Action:** Whenever building or auditing rating star inputs/displays, apply explicit aria-labels, aria-pressed attributes, composite img role for readonly views, and focus-visible rings.
+
+## 2026-03-31 - Clickable Card Component Keyboard Event Bubble Isolation
+**Learning:** Making entire card components clickable for navigation (e.g. `onClick={() => navigate(...) }`) requires `role="button"`, `tabIndex={0}`, `focus-visible:ring-2`, and `onKeyDown` handlers for Enter/Space. However, any nested action buttons inside the card (e.g. "Log Session" or options dropdown trigger) MUST stop both `onClick` AND `onKeyDown` event propagation (`e.stopPropagation()`) so keyboard navigation on nested controls does not trigger card navigation.
+**Action:** When making card containers keyboard-navigable buttons, always attach `onKeyDown={(e) => e.stopPropagation()}` alongside `onClick={(e) => e.stopPropagation()}` on nested action wrapper elements.

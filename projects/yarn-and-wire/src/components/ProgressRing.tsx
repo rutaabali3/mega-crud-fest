@@ -13,7 +13,14 @@ export function ProgressRing({ progress, size = 48, strokeWidth = 4, className }
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={cn("relative inline-flex items-center justify-center", className)}>
+    <div
+      role="progressbar"
+      aria-valuenow={progress}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label="Progress"
+      className={cn("relative inline-flex items-center justify-center", className)}
+    >
       <svg width={size} height={size} className="-rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
