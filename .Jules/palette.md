@@ -11,3 +11,10 @@
 2. Readonly star rating components should wrap buttons in a container with `role="img"` and `aria-label={`${rating} of ${total} stars`}` while disabling child buttons so assistive tools treat the rating block as a single composite visual representation.
 3. Rating buttons must include `focus-visible` ring classes so keyboard users can clearly track focus across star increments.
 **Action:** Whenever building or auditing rating star inputs/displays, apply explicit aria-labels, aria-pressed attributes, composite img role for readonly views, and focus-visible rings.
+
+## 2026-10-17 - Calendar Day Grid ARIA & Focus Navigation Pattern
+**Learning:** For grid-based date controls and calendar views:
+1. Icon-only navigation buttons (e.g. previous/next month) must include explicit `aria-label`s like "Previous month" and "Next month" paired with `:focus-visible` ring outlines.
+2. Grid day buttons need full readable date labels and state info in `aria-label` (e.g. "Monday, October 13, 2026, 21 minutes practice") so screen reader users hear clear context rather than just a number or ambiguous tooltip.
+3. Interactive date selection buttons should use `aria-pressed={selected}` and explicit `type="button"` to ensure accessible state communication and prevent form submission side-effects.
+**Action:** When building or updating calendar widgets or date pickers, include descriptive date aria-labels, `aria-pressed` selection states, and focus-visible rings on month and date buttons.

@@ -69,11 +69,21 @@ export function CalendarView({ sessions, pieces }: Props) {
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Month nav */}
       <div className="flex items-center justify-between">
-        <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
+        <button
+          type="button"
+          onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+          aria-label="Previous month"
+          className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
           <ChevronLeft size={20} />
         </button>
         <h2 className="font-heading font-bold text-lg text-foreground">{format(currentMonth, 'MMMM yyyy')}</h2>
-        <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors">
+        <button
+          type="button"
+          onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+          aria-label="Next month"
+          className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
           <ChevronRight size={20} />
         </button>
       </div>
@@ -95,8 +105,11 @@ export function CalendarView({ sessions, pieces }: Props) {
             return (
               <button
                 key={i}
+                type="button"
                 onClick={() => setSelectedDate(key)}
-                className={`aspect-square rounded-lg flex flex-col items-center justify-center text-xs transition-all relative ${
+                aria-label={`${format(d, 'EEEE, MMMM d, yyyy')}${mins > 0 ? `, ${mins} minutes practice` : ', no practice recorded'}`}
+                aria-pressed={selected}
+                className={`aspect-square rounded-lg flex flex-col items-center justify-center text-xs transition-all relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   !inMonth ? 'opacity-30' : ''
                 } ${getIntensityClass(mins)} ${
                   today ? 'ring-2 ring-accent' : ''
