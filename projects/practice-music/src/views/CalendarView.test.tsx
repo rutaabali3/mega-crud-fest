@@ -16,10 +16,21 @@ describe('CalendarView', () => {
 
     render(<CalendarView sessions={mockSessions} pieces={mockPieces} />);
 
+    // Check accessible labels on month navigation buttons
+    const prevBtn = screen.getByRole('button', { name: 'Previous month' });
+    const nextBtn = screen.getByRole('button', { name: 'Next month' });
+    expect(prevBtn).toBeInTheDocument();
+    expect(nextBtn).toBeInTheDocument();
+
     // Click on today's date in calendar
     const dayBtn = screen.getByTitle(new RegExp(format(new Date(), 'MMM d')));
+    expect(dayBtn).toHaveAttribute('aria-label');
+    expect(dayBtn.getAttribute('aria-label')).toContain('30 minutes practice');
+    expect(dayBtn).toHaveAttribute('aria-pressed', 'false');
+
     fireEvent.click(dayBtn);
 
+    expect(dayBtn).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByText('Sonata No. 1')).toBeInTheDocument();
   });
 
