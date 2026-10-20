@@ -18,11 +18,22 @@ export function HabitCard({ habit, isActive, onClick, onEdit, onArchive }: Habit
   const longest = getLongestStreak(habit);
   const progress = Math.min((streak / habit.targetStreak) * 100, 100);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       className={cn(
-        "group relative p-3 rounded-lg cursor-pointer transition-all border",
+        "group relative p-3 rounded-lg cursor-pointer transition-all border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         isActive
           ? "bg-accent border-primary/40 shadow-sm"
           : "border-transparent hover:bg-accent/50"
@@ -36,11 +47,12 @@ export function HabitCard({ habit, isActive, onClick, onEdit, onArchive }: Habit
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-sm truncate text-card-foreground">{habit.name}</h3>
-            <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
               <Button
                 variant="ghost"
                 size="icon"
                 className="h-6 w-6"
+                aria-label={`Edit ${habit.name}`}
                 onClick={e => { e.stopPropagation(); onEdit(); }}
               >
                 <Pencil className="h-3 w-3" />
@@ -49,6 +61,7 @@ export function HabitCard({ habit, isActive, onClick, onEdit, onArchive }: Habit
                 variant="ghost"
                 size="icon"
                 className="h-6 w-6"
+                aria-label={`Archive ${habit.name}`}
                 onClick={e => { e.stopPropagation(); onArchive(); }}
               >
                 <Archive className="h-3 w-3" />
