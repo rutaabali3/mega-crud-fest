@@ -92,7 +92,9 @@ const Index = () => {
       {/* Mobile menu button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-card border shadow-sm"
+        aria-label={sidebarOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={sidebarOpen}
+        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-card border shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
@@ -148,16 +150,28 @@ const Index = () => {
                     <span className="text-muted-foreground">{h.name}</span>
                   </div>
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => {
-                      restoreHabit(h.id);
-                      toast({ title: "Restored", description: `"${h.name}" is back!` });
-                    }}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      aria-label={`Restore ${h.name}`}
+                      onClick={() => {
+                        restoreHabit(h.id);
+                        toast({ title: "Restored", description: `"${h.name}" is back!` });
+                      }}
+                    >
                       <ArchiveRestore className="h-3 w-3" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive" onClick={() => {
-                      deleteHabit(h.id);
-                      toast({ title: "Deleted", description: `"${h.name}" permanently removed.` });
-                    }}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 text-destructive"
+                      aria-label={`Delete ${h.name}`}
+                      onClick={() => {
+                        deleteHabit(h.id);
+                        toast({ title: "Deleted", description: `"${h.name}" permanently removed.` });
+                      }}
+                    >
                       <Trash2 className="h-3 w-3" />
                     </Button>
                   </div>
