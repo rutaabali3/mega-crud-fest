@@ -5,6 +5,14 @@
 3. Form controls and card action buttons require explicit `:focus-visible` ring outlines to maintain keyboard accessibility when custom styling strips default outlines.
 **Action:** When working on list/grid search interfaces or hub landing pages, ensure live regions for count updates, clear human-readable link anchors, and focus-visible indicators are included by default.
 
+## 2026-03-31 - Filter Badge Group Accessibility Pattern
+**Learning:** Custom interactive filter badge chips built with generic `span`/`div` elements or plain `Badge` components are often inaccessible to keyboard and screen reader users:
+1. Interactive badges acting as toggle filters require `role="button"`, `tabIndex={0}`, and `aria-pressed={isSelected}` so screen readers treat them as toggles and convey selection state.
+2. Filter groups should be wrapped in a container with `role="toolbar"` and an `aria-label` describing the filter context.
+3. Keyboard listeners for `Enter` and `Space` (`e.key === "Enter" || e.key === " "`) with `e.preventDefault()` must be added alongside `onClick` so keyboard navigation triggers filter toggling cleanly.
+4. Focus ring styles (`focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`) must be applied to make focus visible for keyboard navigation.
+**Action:** Always enhance interactive badge/chip filter lists with `role="button"`, `tabIndex={0}`, `aria-pressed`, explicit `aria-label`, keydown handlers, and visible focus rings.
+
 ## 2026-03-31 - Interactive & Readonly Star Rating ARIA Pattern
 **Learning:** Multi-button star rating controls are often invisible to screen readers without descriptive labels and state markers:
 1. Interactive rating buttons require explicit `aria-label={`Rate ${value} out of ${total} stars`}` and `aria-pressed={value === rating}` so screen readers report the star level and whether it is selected.
