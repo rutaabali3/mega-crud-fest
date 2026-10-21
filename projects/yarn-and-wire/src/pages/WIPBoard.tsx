@@ -99,20 +99,40 @@ export default function WIPBoard() {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-2 mb-4">
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5" role="toolbar" aria-label="Filter projects by type">
           <Badge
+            role="button"
+            tabIndex={0}
+            aria-pressed={typeFilter === "all"}
+            aria-label="Filter by all types"
             variant={typeFilter === "all" ? "default" : "secondary"}
-            className="cursor-pointer"
+            className="cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             onClick={() => setTypeFilter("all")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setTypeFilter("all");
+              }
+            }}
           >
             All
           </Badge>
           {PROJECT_TYPES.map((t) => (
             <Badge
               key={t.value}
+              role="button"
+              tabIndex={0}
+              aria-pressed={typeFilter === t.value}
+              aria-label={`Filter by ${t.label}`}
               variant={typeFilter === t.value ? "default" : "secondary"}
-              className="cursor-pointer"
+              className="cursor-pointer focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               onClick={() => setTypeFilter(t.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setTypeFilter(t.value);
+                }
+              }}
             >
               {t.emoji} {t.label}
             </Badge>
