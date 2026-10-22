@@ -8,11 +8,16 @@ interface Props {
   sidebarOpen: boolean;
 }
 
-export function TopBar({ title, onLogSession, onToggleSidebar }: Props) {
+export function TopBar({ title, onLogSession, onToggleSidebar, sidebarOpen }: Props) {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-4 md:px-6 border-b border-border bg-background/80 backdrop-blur-sm">
       <div className="flex items-center gap-3">
-        <button onClick={onToggleSidebar} className="hidden md:block text-muted-foreground hover:text-foreground transition-colors">
+        <button
+          onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+          aria-expanded={sidebarOpen}
+          className="hidden md:block text-muted-foreground hover:text-foreground transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none rounded-md"
+        >
           <Menu size={20} />
         </button>
         <h1 className="text-lg font-heading font-bold text-foreground">{title}</h1>
