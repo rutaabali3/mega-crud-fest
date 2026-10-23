@@ -60,7 +60,10 @@ export default function EntryCard({ entry, onEdit, selectable, selected, onSelec
     >
       {selectable && (
         <button
-          className={`absolute top-3 left-3 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+          type="button"
+          aria-label={`Select ${entry.siteName}`}
+          aria-pressed={selected}
+          className={`absolute top-3 left-3 w-5 h-5 rounded border-2 flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
             selected ? "bg-primary border-primary" : "border-border hover:border-primary/50"
           }`}
           onClick={() => onSelect?.(entry.id)}
@@ -87,7 +90,13 @@ export default function EntryCard({ entry, onEdit, selectable, selected, onSelec
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="font-semibold text-foreground truncate">{entry.siteName}</h3>
-            <button onClick={() => toggleFavorite(entry.id)} className="shrink-0">
+            <button
+              type="button"
+              aria-label={entry.favorite ? `Remove ${entry.siteName} from favorites` : `Add ${entry.siteName} to favorites`}
+              aria-pressed={entry.favorite}
+              onClick={() => toggleFavorite(entry.id)}
+              className="shrink-0 rounded p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
               <Star className={`w-4 h-4 transition-colors ${entry.favorite ? "fill-warning text-warning" : "text-muted-foreground hover:text-warning"}`} />
             </button>
           </div>
@@ -100,7 +109,13 @@ export default function EntryCard({ entry, onEdit, selectable, selected, onSelec
             <span className="font-mono text-sm text-muted-foreground">
               {showPw ? decryptedPw : "●●●●●●●●"}
             </span>
-            <button onClick={handleShowPw} className="text-muted-foreground hover:text-foreground">
+            <button
+              type="button"
+              aria-label={showPw ? "Hide password" : "Show password"}
+              aria-pressed={showPw}
+              onClick={handleShowPw}
+              className="text-muted-foreground hover:text-foreground rounded p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
               {showPw ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
