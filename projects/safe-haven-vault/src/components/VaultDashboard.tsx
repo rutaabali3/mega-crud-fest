@@ -74,7 +74,12 @@ export default function VaultDashboard() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <header className="flex items-center gap-3 p-4 border-b border-border shrink-0">
-          <button className="lg:hidden text-muted-foreground hover:text-foreground" onClick={() => setMobileMenuOpen(true)}>
+          <button
+            type="button"
+            aria-label="Open navigation menu"
+            className="lg:hidden text-muted-foreground hover:text-foreground rounded p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            onClick={() => setMobileMenuOpen(true)}
+          >
             <Menu className="w-5 h-5" />
           </button>
           <div className="lg:hidden flex items-center gap-2 mr-auto">
@@ -109,10 +114,10 @@ export default function VaultDashboard() {
           >
             {selectMode ? "Cancel" : "Select"}
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setSettingsOpen(true)}>
+          <Button variant="ghost" size="icon" aria-label="Open settings" onClick={() => setSettingsOpen(true)}>
             <Settings className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={lock}>
+          <Button variant="ghost" size="icon" aria-label="Lock vault" onClick={lock}>
             <Lock className="w-5 h-5" />
           </Button>
         </header>
@@ -170,8 +175,10 @@ export default function VaultDashboard() {
 
         {/* FAB */}
         <button
+          type="button"
+          aria-label="Add vault entry"
           onClick={handleAdd}
-          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-105 transition-transform z-30"
+          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:scale-105 transition-transform z-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <Plus className="w-6 h-6" />
         </button>
