@@ -68,7 +68,7 @@ export function DetailModal({ item, open, onClose, onUpdate, onDelete, onMarkFin
             <Label>Rating</Label>
             <div className="flex items-center gap-4">
               <Slider value={[item.rating]} onValueChange={v => update({ rating: v[0] })} min={1} max={10} step={1} className="flex-1" />
-              <StarRating rating={item.rating} size="md" />
+              <StarRating rating={item.rating} size="md" interactive onChange={v => update({ rating: v })} />
             </div>
           </div>
 
@@ -122,7 +122,7 @@ export function DetailModal({ item, open, onClose, onUpdate, onDelete, onMarkFin
             )}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="icon"><Trash2 className="w-4 h-4" /></Button>
+                <Button variant="destructive" size="icon" aria-label={`Delete ${item.title}`}><Trash2 className="w-4 h-4" /></Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
