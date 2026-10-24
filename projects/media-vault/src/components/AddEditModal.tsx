@@ -82,7 +82,7 @@ export function AddEditModal({ open, onClose, onSave, editItem }: Props) {
             <Label>Rating</Label>
             <div className="flex items-center gap-4">
               <Slider value={[form.rating]} onValueChange={v => set("rating", v[0])} min={1} max={10} step={1} className="flex-1" />
-              <StarRating rating={form.rating} size="md" />
+              <StarRating rating={form.rating} size="md" interactive onChange={v => set("rating", v)} />
             </div>
           </div>
 

@@ -66,14 +66,14 @@ export function TopBar({ search, onSearch, onAddNew, items, onImport, darkMode, 
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">Add Item</span>
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => exportItems(items)} title="Export JSON">
+          <Button variant="ghost" size="icon" onClick={() => exportItems(items)} title="Export JSON" aria-label="Export JSON">
             <Download className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => fileRef.current?.click()} title="Import JSON">
+          <Button variant="ghost" size="icon" onClick={() => fileRef.current?.click()} title="Import JSON" aria-label="Import JSON">
             <Upload className="w-4 h-4" />
           </Button>
           <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={handleImport} />
-          <Button variant="ghost" size="icon" onClick={onToggleDark}>
+          <Button variant="ghost" size="icon" onClick={onToggleDark} aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}>
             {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
         </div>
