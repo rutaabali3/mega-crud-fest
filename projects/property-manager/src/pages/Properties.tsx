@@ -115,7 +115,7 @@ export default function Properties() {
         {form.photoUrl && (
           <div className="relative mb-2">
             <img src={form.photoUrl} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
-            <button type="button" onClick={() => setForm({ ...form, photoUrl: '' })} className="absolute top-1 right-1 bg-black/50 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs hover:bg-black/70">×</button>
+            <button type="button" aria-label="Remove photo" onClick={() => setForm({ ...form, photoUrl: '' })} className="absolute top-1 right-1 bg-black/50 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs hover:bg-black/70">×</button>
           </div>
         )}
         <Input type="file" accept="image/*" onChange={e => {
@@ -146,8 +146,8 @@ export default function Properties() {
           ))}
         </div>
         <div className="flex gap-2 ml-auto">
-          <Button variant="ghost" size="icon" onClick={() => setViewMode('grid')} className={viewMode === 'grid' ? 'bg-muted' : ''}><LayoutGrid className="h-4 w-4" /></Button>
-          <Button variant="ghost" size="icon" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'bg-muted' : ''}><List className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon" aria-label="Grid view" onClick={() => setViewMode('grid')} className={viewMode === 'grid' ? 'bg-muted' : ''}><LayoutGrid className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon" aria-label="List view" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'bg-muted' : ''}><List className="h-4 w-4" /></Button>
           <Button onClick={() => { setForm(emptyForm); setIsAddOpen(true); }}><Plus className="h-4 w-4 mr-1" /> Add Property</Button>
         </div>
       </div>
