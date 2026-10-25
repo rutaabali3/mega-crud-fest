@@ -175,9 +175,9 @@ export default function Payments() {
       {/* Month Navigator */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" onClick={handlePrev}><ChevronLeft className="h-4 w-4" /></Button>
+          <Button variant="outline" size="icon" aria-label="Previous month" onClick={handlePrev}><ChevronLeft className="h-4 w-4" /></Button>
           <span className="text-lg font-semibold min-w-[180px] text-center">{monthLabel}</span>
-          <Button variant="outline" size="icon" onClick={handleNext}><ChevronRight className="h-4 w-4" /></Button>
+          <Button variant="outline" size="icon" aria-label="Next month" onClick={handleNext}><ChevronRight className="h-4 w-4" /></Button>
         </div>
         <Button onClick={() => { setForm(emptyForm); setIsAddOpen(true); }}><Plus className="h-4 w-4 mr-1" /> Log Payment</Button>
       </div>
@@ -244,10 +244,10 @@ export default function Payments() {
                   <td className="p-3">
                     <div className="flex gap-1">
                       {(p.status === 'pending' || p.status === 'overdue') && (
-                        <Button size="sm" variant="ghost" className="text-success" onClick={() => setConfirmPaid(p)}><Check className="h-3 w-3" /></Button>
+                        <Button size="sm" variant="ghost" className="text-success" aria-label="Mark payment as paid" onClick={() => setConfirmPaid(p)}><Check className="h-3 w-3" /></Button>
                       )}
-                      <Button size="sm" variant="ghost" onClick={() => setEditingPayment(p)}><Pencil className="h-3 w-3" /></Button>
-                      <Button size="sm" variant="ghost" className="text-destructive" onClick={() => setConfirmDelete(p)}><Trash2 className="h-3 w-3" /></Button>
+                      <Button size="sm" variant="ghost" aria-label="Edit payment" onClick={() => setEditingPayment(p)}><Pencil className="h-3 w-3" /></Button>
+                      <Button size="sm" variant="ghost" className="text-destructive" aria-label="Delete payment" onClick={() => setConfirmDelete(p)}><Trash2 className="h-3 w-3" /></Button>
                     </div>
                   </td>
                 </tr>

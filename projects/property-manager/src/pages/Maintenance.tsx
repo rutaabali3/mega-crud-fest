@@ -104,8 +104,8 @@ export default function Maintenance() {
         </div>
         <div className="text-xs">Cost: {m.cost > 0 ? formatCurrency(m.cost) : '—'} • {m.contractorName || '—'}</div>
         <div className="flex gap-1 pt-1">
-          <Button size="sm" variant="ghost" onClick={() => setEditingRequest(m)}><Pencil className="h-3 w-3" /></Button>
-          <Button size="sm" variant="ghost" className="text-destructive" onClick={() => setConfirmDelete(m)}><Trash2 className="h-3 w-3" /></Button>
+          <Button size="sm" variant="ghost" aria-label={`Edit request: ${m.title}`} onClick={() => setEditingRequest(m)}><Pencil className="h-3 w-3" /></Button>
+          <Button size="sm" variant="ghost" className="text-destructive" aria-label={`Delete request: ${m.title}`} onClick={() => setConfirmDelete(m)}><Trash2 className="h-3 w-3" /></Button>
         </div>
       </div>
     );
@@ -130,8 +130,8 @@ export default function Maintenance() {
           </SelectContent>
         </Select>
         <div className="flex gap-2 ml-auto">
-          <Button variant="ghost" size="icon" onClick={() => setViewMode('kanban')} className={viewMode === 'kanban' ? 'bg-muted' : ''}><LayoutGrid className="h-4 w-4" /></Button>
-          <Button variant="ghost" size="icon" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'bg-muted' : ''}><List className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon" aria-label="Kanban view" onClick={() => setViewMode('kanban')} className={viewMode === 'kanban' ? 'bg-muted' : ''}><LayoutGrid className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon" aria-label="List view" onClick={() => setViewMode('list')} className={viewMode === 'list' ? 'bg-muted' : ''}><List className="h-4 w-4" /></Button>
           <Button onClick={() => { setForm(emptyForm); setIsAddOpen(true); }}><Plus className="h-4 w-4 mr-1" /> New Request</Button>
         </div>
       </div>
@@ -177,8 +177,8 @@ export default function Maintenance() {
                     <td className="p-3">{daysOpen(m)}</td>
                     <td className="p-3">{m.cost > 0 ? formatCurrency(m.cost) : '—'}</td>
                     <td className="p-3 flex gap-1">
-                      <Button size="sm" variant="ghost" onClick={() => setEditingRequest(m)}><Pencil className="h-3 w-3" /></Button>
-                      <Button size="sm" variant="ghost" className="text-destructive" onClick={() => setConfirmDelete(m)}><Trash2 className="h-3 w-3" /></Button>
+                      <Button size="sm" variant="ghost" aria-label={`Edit request: ${m.title}`} onClick={() => setEditingRequest(m)}><Pencil className="h-3 w-3" /></Button>
+                      <Button size="sm" variant="ghost" className="text-destructive" aria-label={`Delete request: ${m.title}`} onClick={() => setConfirmDelete(m)}><Trash2 className="h-3 w-3" /></Button>
                     </td>
                   </tr>
                 ))}
