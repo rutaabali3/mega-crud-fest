@@ -43,10 +43,22 @@ export function ContactCard({ contact, onEdit, onDelete }: Props) {
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-card-foreground truncate">{contact.name}</h3>
             <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shrink-0">
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onEdit(contact)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                aria-label={`Edit ${contact.name}`}
+                onClick={() => onEdit(contact)}
+              >
                 <Pencil className="h-3.5 w-3.5" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive" onClick={() => onDelete(contact)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-destructive hover:text-destructive"
+                aria-label={`Delete ${contact.name}`}
+                onClick={() => onDelete(contact)}
+              >
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>
             </div>
