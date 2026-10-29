@@ -151,6 +151,9 @@ export default function DecksView({ decks, cards, onSelectDeck, onCreateDeck, on
                       <MasteryRing percentage={mastery} color={colorVal} />
                       <div className="relative">
                         <button onClick={e => { e.stopPropagation(); setMenuOpen(menuOpen === deck.id ? null : deck.id); }}
+                          aria-label={`Options for deck ${deck.subject}`}
+                          aria-expanded={menuOpen === deck.id}
+                          aria-haspopup="true"
                           className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
                           <MoreVertical className="w-4 h-4" />
                         </button>
@@ -212,6 +215,8 @@ export default function DecksView({ decks, cards, onSelectDeck, onCreateDeck, on
                 <div className="mt-2 flex gap-2.5">
                   {DECK_COLORS.map(c => (
                     <button key={c.name} onClick={() => setNewColor(c.name)}
+                      aria-label={`${c.name.charAt(0).toUpperCase() + c.name.slice(1)} color`}
+                      aria-pressed={newColor === c.name}
                       className={`h-8 w-8 rounded-full transition-all ${newColor === c.name ? 'ring-2 ring-offset-2 ring-offset-card scale-110' : 'hover:scale-105'}`}
                       style={{ backgroundColor: c.value }} />
                   ))}
