@@ -176,8 +176,8 @@ export default function DeckDetail({ deck, cards, onBack, onStudy, onQuiz, onCre
                 </div>
                 <span className={`shrink-0 rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase ${difficultyColors[card.difficulty]}`}>{card.difficulty}</span>
                 <span className={`shrink-0 text-xs ${due.color}`} title={formatFullDate(card.nextReview)}>{due.text}</span>
-                <button onClick={() => openEdit(card)} className="shrink-0 rounded-md p-1 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"><Pencil className="w-3.5 h-3.5" /></button>
-                <button onClick={() => startDeleteCard(card.id)} className="shrink-0 rounded-md p-1 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
+                <button onClick={() => openEdit(card)} aria-label={`Edit card: ${card.front}`} className="shrink-0 rounded-md p-1 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"><Pencil className="w-3.5 h-3.5" /></button>
+                <button onClick={() => startDeleteCard(card.id)} aria-label={`Delete card: ${card.front}`} className="shrink-0 rounded-md p-1 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
               </div>
             );
           })}
