@@ -11,3 +11,10 @@
 2. Readonly star rating components should wrap buttons in a container with `role="img"` and `aria-label={`${rating} of ${total} stars`}` while disabling child buttons so assistive tools treat the rating block as a single composite visual representation.
 3. Rating buttons must include `focus-visible` ring classes so keyboard users can clearly track focus across star increments.
 **Action:** Whenever building or auditing rating star inputs/displays, apply explicit aria-labels, aria-pressed attributes, composite img role for readonly views, and focus-visible rings.
+
+## 2026-03-31 - Metronome & Audio Widget Accessibility Pattern
+**Learning:** Floating utility widgets (e.g. metronomes, audio players) often mix icon-only buttons, play/stop toggle states, preset selectors, and beat indicators:
+1. Icon-only action buttons (increase/decrease BPM, open/close widget) must have descriptive `aria-label` and `title` attributes.
+2. Toggle buttons (start/stop playback, active preset BPM, active time signature) require `aria-pressed={isActive}` so screen readers convey state changes accurately.
+3. Interactive buttons need `focus-visible:ring-2 focus-visible:ring-ring` focus indicators for full keyboard navigation support.
+**Action:** Apply accessible labels, aria-pressed state attributes, and focus-visible rings to floating audio widgets and control panels.
