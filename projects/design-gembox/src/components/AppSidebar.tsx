@@ -115,6 +115,8 @@ export function AppSidebar({
                       variant="ghost" size="icon"
                       className="h-7 w-7 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={() => onDeleteProject(p.name)}
+                      aria-label={`Delete project ${p.name}`}
+                      title={`Delete project ${p.name}`}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
