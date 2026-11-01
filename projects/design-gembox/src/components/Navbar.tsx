@@ -20,7 +20,14 @@ export function Navbar({
 }: NavbarProps) {
   return (
     <header className="h-14 border-b bg-card flex items-center gap-3 px-4 shrink-0">
-      <Button variant="ghost" size="icon" className="md:hidden" onClick={onToggleSidebar}>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="md:hidden"
+        onClick={onToggleSidebar}
+        aria-label="Toggle navigation menu"
+        title="Toggle navigation menu"
+      >
         <Menu className="h-5 w-5" />
       </Button>
 
@@ -38,21 +45,36 @@ export function Navbar({
           value={search}
           onChange={e => onSearchChange(e.target.value)}
           className="pl-9 h-9 bg-background"
+          aria-label="Search assets"
         />
       </div>
 
       <div className="flex items-center gap-1 ml-auto">
-        <Button variant="ghost" size="icon" onClick={onPalettePreview} title="Palette Preview">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onPalettePreview}
+          aria-label="Palette Preview"
+          title="Palette Preview"
+        >
           <Palette className="h-4 w-4" />
         </Button>
         <Button
-          variant="ghost" size="icon"
+          variant="ghost"
+          size="icon"
           onClick={() => onViewModeChange(viewMode === "grid" ? "list" : "grid")}
+          aria-label={viewMode === "grid" ? "Switch to list view" : "Switch to grid view"}
           title={viewMode === "grid" ? "List view" : "Grid view"}
         >
           {viewMode === "grid" ? <List className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
         </Button>
-        <Button variant="ghost" size="icon" onClick={onToggleTheme} title="Toggle theme">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onToggleTheme}
+          aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+          title="Toggle theme"
+        >
           {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </Button>
         <Button size="sm" onClick={onAddAsset} className="ml-1">
